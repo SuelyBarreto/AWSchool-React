@@ -4,32 +4,35 @@ import axios from "axios";
 import Navbar from "react-bootstrap/Navbar";
 // import Nav from "react-bootstrap/Nav";
 // import Alert from "react-bootstrap/Alert";
-
 import "./App.css";
 import Home from "./components/Home";
 import Course from "./components/Course";
 import Person from "./components/Person";
 import PersonForm from "./components/PersonForm";
+import Assignment from "./components/Assignment";
+import AssignmentStudent from "./components/AssignmentStudent";
+import CourseStudent from "./components/CourseStudent";
 
 const API_URL_BASE =
   "https://4jqwh1vygi.execute-api.us-west-2.amazonaws.com/prod";
 
 // App component
 const App = () => {
-  // console.log(`App, will initialize`);
   // Declare and initialize state
   const [courseList, setCourseList] = useState([]);
   const [personList, setPersonList] = useState([]);
+  const [assignmentList, setAssignmentList] = useState([]);
+  const [assignmentStudentList, setAssignmentStudentList] = useState([]);
+  const [courseStudentList, setCourseStudentList] = useState([]);
 
-  // use hook/state for proper error handling
+  // hook/state for proper error handling
   const [errorMessage, setErrorMessage] = useState(null);
 
-  // uses API to get all courses
+  // API to get all courses
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/course")
       .then((response) => {
-        // const apiCourseList = response.data;
         setCourseList(response.data);
       })
       .catch((error) => {
@@ -37,13 +40,48 @@ const App = () => {
       });
   }, []);
 
-  // uses API to get all persons
+  // API to get all persons
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/person")
       .then((response) => {
-        // const apiPersonList = response.data;
         setPersonList(response.data);
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      });
+  }, []);
+
+  // API to get assignments
+  useEffect(() => {
+    axios
+      .get(API_URL_BASE + "/assignment")
+      .then((response) => {
+        setAssignmentList(response.data);
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      });
+  }, []);
+
+  // API to get student assignment
+  useEffect(() => {
+    axios
+      .get(API_URL_BASE + "/assignmentstudent")
+      .then((response) => {
+        setAssignmentStudentList(response.data);
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      });
+  }, []);
+
+  // API to get student course
+  useEffect(() => {
+    axios
+      .get(API_URL_BASE + "/coursestudent")
+      .then((response) => {
+        setCourseStudentList(response.data);
       })
       .catch((error) => {
         setErrorMessage(error.message);
@@ -54,11 +92,7 @@ const App = () => {
   const onPersonFormSubmit = (formFields) => {
     // prepare params
     const params = {
-      // headers: {
-      //   "Content-Type": "application/json",
-      //   "Access-Control-Allow-Origin": "*",
-      // },
-      id: 5,
+      id: 6,
       email: formFields.email,
       password: formFields.password,
       personname: formFields.personname,
@@ -68,7 +102,7 @@ const App = () => {
     };
     // add person
     axios
-      .post(API_URL_BASE + `/person/5`, params)
+      .post(API_URL_BASE + `/person/6`, params)
       .then((response) => {
         // console.log(`Checkout success`, response.data);
         setErrorMessage(`Person was added.`);
@@ -141,6 +175,27 @@ const App = () => {
             path="/personform"
             render={(props) => (
               <PersonForm {...props} onFormSubmit={onPersonFormSubmit} />
+            )}
+          />
+          <Route
+            path="/assignment"
+            render={(props) => (
+              <Assignment {...props} assignmentList={assignmentList} />
+            )}
+          />
+          <Route
+            path="/assignmentstudent"
+            render={(props) => (
+              <AssignmentStudent
+                {...props}
+                assignmentStudentList={assignmentStudentList}
+              />
+            )}
+          />
+          <Route
+            path="/coursestudent"
+            render={(props) => (
+              <CourseStudent {...props} courseStudentList={courseStudentList} />
             )}
           />
         </Switch>
