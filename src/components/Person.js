@@ -45,9 +45,9 @@ const Person = (props) => {
           </thead>
           <tbody>{renderPerson(props.personList)}</tbody>
         </Table>
-        <td>
+        <p>
           <Button variant="primary">Add Person</Button>
-        </td>
+        </p>
       </div>
     </div>
   );

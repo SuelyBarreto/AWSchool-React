@@ -22,6 +22,14 @@ Example Features:
 
 ## Project Setup
 
+Overview and Technology Stack:
+• Create AWS DynamoDB tables
+• Create AWS Lambda (serverless) functions to access AWS DynamoDB tables
+• Create AWS API Gateway routes to AWS Lambda functions
+• Build UI using a NodeJS React application
+• Integrate REST API with React application
+• Deploy application on an AWS EC2 instance
+
 ### 1. React Front-End
 
 ### 2. AWS API Gateway

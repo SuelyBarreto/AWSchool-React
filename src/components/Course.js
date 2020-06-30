@@ -47,9 +47,9 @@ const Course = (props) => {
           </thead>
           <tbody>{renderCourse(props.courseList)}</tbody>
         </Table>
-        <td>
+        <p>
           <Button variant="primary">Add Course</Button>
-        </td>
+        </p>
       </div>
     </div>
   );
