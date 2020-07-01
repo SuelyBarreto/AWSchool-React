@@ -91,10 +91,10 @@ const App = () => {
   }, []);
 
   // callback function for person form
-  const onPersonFormSubmit = (formFields, id) => {
+  const onPersonFormSubmit = (formFields) => {
     // prepare params
     const params = {
-      id: id,
+      id: formFields.id,
       email: formFields.email,
       password: formFields.password,
       personname: formFields.personname,
@@ -105,11 +105,15 @@ const App = () => {
 
     // add person
     axios
-      .post(API_URL_BASE + `/person/${id}`, params)
+      .post(API_URL_BASE + `/person/${formFields.id}`, params)
       .then((response) => {
         // console.log(`Checkout success`, response.data);
         setPersonUpdate(personUpdate + 1);
-        setMessageText(`Success: Person was added.`);
+        setMessageText(
+          formFields.id === 0
+            ? `Success: Person added.`
+            : `Success: Person updaded.`
+        );
       })
       .catch((error) => {
         // console.log(`Checkout failure`, error.message);
@@ -125,7 +129,7 @@ const App = () => {
       .then((response) => {
         // console.log(`Checkout success`, response.data);
         setPersonUpdate(personUpdate + 1);
-        setMessageText(`Success: Person was deleted.`);
+        setMessageText(`Success: Person deleted.`);
       })
       .catch((error) => {
         // console.log(`Checkout failure`, error.message);
@@ -148,9 +152,6 @@ const App = () => {
           <Link to="/person">
             <li className="nav-item">Person</li>
           </Link>
-          {/* <Link to="/personform">
-            <li className="nav-item">Add Person</li>
-          </Link> */}
         </ul>
       </Navbar>
     );
@@ -198,9 +199,13 @@ const App = () => {
             )}
           />
           <Route
-            path="/personform"
+            path="/personform/:id"
             render={(props) => (
-              <PersonForm {...props} onFormSubmit={onPersonFormSubmit} />
+              <PersonForm
+                {...props}
+                personList={personList}
+                onFormSubmit={onPersonFormSubmit}
+              />
             )}
           />
           <Route

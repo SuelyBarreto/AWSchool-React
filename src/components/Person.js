@@ -9,13 +9,16 @@ const renderPerson = (personList, onPersonDelete) => {
   return personList.map((person, index) => {
     return (
       <tr key={index}>
+        <td>{person.id}</td>
         <td>{person.personname}</td>
         <td>{person.email}</td>
-        <td>{person.isadmin}</td>
-        <td>{person.isteacher}</td>
-        <td>{person.isstudent}</td>
+        <td>{person.isadmin ? `yes` : ``}</td>
+        <td>{person.isteacher ? `yes` : ``}</td>
+        <td>{person.isstudent ? `yes` : ``}</td>
         <td>
-          <Button variant="primary">Edit</Button>
+          <Link to={`/personform/${person.id}`}>
+            <Button variant="primary">Edit</Button>
+          </Link>
         </td>
         <td>
           <Button
@@ -42,6 +45,7 @@ const Person = (props) => {
         <Table hover>
           <thead>
             <tr>
+              <td>Id</td>
               <td>Name</td>
               <td>Email</td>
               <td>Administrator</td>
@@ -53,7 +57,7 @@ const Person = (props) => {
           <tbody>{renderPerson(props.personList, props.onPersonDelete)}</tbody>
         </Table>
         <p>
-          <Link to="/personform">
+          <Link to="/personform/0">
             <Button variant="primary">Add Person</Button>
           </Link>
         </p>

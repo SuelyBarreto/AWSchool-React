@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
@@ -8,6 +8,7 @@ import "./PersonForm.css";
 const PersonForm = (props) => {
   // define emptyForm
   const emptyForm = {
+    id: 0,
     email: "",
     password: "",
     personname: "",
@@ -18,6 +19,28 @@ const PersonForm = (props) => {
 
   // define formFields
   const [formFields, setFormFields] = useState(emptyForm);
+  // get id from route parameter :id
+  const [currentId, setCurrentId] = useState(parseInt(props.match.params.id));
+
+  // find data for current id, put in formFields
+  useEffect(() => {
+    // console.log(`Find person: ${currentId}`);
+    if (currentId !== 0) {
+      props.personList.forEach((person) => {
+        if (person.id === currentId) {
+          setFormFields({
+            id: person.id,
+            email: person.email,
+            password: person.password,
+            personname: person.personname,
+            isadmin: person.isadmin,
+            isteacher: person.isteacher,
+            isstudent: person.isstudent,
+          });
+        }
+      });
+    }
+  }, [currentId]);
 
   // event when a form field is changed
   const onFieldChange = (event) => {
@@ -27,9 +50,6 @@ const PersonForm = (props) => {
         : event.target.value;
     console.log(event.target.name, newValue);
 
-    // if (event.target.type === "checkbox") {
-    //   newValue = event.target.checked;
-    // }
     setFormFields({
       ...formFields,
       [event.target.name]: newValue,
@@ -40,15 +60,18 @@ const PersonForm = (props) => {
   const onSubmit = (event) => {
     event.preventDefault();
     // console.log(`Form submitted`, formFields);
-    props.onFormSubmit(formFields, 0);
-    setFormFields(emptyForm);
+    props.onFormSubmit(formFields);
+    if (currentId === 0) {
+      setFormFields(emptyForm);
+    }
   };
 
   // main form
+  // console.log(`Current id: `, currentId);
   return (
-    <div className="Form">
+    <div>
       <h3>Person Form</h3>
-      <form className="Form__form" onSubmit={onSubmit}>
+      <form onSubmit={onSubmit}>
         <Table hover>
           <tbody>
             <tr>
@@ -122,8 +145,10 @@ const PersonForm = (props) => {
             </tr>
           </tbody>
         </Table>
-        <div className="Form__submit">
-          <input type="submit" value="Submit" className="primary" />
+        <div>
+          <Button type="submit" variant="primary">
+            {currentId === 0 ? "Add" : "Save"}
+          </Button>
         </div>
       </form>
     </div>
@@ -131,6 +156,7 @@ const PersonForm = (props) => {
 };
 
 PersonForm.propTypes = {
+  personList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
 };
 
