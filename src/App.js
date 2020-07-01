@@ -20,13 +20,15 @@ const API_URL_BASE =
 const App = () => {
   // Declare and initialize state
   const [courseList, setCourseList] = useState([]);
+  const [courseUpdate, setCourseUpdate] = useState(0);
   const [personList, setPersonList] = useState([]);
+  const [personUpdate, setPersonUpdate] = useState(0);
   const [assignmentList, setAssignmentList] = useState([]);
   const [assignmentStudentList, setAssignmentStudentList] = useState([]);
   const [courseStudentList, setCourseStudentList] = useState([]);
 
   // hook/state for proper error handling
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [messageText, setMessageText] = useState(null);
 
   // API to get all courses
   useEffect(() => {
@@ -36,9 +38,9 @@ const App = () => {
         setCourseList(response.data);
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        setMessageText(`Error: ${error.message}`);
       });
-  }, []);
+  }, [courseUpdate]);
 
   // API to get all persons
   useEffect(() => {
@@ -48,9 +50,9 @@ const App = () => {
         setPersonList(response.data);
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        setMessageText(`Error: ${error.message}`);
       });
-  }, []);
+  }, [personUpdate]);
 
   // API to get assignments
   useEffect(() => {
@@ -60,7 +62,7 @@ const App = () => {
         setAssignmentList(response.data);
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        setMessageText(`Error: ${error.message}`);
       });
   }, []);
 
@@ -72,7 +74,7 @@ const App = () => {
         setAssignmentStudentList(response.data);
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        setMessageText(`Error: ${error.message}`);
       });
   }, []);
 
@@ -84,15 +86,15 @@ const App = () => {
         setCourseStudentList(response.data);
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        setMessageText(`Error: ${error.message}`);
       });
   }, []);
 
   // callback function for person form
-  const onPersonFormSubmit = (formFields) => {
+  const onPersonFormSubmit = (formFields, id) => {
     // prepare params
     const params = {
-      id: 6,
+      id: id,
       email: formFields.email,
       password: formFields.password,
       personname: formFields.personname,
@@ -100,16 +102,34 @@ const App = () => {
       isteacher: formFields.isteacher,
       isstudent: formFields.isstudent,
     };
+
     // add person
     axios
-      .post(API_URL_BASE + `/person/6`, params)
+      .post(API_URL_BASE + `/person/${id}`, params)
       .then((response) => {
         // console.log(`Checkout success`, response.data);
-        setErrorMessage(`Person was added.`);
+        setPersonUpdate(personUpdate + 1);
+        setMessageText(`Success: Person was added.`);
       })
       .catch((error) => {
         // console.log(`Checkout failure`, error.message);
-        setErrorMessage(error.message);
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
+  // callback function to delete person
+  const onPersonDelete = (id) => {
+    // delete person
+    axios
+      .delete(API_URL_BASE + `/person/${id}`)
+      .then((response) => {
+        // console.log(`Checkout success`, response.data);
+        setPersonUpdate(personUpdate + 1);
+        setMessageText(`Success: Person was deleted.`);
+      })
+      .catch((error) => {
+        // console.log(`Checkout failure`, error.message);
+        setMessageText(`Error: ${error.message}`);
       });
   };
 
@@ -128,17 +148,17 @@ const App = () => {
           <Link to="/person">
             <li className="nav-item">Person</li>
           </Link>
-          <Link to="/personform">
+          {/* <Link to="/personform">
             <li className="nav-item">Add Person</li>
-          </Link>
+          </Link> */}
         </ul>
       </Navbar>
     );
   };
 
   const renderMessage = () => {
-    if (errorMessage) {
-      return <p>Message: {errorMessage}</p>;
+    if (messageText) {
+      return <p>{messageText}</p>;
     } else {
       return <div></div>;
     }
@@ -169,7 +189,13 @@ const App = () => {
           />
           <Route
             path="/person"
-            render={(props) => <Person {...props} personList={personList} />}
+            render={(props) => (
+              <Person
+                {...props}
+                personList={personList}
+                onPersonDelete={onPersonDelete}
+              />
+            )}
           />
           <Route
             path="/personform"

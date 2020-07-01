@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./Person.css";
 
-const renderPerson = (personList) => {
+const renderPerson = (personList, onPersonDelete) => {
   return personList.map((person, index) => {
     return (
       <tr key={index}>
@@ -18,7 +18,14 @@ const renderPerson = (personList) => {
           <Button variant="primary">Edit</Button>
         </td>
         <td>
-          <Button variant="primary">Delete</Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              onPersonDelete(person.id);
+            }}
+          >
+            Delete
+          </Button>
         </td>
       </tr>
     );
@@ -43,10 +50,12 @@ const Person = (props) => {
               <td>Select</td>
             </tr>
           </thead>
-          <tbody>{renderPerson(props.personList)}</tbody>
+          <tbody>{renderPerson(props.personList, props.onPersonDelete)}</tbody>
         </Table>
         <p>
-          <Button variant="primary">Add Person</Button>
+          <Link to="/personform">
+            <Button variant="primary">Add Person</Button>
+          </Link>
         </p>
       </div>
     </div>
@@ -55,6 +64,7 @@ const Person = (props) => {
 
 Person.propTypes = {
   personList: PropTypes.array.isRequired,
+  onPersonDelete: PropTypes.func.isRequired,
 };
 
 export default Person;

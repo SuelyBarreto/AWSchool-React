@@ -21,11 +21,15 @@ const PersonForm = (props) => {
 
   // event when a form field is changed
   const onFieldChange = (event) => {
-    // console.log(`${event.target.name}`, event.target);
-    let newValue = event.target.value;
-    if (event.target.type === "checkbox") {
-      newValue = !formFields[event.target.name];
-    }
+    let newValue =
+      event.target.type === "checkbox"
+        ? event.target.checked
+        : event.target.value;
+    console.log(event.target.name, newValue);
+
+    // if (event.target.type === "checkbox") {
+    //   newValue = event.target.checked;
+    // }
     setFormFields({
       ...formFields,
       [event.target.name]: newValue,
@@ -36,7 +40,7 @@ const PersonForm = (props) => {
   const onSubmit = (event) => {
     event.preventDefault();
     // console.log(`Form submitted`, formFields);
-    props.onFormSubmit(formFields);
+    props.onFormSubmit(formFields, 0);
     setFormFields(emptyForm);
   };
 
@@ -89,7 +93,7 @@ const PersonForm = (props) => {
                 <input
                   name="isadmin"
                   onChange={onFieldChange}
-                  value={formFields.isadmin}
+                  checked={formFields.isadmin}
                   type="checkbox"
                 />
               </td>
@@ -100,7 +104,7 @@ const PersonForm = (props) => {
                 <input
                   name="isteacher"
                   onChange={onFieldChange}
-                  value={formFields.isteacher}
+                  checked={formFields.isteacher}
                   type="checkbox"
                 />
               </td>
@@ -111,7 +115,7 @@ const PersonForm = (props) => {
                 <input
                   name="isstudent"
                   onChange={onFieldChange}
-                  value={formFields.isstudent}
+                  checked={formFields.isstudent}
                   type="checkbox"
                 />
               </td>
