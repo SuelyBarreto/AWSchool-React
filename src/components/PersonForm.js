@@ -11,9 +11,9 @@ const PersonForm = (props) => {
     email: "",
     password: "",
     personname: "",
-    isadmin: "",
-    isteacher: "",
-    isstudent: "",
+    isadmin: false,
+    isteacher: false,
+    isstudent: false,
   };
 
   // define formFields
@@ -21,10 +21,14 @@ const PersonForm = (props) => {
 
   // event when a form field is changed
   const onFieldChange = (event) => {
-    // console.log(`${event.target.name} Field updated ${event.target.value}`);
+    // console.log(`${event.target.name}`, event.target);
+    let newValue = event.target.value;
+    if (event.target.type === "checkbox") {
+      newValue = !formFields[event.target.name];
+    }
     setFormFields({
       ...formFields,
-      [event.target.name]: event.target.value,
+      [event.target.name]: newValue,
     });
   };
 

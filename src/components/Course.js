@@ -12,6 +12,7 @@ const renderCourse = (courseList) => {
         <td>{course.description}</td>
         <td>{course.teacherid}</td>
         <td>{course.startdate}</td>
+        {/* .toISOString() did not work*/}
         <td>{course.enddate}</td>
         <td>{course.passgrade}</td>
         <td>
