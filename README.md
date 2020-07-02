@@ -16,7 +16,14 @@ Example Features:
 
 ## Learning Goals
 
+• Demonstrate self-direction, time management, and independent learning
+• Learn and implement new technologies
+• Complete a product lifecycle from conception to delivery
+• Utilize agile practices learned to assist in project completion
+
 ## Problem Statement
+
+Teachers and students are working online more than ever. Coordinating homework assignments can be difficult. This project aims to offer a simple solution so teachers can share assignments and students can provide their answers, all using an easy website.
 
 ## Project Information
 
