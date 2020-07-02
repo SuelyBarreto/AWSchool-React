@@ -20,11 +20,11 @@ const PersonForm = (props) => {
   // define formFields
   const [formFields, setFormFields] = useState(emptyForm);
   // get id from route parameter :id
-  const [currentId, setCurrentId] = useState(parseInt(props.match.params.id));
+  // const [currentId, setCurrentId] = useState(parseInt(props.match.params.id));
+  const currentId = parseInt(props.match.params.id);
 
   // find data for current id, put in formFields
   useEffect(() => {
-    // console.log(`Find person: ${currentId}`);
     if (currentId !== 0) {
       props.personList.forEach((person) => {
         if (person.id === currentId) {
@@ -40,16 +40,14 @@ const PersonForm = (props) => {
         }
       });
     }
-  }, [currentId]);
+  }, [currentId, props.personList]);
 
-  // event when a form field is changed
+  // event when form field changes
   const onFieldChange = (event) => {
     let newValue =
       event.target.type === "checkbox"
         ? event.target.checked
         : event.target.value;
-    console.log(event.target.name, newValue);
-
     setFormFields({
       ...formFields,
       [event.target.name]: newValue,
@@ -59,7 +57,6 @@ const PersonForm = (props) => {
   // event for submit button
   const onSubmit = (event) => {
     event.preventDefault();
-    // console.log(`Form submitted`, formFields);
     props.onFormSubmit(formFields);
     if (currentId === 0) {
       setFormFields(emptyForm);
@@ -67,13 +64,16 @@ const PersonForm = (props) => {
   };
 
   // main form
-  // console.log(`Current id: `, currentId);
   return (
     <div>
       <h3>Person Form</h3>
       <form onSubmit={onSubmit}>
         <Table hover>
           <tbody>
+            <tr>
+              <td>Id</td>
+              <td>{formFields.id === 0 ? `New` : formFields.id}</td>
+            </tr>
             <tr>
               <td>Email</td>
               <td>

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Alert from "react-bootstrap/Alert";
+// import Nav from "react-bootstrap/Nav";
+// import Alert from "react-bootstrap/Alert";
 import "./App.css";
 import Login from "./components/Login";
 import Home from "./components/Home";
@@ -20,15 +20,15 @@ const API_URL_BASE =
 // App component
 const App = () => {
   // Declare and initialize state
+  const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [courseList, setCourseList] = useState([]);
-  const [courseUpdate, setCourseUpdate] = useState(0);
   const [personList, setPersonList] = useState([]);
   const [personUpdate, setPersonUpdate] = useState(0);
+  const [courseList, setCourseList] = useState([]);
+  const [courseUpdate, setCourseUpdate] = useState(0);
+  const [courseStudentList, setCourseStudentList] = useState([]);
   const [assignmentList, setAssignmentList] = useState([]);
   const [assignmentStudentList, setAssignmentStudentList] = useState([]);
-  const [courseStudentList, setCourseStudentList] = useState([]);
-  const [messageText, setMessageText] = useState(null);
 
   // sort function
   const sortById = (objs) => {
@@ -59,7 +59,7 @@ const App = () => {
       });
   }, [personUpdate]);
 
-  // API to get assignments
+  // API to get all assignments
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/assignment")
@@ -71,7 +71,7 @@ const App = () => {
       });
   }, []);
 
-  // API to get student assignment
+  // API to get student assignments
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/assignmentstudent")
@@ -83,7 +83,7 @@ const App = () => {
       });
   }, []);
 
-  // API to get student course
+  // API to get student courses
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/coursestudent")
@@ -95,7 +95,7 @@ const App = () => {
       });
   }, []);
 
-  // callback login
+  // callback to login
   const onLogin = (formFields) => {
     let user = null;
     personList.forEach((person) => {
@@ -115,7 +115,7 @@ const App = () => {
     }
   };
 
-  // callback function for person form
+  // callback to add or update person form
   const onPersonFormSubmit = (formFields) => {
     // prepare params
     const params = {
@@ -128,11 +128,10 @@ const App = () => {
       isstudent: formFields.isstudent,
     };
 
-    // add person
+    // add or update person
     axios
       .post(API_URL_BASE + `/person/${formFields.id}`, params)
       .then((response) => {
-        // console.log(`Checkout success`, response.data);
         setPersonUpdate(personUpdate + 1);
         setMessageText(
           formFields.id === 0
@@ -141,49 +140,46 @@ const App = () => {
         );
       })
       .catch((error) => {
-        // console.log(`Checkout failure`, error.message);
         setMessageText(`Error: ${error.message}`);
       });
   };
 
-  // callback function to delete person
+  // callback to delete person
   const onPersonDelete = (id) => {
-    // delete person
     axios
       .delete(API_URL_BASE + `/person/${id}`)
       .then((response) => {
-        // console.log(`Checkout success`, response.data);
         setPersonUpdate(personUpdate + 1);
         setMessageText(`Success: Person deleted.`);
       })
       .catch((error) => {
-        // console.log(`Checkout failure`, error.message);
         setMessageText(`Error: ${error.message}`);
       });
   };
 
+  //
   const renderUser = () => {
     if (currentUser) {
       return (
-        <ul class="navbar-nav">
+        <ul className="navbar-nav">
           <li className="nav-item">{currentUser.email}</li>
         </ul>
       );
     } else {
       return (
-        <ul class="navbar-nav">
+        <ul className="navbar-nav">
           <li className="nav-item">Not logged in</li>
         </ul>
       );
     }
   };
 
+  //
   const renderNav = () => {
-    // console.log(`App, render navigation`);
     return (
       <Navbar fixed="top" bg="dark" variant="dark">
         <Navbar.Brand>AWSchool</Navbar.Brand>
-        <ul class="navbar-nav mr-auto">
+        <ul className="navbar-nav mr-auto">
           <Link to="/">
             <li className="nav-item">Home</li>
           </Link>
@@ -202,6 +198,7 @@ const App = () => {
     );
   };
 
+  //
   const renderMessage = () => {
     if (messageText) {
       return <p>{messageText}</p>;
@@ -210,6 +207,7 @@ const App = () => {
     }
   };
 
+  //
   const renderFooter = () => {
     return (
       <footer>
@@ -221,6 +219,7 @@ const App = () => {
     );
   };
 
+  //
   const renderAllRoutes = () => {
     return (
       <Switch>
@@ -278,6 +277,7 @@ const App = () => {
     );
   };
 
+  //
   const renderLoginOrRoutes = () => {
     if (currentUser) {
       return renderAllRoutes();
@@ -286,6 +286,7 @@ const App = () => {
     }
   };
 
+  //
   return (
     <Router>
       <div className="AppRoute">
