@@ -8,19 +8,19 @@ This is useful for schools using remote learning due to Covid.
 
 ## Example Features
 
-As a School Administrator, I can add teachers, students, and classes.
-As a School Administrator, I can assign teachers and students to classes
-As a Teacher, I can see my classes.
-As a Teacher, I can assign homework to a class.
-As a Student, I can see my classes.
-As a Student, I can see homework assigned to me.
+- As a School Administrator, I can add teachers, students, and classes.
+- As a School Administrator, I can assign teachers and students to classes
+- As a Teacher, I can see my classes.
+- As a Teacher, I can assign homework to a class.
+- As a Student, I can see my classes.
+- As a Student, I can see homework assigned to me.
 
 ## Learning Goals
 
-• Demonstrate self-direction, time management, and independent learning
-• Learn and implement new technologies
-• Complete a product lifecycle from conception to delivery
-• Utilize agile practices learned to assist in project completion
+- Demonstrate self-direction, time management, and independent learning
+- Learn and implement new technologies
+- Complete a product lifecycle from conception to delivery
+- Utilize agile practices learned to assist in project completion
 
 ## Problem Statement
 
@@ -30,28 +30,28 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 ## Overview and Technology Stack
 
-• Design Considerations
-• Front-End Requirements
-o React Front-End
-• Back-End Requirements
-o AWS API Gateway
-o AWS Lambda Functions
-o AWS DynamoDB
+- Design Considerations
+- Front-End Requirements
+  \*\* React Front-End
+- Back-End Requirements
+  ** AWS API Gateway
+  ** AWS Lambda Functions
+  \*\* AWS DynamoDB
 
 ## Steps to Create Solution
 
-• Create AWS DynamoDB tables
-• Create AWS Lambda (serverless) functions to access AWS DynamoDB tables
-• Create AWS API Gateway routes to AWS Lambda functions
-• Build UI using a NodeJS React application
-• Integrate REST API with React application
-• Deploy application on an AWS EC2 instance
+- Create AWS DynamoDB tables
+- Create AWS Lambda (serverless) functions to access AWS DynamoDB tables
+- Create AWS API Gateway routes to AWS Lambda functions
+- Build UI using a NodeJS React application
+- Integrate REST API with React application
+- Deploy application on an AWS EC2 instance
 
 ## Project Waves
 
 ### Wave 1
 
-#### Create tables in DynamoDB
+- Create tables in DynamoDB
 
 o Person
 o Course
@@ -59,13 +59,13 @@ o CourseStudent
 o Assignment
 o AssignmentStudent
 
-##### Create role with permission for table access in IAM
+- Create role with permission for table access in IAM
 
 o Permission for Lambda functions to access DynamoDB
 
 ### Wave 2
 
-##### Create Lambda functions
+- Create Lambda functions
 
 • List Person
 • Add/Edit Person
@@ -83,7 +83,7 @@ o Permission for Lambda functions to access DynamoDB
 
 ### Wave 3
 
-##### Create React applications
+- Create React applications
 
 • Login
 • Landing Page
@@ -108,7 +108,7 @@ React Deployment
 
 ## Notes
 
-#### API Gateway Bug
+- API Gateway Bug
 
 Model failure shows error about CORS.
 I was getting an error saying the API call was blocked because of CORS, but it turns out it was a failure of my post request body to match the model defined in the API Gateway ( I was passing an empty string and it expected a Boolean). I spent a day debugging CORS and the problem was in my request body.
