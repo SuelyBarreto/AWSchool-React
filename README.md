@@ -32,11 +32,11 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 - Design Considerations
 - Front-End Requirements
-  \*\* React Front-End
+  - React Front-End
 - Back-End Requirements
-  ** AWS API Gateway
-  ** AWS Lambda Functions
-  \*\* AWS DynamoDB
+  - AWS API Gateway
+  - AWS Lambda Functions
+  - AWS DynamoDB
 
 ### Steps to Create Solution
 
@@ -53,54 +53,54 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 - Create tables in DynamoDB
 
-\*\* Person
-\*\* Course
-\*\* CourseStudent
-\*\* Assignment
-\*\* AssignmentStudent
+  - Person
+  - Course
+  - CourseStudent
+  - Assignment
+  - AssignmentStudent
 
 - Create role with permission for table access in IAM
 
-\*\* Permission for Lambda functions to access DynamoDB
+  - Permission for Lambda functions to access DynamoDB
 
 ### Wave 2
 
 - Create Lambda functions
 
-\*\* List Person
-\*\* Add/Edit Person
-\*\* Delete Person
-\*\* List Courses
-\*\* Add/Edit Course
-\*\* Delete Course
-\*\* Add Student to Course
-\*\* Delete Student from Course
-\*\* List Assignments
-\*\* Add/Edit Assignment
-\*\* Delete Assignment
-\*\* List Assignment Student
-\*\* Add/Edit Assignment Student
+  - List Person
+  - Add/Edit Person
+  - Delete Person
+  - List Courses
+  - Add/Edit Course
+  - Delete Course
+  - Add Student to Course
+  - Delete Student from Course
+  - List Assignments
+  - Add/Edit Assignment
+  - Delete Assignment
+  - List Assignment Student
+  - Add/Edit Assignment Student
 
 ### Wave 3
 
 - Create React applications
 
-\*\* Login
-\*\* Landing Page
-\*\* Admin: Person (list, add, edit, delete)
-\*\* Admin: Courses (list, add, edit, delete)
-\*\* Admin: Students by Course (list, add, delete)
-\*\* Teacher: Courses (list)
-\*\* Teacher: Students by Course (list)
-\*\* Teacher: Assignments by Course (list, add, edit, delete)
-\*\* Teacher: Assignment Answers by Assignment (list, grade)
-\*\* Students: Courses (list)
-\*\* Students: Assignments by Course (list, answer)
+  - Login
+  - Landing Page
+  - Admin: Person (list, add, edit, delete)
+  - Admin: Courses (list, add, edit, delete)
+  - Admin: Students by Course (list, add, delete)
+  - Teacher: Courses (list)
+  - Teacher: Students by Course (list)
+  - Teacher: Assignments by Course (list, add, edit, delete)
+  - Teacher: Assignment Answers by Assignment (list, grade)
+  - Students: Courses (list)
+  - Students: Assignments by Course (list, answer)
 
 ### Wave 4
 
-\*\* CSS
-\*\* OAuth
+- CSS
+- OAuth
 
 ### Wave 5
 
