@@ -71,7 +71,7 @@ const PersonForm = (props) => {
         <Table hover>
           <tbody>
             <tr>
-              <td>Id</td>
+              <td>Person Id</td>
               <td>{formFields.id === 0 ? `New` : formFields.id}</td>
             </tr>
             <tr>

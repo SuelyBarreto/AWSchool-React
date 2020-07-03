@@ -5,7 +5,7 @@ import Table from "react-bootstrap/Table";
 
 import "./Assignment.css";
 
-const renderAssignment = (assignmentList) => {
+const renderAssignment = (assignmentList, onAssignmentDelete) => {
   return assignmentList.map((assignment, index) => {
     return (
       <tr key={index}>
@@ -14,10 +14,21 @@ const renderAssignment = (assignmentList) => {
         <td>{assignment.description}</td>
         <td>{assignment.duedate}</td>
         <td>
-          <Button variant="primary">Edit</Button>
+          {/* TODO */}
+          <Link to={`/assignmentform/${assignment.id}`}>
+            <Button variant="primary">Edit</Button>
+          </Link>
         </td>
         <td>
-          <Button variant="primary">Delete</Button>
+          {/* TODO */}
+          <Button
+            variant="primary"
+            onClick={() => {
+              onCourseDelete(assignment.id);
+            }}
+          >
+            Delete
+          </Button>
         </td>
       </tr>
     );
@@ -41,10 +52,14 @@ const Assignment = (props) => {
               <td>Select</td>
             </tr>
           </thead>
-          <tbody>{renderAssignment(props.assignmentList)}</tbody>
+          <tbody>
+            {renderAssignment(props.assignmentList, props.onAssignmentDelete)}
+          </tbody>
         </Table>
         <p>
-          <Button variant="primary">Add Assignment</Button>
+          <Link to="/assignmentform/0">
+            <Button variant="primary">Add New</Button>
+          </Link>
         </p>
       </div>
     </div>
@@ -53,6 +68,7 @@ const Assignment = (props) => {
 
 Assignment.propTypes = {
   assignmentList: PropTypes.array.isRequired,
+  onAssignmentDelete: PropTypes.func.isRequired, // TODO
 };
 
 export default Assignment;

@@ -58,7 +58,7 @@ const Person = (props) => {
         </Table>
         <p>
           <Link to="/personform/0">
-            <Button variant="primary">Add Person</Button>
+            <Button variant="primary">Add New</Button>
           </Link>
         </p>
       </div>

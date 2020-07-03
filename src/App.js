@@ -7,10 +7,11 @@ import Navbar from "react-bootstrap/Navbar";
 import "./App.css";
 import Login from "./components/Login";
 import Home from "./components/Home";
-import Course from "./components/Course";
 import Person from "./components/Person";
 import PersonForm from "./components/PersonForm";
-import Assignment from "./components/Assignment";
+import Course from "./components/Course";
+import CourseForm from "./components/CourseForm";
+// import Assignment from "./components/Assignment";
 import AssignmentStudent from "./components/AssignmentStudent";
 import CourseStudent from "./components/CourseStudent";
 
@@ -144,6 +145,36 @@ const App = () => {
       });
   };
 
+  // callback to add or update course form
+  const onCourseFormSubmit = (formFields) => {
+    // TODO
+    // prepare params
+    const params = {
+      id: formFields.id,
+      teacherid: parseInt(formFields.teacherid),
+      title: formFields.title,
+      description: formFields.description,
+      startdate: formFields.startdate,
+      enddate: formFields.enddate,
+      passgrade: parseFloat(formFields.passgrade),
+    };
+    console.log(`Course submit debug ----> `, params, formFields);
+    // add or update course
+    axios
+      .post(API_URL_BASE + `/course/${formFields.id}`, params)
+      .then((response) => {
+        setCourseUpdate(courseUpdate + 1);
+        setMessageText(
+          formFields.id === 0
+            ? `Success: Course added.`
+            : `Success: Course updaded.`
+        );
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
   // callback to delete person
   const onPersonDelete = (id) => {
     axios
@@ -157,7 +188,21 @@ const App = () => {
       });
   };
 
-  //
+  // callback to delete course
+  const onCourseDelete = (id) => {
+    // TODO
+    axios
+      .delete(API_URL_BASE + `/course/${id}`)
+      .then((response) => {
+        setCourseUpdate(courseUpdate + 1);
+        setMessageText(`Success: Course deleted.`);
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
+  // show current user email if logged in
   const renderUser = () => {
     if (currentUser) {
       return (
@@ -174,8 +219,8 @@ const App = () => {
     }
   };
 
-  //
-  const renderNav = () => {
+  // render Navigation bar
+  const renderNavBar = () => {
     return (
       <Navbar fixed="top" bg="dark" variant="dark">
         <Navbar.Brand>AWSchool</Navbar.Brand>
@@ -198,7 +243,7 @@ const App = () => {
     );
   };
 
-  //
+  // render message
   const renderMessage = () => {
     if (messageText) {
       return <p>{messageText}</p>;
@@ -207,7 +252,7 @@ const App = () => {
     }
   };
 
-  //
+  // render footer
   const renderFooter = () => {
     return (
       <footer>
@@ -224,10 +269,6 @@ const App = () => {
     return (
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route
-          path="/course"
-          render={(props) => <Course {...props} courseList={courseList} />}
-        />
         <Route
           path="/person"
           render={(props) => (
@@ -249,11 +290,33 @@ const App = () => {
           )}
         />
         <Route
+          path="/course"
+          render={(props) => (
+            <Course
+              {...props}
+              courseList={courseList}
+              onCourseDelete={onCourseDelete} // TODO
+            />
+          )}
+        />
+        <Route // TODO route for form
+          path="/courseform/:id"
+          render={(props) => (
+            <CourseForm
+              {...props}
+              courseList={courseList}
+              personList={personList}
+              onFormSubmit={onCourseFormSubmit} // TODO
+            />
+          )}
+        />
+
+        {/* <Route
           path="/assignment"
           render={(props) => (
             <Assignment {...props} assignmentList={assignmentList} />
           )}
-        />
+        /> */}
         <Route
           path="/assignmentstudent"
           render={(props) => (
@@ -290,7 +353,7 @@ const App = () => {
   return (
     <Router>
       <div className="AppRoute">
-        {renderNav()}
+        {renderNavBar()}
         {renderMessage()}
         {renderFooter()}
         {renderLoginOrRoutes()}

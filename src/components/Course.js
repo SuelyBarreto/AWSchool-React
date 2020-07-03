@@ -2,24 +2,37 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import { Link } from "react-router-dom";
 import "./Course.css";
 
-const renderCourse = (courseList) => {
+const renderCourse = (courseList, onCourseDelete) => {
+  // TODO
   return courseList.map((course, index) => {
     return (
       <tr key={index}>
+        <td>{course.id}</td>
         <td>{course.title}</td>
         <td>{course.description}</td>
         <td>{course.teacherid}</td>
         <td>{course.startdate}</td>
-        {/* .toISOString() did not work*/}
         <td>{course.enddate}</td>
         <td>{course.passgrade}</td>
         <td>
-          <Button variant="primary">Edit</Button>
+          {/* TODO */}
+          <Link to={`/courseform/${course.id}`}>
+            <Button variant="primary">Edit</Button>
+          </Link>
         </td>
         <td>
-          <Button variant="primary">Delete</Button>
+          {/* TODO */}
+          <Button
+            variant="primary"
+            onClick={() => {
+              onCourseDelete(course.id);
+            }}
+          >
+            Delete
+          </Button>
         </td>
       </tr>
     );
@@ -28,7 +41,6 @@ const renderCourse = (courseList) => {
 
 // Course Component
 const Course = (props) => {
-  console.log(`rendering courses...`, props);
   return (
     <div>
       <h1>Course</h1>
@@ -36,6 +48,7 @@ const Course = (props) => {
         <Table hover>
           <thead>
             <tr>
+              <td>Id</td>
               <td>Title</td>
               <td>Description</td>
               <td>Teacher</td>
@@ -45,10 +58,13 @@ const Course = (props) => {
               <td>Select</td>
             </tr>
           </thead>
-          <tbody>{renderCourse(props.courseList)}</tbody>
+          <tbody>{renderCourse(props.courseList, props.onCourseDelete)}</tbody>
+          {/* TODO */}
         </Table>
         <p>
-          <Button variant="primary">Add Course</Button>
+          <Link to="/courseform/0">
+            <Button variant="primary">Add New</Button>
+          </Link>
         </p>
       </div>
     </div>
@@ -57,6 +73,7 @@ const Course = (props) => {
 
 Course.propTypes = {
   courseList: PropTypes.array.isRequired,
+  onCourseDelete: PropTypes.func.isRequired, // TODO
 };
 
 export default Course;
