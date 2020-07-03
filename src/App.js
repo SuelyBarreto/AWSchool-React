@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "react-bootstrap/Navbar";
+import Button from "react-bootstrap/Button";
 // import Nav from "react-bootstrap/Nav";
 // import Alert from "react-bootstrap/Alert";
 import "./App.css";
@@ -246,7 +247,15 @@ const App = () => {
   // render message
   const renderMessage = () => {
     if (messageText) {
-      return <p>{messageText}</p>;
+      return (
+        <p
+          onClick={() => {
+            setMessageText("");
+          }}
+        >
+          {messageText}
+        </p>
+      );
     } else {
       return <div></div>;
     }
