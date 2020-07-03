@@ -191,7 +191,6 @@ const App = () => {
 
   // callback to delete course
   const onCourseDelete = (id) => {
-    // TODO
     axios
       .delete(API_URL_BASE + `/course/${id}`)
       .then((response) => {
@@ -235,9 +234,14 @@ const App = () => {
           <Link to="/person">
             <li className="nav-item">Person</li>
           </Link>
-          <Link to="/logout">
-            <li className="nav-item">Logout</li>
-          </Link>
+          <li
+            className="nav-item"
+            onClick={() => {
+              setCurrentUser(null);
+            }}
+          >
+            Logout
+          </li>
         </ul>
         {renderUser()}
       </Navbar>
@@ -350,7 +354,7 @@ const App = () => {
     );
   };
 
-  //
+  // render only login page until logged in
   const renderLoginOrRoutes = () => {
     if (currentUser) {
       return renderAllRoutes();
