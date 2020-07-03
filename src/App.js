@@ -295,18 +295,19 @@ const App = () => {
             <Course
               {...props}
               courseList={courseList}
-              onCourseDelete={onCourseDelete} // TODO
+              personList={personList}
+              onCourseDelete={onCourseDelete}
             />
           )}
         />
-        <Route // TODO route for form
+        <Route
           path="/courseform/:id"
           render={(props) => (
             <CourseForm
               {...props}
               courseList={courseList}
               personList={personList}
-              onFormSubmit={onCourseFormSubmit} // TODO
+              onFormSubmit={onCourseFormSubmit}
             />
           )}
         />

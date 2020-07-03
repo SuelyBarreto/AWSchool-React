@@ -51,7 +51,7 @@ const Person = (props) => {
               <td>Administrator</td>
               <td>Teacher</td>
               <td>Student</td>
-              <td>Select</td>
+              <td>Actions</td>
             </tr>
           </thead>
           <tbody>{renderPerson(props.personList, props.onPersonDelete)}</tbody>

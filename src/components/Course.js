@@ -5,26 +5,37 @@ import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Course.css";
 
-const renderCourse = (courseList, onCourseDelete) => {
-  // TODO
+const renderTeacher = (personList, teacherid) => {
+  let teacherName = `No teacher`;
+  personList.forEach((person) => {
+    if (person.id === teacherid) {
+      if (person.isteacher) {
+        teacherName = `${person.personname} - ${person.id}`;
+      } else {
+        teacherName = `No teacher`;
+      }
+    }
+  });
+  return teacherName;
+};
+
+const renderCourse = (courseList, personList, onCourseDelete) => {
   return courseList.map((course, index) => {
     return (
       <tr key={index}>
         <td>{course.id}</td>
         <td>{course.title}</td>
         <td>{course.description}</td>
-        <td>{course.teacherid}</td>
+        <td>{renderTeacher(personList, course.teacherid)}</td>
         <td>{course.startdate}</td>
         <td>{course.enddate}</td>
         <td>{course.passgrade}</td>
         <td>
-          {/* TODO */}
           <Link to={`/courseform/${course.id}`}>
             <Button variant="primary">Edit</Button>
           </Link>
         </td>
         <td>
-          {/* TODO */}
           <Button
             variant="primary"
             onClick={() => {
@@ -51,15 +62,20 @@ const Course = (props) => {
               <td>Id</td>
               <td>Title</td>
               <td>Description</td>
-              <td>Teacher</td>
+              <td>Teacher - Id</td>
               <td>Start Date</td>
               <td>End Date</td>
               <td>Passing Grade</td>
-              <td>Select</td>
+              <td>Actions</td>
             </tr>
           </thead>
-          <tbody>{renderCourse(props.courseList, props.onCourseDelete)}</tbody>
-          {/* TODO */}
+          <tbody>
+            {renderCourse(
+              props.courseList,
+              props.personList,
+              props.onCourseDelete
+            )}
+          </tbody>
         </Table>
         <p>
           <Link to="/courseform/0">
@@ -73,7 +89,8 @@ const Course = (props) => {
 
 Course.propTypes = {
   courseList: PropTypes.array.isRequired,
-  onCourseDelete: PropTypes.func.isRequired, // TODO
+  personList: PropTypes.array.isRequired,
+  onCourseDelete: PropTypes.func.isRequired,
 };
 
 export default Course;
