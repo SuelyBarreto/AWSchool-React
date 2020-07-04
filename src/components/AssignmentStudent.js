@@ -35,13 +35,13 @@ const AssignmentStudent = (props) => {
         <Table hover>
           <thead>
             <tr>
-              <td>Assignment Id</td>
-              <td>Student Id</td>
-              <td>Answer</td>
-              <td>Date Answered</td>
-              <td>Grade</td>
-              <td>Date Graded</td>
-              <td>Select</td>
+              <th>Assignment Id</th>
+              <th>Student Id</th>
+              <th>Answer</th>
+              <th>Date Answered</th>
+              <th>Grade</th>
+              <th>Date Graded</th>
+              <th>Select</th>
             </tr>
           </thead>
           <tbody>{renderAssignmentStudent(props.assignmentStudentList)}</tbody>

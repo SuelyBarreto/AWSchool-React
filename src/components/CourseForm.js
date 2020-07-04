@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import DatePicker from "react-datepicker";
-import { parseISO } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
 import "./CourseForm.css";
 
@@ -134,7 +133,7 @@ const CourseForm = (props) => {
                   onChange={onFieldChange}
                   value={formFields.title}
                   placeholder="title"
-                  type="title"
+                  type="text"
                 />
               </td>
             </tr>

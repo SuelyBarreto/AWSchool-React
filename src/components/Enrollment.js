@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import { Link } from "react-router-dom";
 import "./Enrollment.css";
 
 // Enrollment Component
@@ -38,9 +39,18 @@ const Enrollment = (props) => {
             <td>{renderStudent(enrollment.studentid)}</td>
             <td>{enrollment.averagegrade}</td>
             <td>
-              <Button variant="primary">Edit</Button>
+              <Link to={`/enrollmentform/${courseId}/${enrollment.id}`}>
+                <Button variant="primary">Edit</Button>
+              </Link>
               &nbsp;
-              <Button variant="primary">Delete</Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  props.onEnrollmentDelete(enrollment.id);
+                }}
+              >
+                Delete
+              </Button>
             </td>
           </tr>
         );
@@ -54,15 +64,17 @@ const Enrollment = (props) => {
         <Table hover>
           <thead>
             <tr>
-              <td>Student Id</td>
-              <td>Grade</td>
-              <td>Actions</td>
+              <th>Student Id</th>
+              <th>Grade</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>{renderEnrollment(props.enrollmentList)}</tbody>
         </Table>
         <p>
-          <Button variant="primary">Add Student</Button>
+          <Link to={`/enrollmentform/${courseId}/0`}>
+            <Button variant="primary">Add New</Button>
+          </Link>
         </p>
       </div>
     </div>
@@ -73,6 +85,7 @@ Enrollment.propTypes = {
   enrollmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
+  onEnrollmentDelete: PropTypes.func.isRequired,
 };
 
 export default Enrollment;

@@ -62,14 +62,14 @@ const Course = (props) => {
         <Table hover>
           <thead>
             <tr>
-              <td>Id</td>
-              <td>Title</td>
-              <td>Description</td>
-              <td>Teacher - Id</td>
-              <td>Start Date</td>
-              <td>End Date</td>
-              <td>Passing Grade</td>
-              <td>Actions</td>
+              <th>Id</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Teacher - Id</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Passing Grade</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>

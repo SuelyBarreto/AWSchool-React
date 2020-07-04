@@ -15,6 +15,7 @@ import CourseForm from "./components/CourseForm";
 // import Assignment from "./components/Assignment";
 import AssignmentStudent from "./components/AssignmentStudent";
 import Enrollment from "./components/Enrollment";
+import EnrollmentForm from "./components/EnrollmentForm";
 
 const API_URL_BASE =
   "https://4jqwh1vygi.execute-api.us-west-2.amazonaws.com/prod";
@@ -27,27 +28,23 @@ const App = () => {
   const [courseList, setCourseList] = useState([]);
   const [courseUpdate, setCourseUpdate] = useState(0);
   const [enrollmentList, setEnrollmentList] = useState([]);
+  const [enrollmentUpdate, setEnrollmentUpdate] = useState(0);
   const [assignmentList, setAssignmentList] = useState([]);
   const [assignmentStudentList, setAssignmentStudentList] = useState([]);
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // sort function
+  // sort by id
   const sortById = (objs) => {
     return objs.sort((a, b) => (a.id > b.id ? 1 : b.id > a.id ? -1 : 0));
   };
 
-  // API to get all courses
-  useEffect(() => {
-    axios
-      .get(API_URL_BASE + "/course")
-      .then((response) => {
-        setCourseList(sortById(response.data));
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
-  }, [courseUpdate]);
+  // sort by student id
+  const sortByStudentId = (objs) => {
+    return objs.sort((a, b) =>
+      a.studentid > b.studentid ? 1 : b.studentid > a.studentid ? -1 : 0
+    );
+  };
 
   // API to get all persons
   useEffect(() => {
@@ -61,6 +58,30 @@ const App = () => {
       });
   }, [personUpdate]);
 
+  // API to get all courses
+  useEffect(() => {
+    axios
+      .get(API_URL_BASE + "/course")
+      .then((response) => {
+        setCourseList(sortById(response.data));
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  }, [courseUpdate]);
+
+  // API to get enrollment (coursestudent)
+  useEffect(() => {
+    axios
+      .get(API_URL_BASE + "/coursestudent")
+      .then((response) => {
+        setEnrollmentList(sortByStudentId(response.data));
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  }, [enrollmentUpdate]);
+
   // API to get all assignments
   useEffect(() => {
     axios
@@ -73,24 +94,12 @@ const App = () => {
       });
   }, []);
 
-  // API to get student assignments
+  // API to get assignmentstudents
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/assignmentstudent")
       .then((response) => {
         setAssignmentStudentList(sortById(response.data));
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
-  }, []);
-
-  // API to get student courses
-  useEffect(() => {
-    axios
-      .get(API_URL_BASE + "/coursestudent")
-      .then((response) => {
-        setEnrollmentList(sortById(response.data));
       })
       .catch((error) => {
         setMessageText(`Error: ${error.message}`);
@@ -175,6 +184,32 @@ const App = () => {
       });
   };
 
+  // callback to add or update enrollment form
+  const onEnrollmentFormSubmit = (formFields) => {
+    // prepare params
+    const params = {
+      id: formFields.id,
+      courseid: parseInt(formFields.courseid),
+      studentid: parseInt(formFields.studentid),
+      averagegrade: parseFloat(formFields.averagegrade),
+    };
+
+    // add or update enrollment (coursestudent)
+    axios
+      .post(API_URL_BASE + `/coursestudent/${formFields.id}`, params)
+      .then((response) => {
+        setEnrollmentUpdate(enrollmentUpdate + 1);
+        setMessageText(
+          formFields.id === 0
+            ? `Success: Enrollment added.`
+            : `Success: Enrollment updaded.`
+        );
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
   // callback to delete person
   const onPersonDelete = (id) => {
     axios
@@ -195,6 +230,19 @@ const App = () => {
       .then((response) => {
         setCourseUpdate(courseUpdate + 1);
         setMessageText(`Success: Course deleted.`);
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
+  // callback to delete enrollment (coursestudent)
+  const onEnrollmentDelete = (id) => {
+    axios
+      .delete(API_URL_BASE + `/coursestudent/${id}`)
+      .then((response) => {
+        setEnrollmentUpdate(enrollmentUpdate + 1);
+        setMessageText(`Success: Enrollment deleted.`);
       })
       .catch((error) => {
         setMessageText(`Error: ${error.message}`);
@@ -331,6 +379,19 @@ const App = () => {
               enrollmentList={enrollmentList}
               courseList={courseList}
               personList={personList}
+              onEnrollmentDelete={onEnrollmentDelete}
+            />
+          )}
+        />
+        <Route
+          path="/enrollmentform/:courseid/:id"
+          render={(props) => (
+            <EnrollmentForm
+              {...props}
+              enrollmentList={enrollmentList}
+              courseList={courseList}
+              personList={personList}
+              onFormSubmit={onEnrollmentFormSubmit}
             />
           )}
         />

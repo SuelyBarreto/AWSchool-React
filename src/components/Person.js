@@ -44,13 +44,13 @@ const Person = (props) => {
         <Table hover>
           <thead>
             <tr>
-              <td>Id</td>
-              <td>Name</td>
-              <td>Email</td>
-              <td>Administrator</td>
-              <td>Teacher</td>
-              <td>Student</td>
-              <td>Actions</td>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Administrator</th>
+              <th>Teacher</th>
+              <th>Student</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>{renderPerson(props.personList, props.onPersonDelete)}</tbody>

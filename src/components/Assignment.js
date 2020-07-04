@@ -45,11 +45,11 @@ const Assignment = (props) => {
         <Table hover>
           <thead>
             <tr>
-              <td>Course Id</td>
-              <td>Title</td>
-              <td>Description</td>
-              <td>Due Date</td>
-              <td>Select</td>
+              <th>Course Id</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Due Date</th>
+              <th>Select</th>
             </tr>
           </thead>
           <tbody>
