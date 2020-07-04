@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import DatePicker from "react-datepicker";
+import { parseISO } from "date-fns";
+import "react-datepicker/dist/react-datepicker.css";
 import "./CourseForm.css";
 
 // define CourseForm component
@@ -49,6 +52,30 @@ const CourseForm = (props) => {
     });
   };
 
+  // convert date to string mm/dd/yyyy
+  const dateToString = (date) => {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return month + "/" + day + "/" + year;
+  };
+
+  // event when start date changes
+  const onStartDateChange = (dateSelected) => {
+    setFormFields({
+      ...formFields,
+      startdate: dateToString(dateSelected),
+    });
+  };
+
+  // event when end date changes
+  const onEndDateChange = (dateSelected) => {
+    setFormFields({
+      ...formFields,
+      enddate: dateToString(dateSelected),
+    });
+  };
+
   // event for submit button
   const onSubmit = (event) => {
     event.preventDefault();
@@ -64,13 +91,13 @@ const CourseForm = (props) => {
       if (person.isteacher) {
         if (person.id === formFields.teacherid) {
           allTeachers.push(
-            <option selected value={person.id}>
+            <option selected value={person.id} key={person.id}>
               {person.id} - {person.personname}
             </option>
           );
         } else {
           allTeachers.push(
-            <option value={person.id}>
+            <option value={person.id} key={person.id}>
               {person.id} - {person.personname}
             </option>
           );
@@ -126,24 +153,18 @@ const CourseForm = (props) => {
             <tr>
               <td>Start Date</td>
               <td>
-                <input
-                  name="startdate"
-                  onChange={onFieldChange}
-                  value={formFields.startdate}
-                  placeholder="start date"
-                  type="text"
+                <DatePicker
+                  selected={Date.parse(formFields.startdate)}
+                  onChange={onStartDateChange}
                 />
               </td>
             </tr>
             <tr>
               <td>End Date</td>
               <td>
-                <input
-                  name="enddate"
-                  onChange={onFieldChange}
-                  value={formFields.enddate}
-                  placeholder="end date"
-                  type="text"
+                <DatePicker
+                  selected={Date.parse(formFields.enddate)}
+                  onChange={onEndDateChange}
                 />
               </td>
             </tr>
