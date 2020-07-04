@@ -14,7 +14,7 @@ import Course from "./components/Course";
 import CourseForm from "./components/CourseForm";
 // import Assignment from "./components/Assignment";
 import AssignmentStudent from "./components/AssignmentStudent";
-import CourseStudent from "./components/CourseStudent";
+import Enrollment from "./components/Enrollment";
 
 const API_URL_BASE =
   "https://4jqwh1vygi.execute-api.us-west-2.amazonaws.com/prod";
@@ -22,15 +22,15 @@ const API_URL_BASE =
 // App component
 const App = () => {
   // Declare and initialize state
-  const [messageText, setMessageText] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
   const [personList, setPersonList] = useState([]);
   const [personUpdate, setPersonUpdate] = useState(0);
   const [courseList, setCourseList] = useState([]);
   const [courseUpdate, setCourseUpdate] = useState(0);
-  const [courseStudentList, setCourseStudentList] = useState([]);
+  const [enrollmentList, setEnrollmentList] = useState([]);
   const [assignmentList, setAssignmentList] = useState([]);
   const [assignmentStudentList, setAssignmentStudentList] = useState([]);
+  const [messageText, setMessageText] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   // sort function
   const sortById = (objs) => {
@@ -90,7 +90,7 @@ const App = () => {
     axios
       .get(API_URL_BASE + "/coursestudent")
       .then((response) => {
-        setCourseStudentList(sortById(response.data));
+        setEnrollmentList(sortById(response.data));
       })
       .catch((error) => {
         setMessageText(`Error: ${error.message}`);
@@ -148,7 +148,6 @@ const App = () => {
 
   // callback to add or update course form
   const onCourseFormSubmit = (formFields) => {
-    // TODO
     // prepare params
     const params = {
       id: formFields.id,
@@ -207,6 +206,14 @@ const App = () => {
     if (currentUser) {
       return (
         <ul className="navbar-nav">
+          <li
+            className="nav-item"
+            onClick={() => {
+              setCurrentUser(null);
+            }}
+          >
+            Logout
+          </li>
           <li className="nav-item">{currentUser.email}</li>
         </ul>
       );
@@ -234,14 +241,6 @@ const App = () => {
           <Link to="/person">
             <li className="nav-item">Person</li>
           </Link>
-          <li
-            className="nav-item"
-            onClick={() => {
-              setCurrentUser(null);
-            }}
-          >
-            Logout
-          </li>
         </ul>
         {renderUser()}
       </Navbar>
@@ -324,7 +323,17 @@ const App = () => {
             />
           )}
         />
-
+        <Route
+          path="/enrollment/:id"
+          render={(props) => (
+            <Enrollment
+              {...props}
+              enrollmentList={enrollmentList}
+              courseList={courseList}
+              personList={personList}
+            />
+          )}
+        />
         {/* <Route
           path="/assignment"
           render={(props) => (
@@ -338,12 +347,6 @@ const App = () => {
               {...props}
               assignmentStudentList={assignmentStudentList}
             />
-          )}
-        />
-        <Route
-          path="/coursestudent"
-          render={(props) => (
-            <CourseStudent {...props} courseStudentList={courseStudentList} />
           )}
         />
         <Route

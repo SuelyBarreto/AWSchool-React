@@ -55,7 +55,7 @@ Teachers and students are working online more than ever. Coordinating homework a
 
   - Person
   - Course
-  - CourseStudent
+  - Enrollment
   - Assignment
   - AssignmentStudent
 

@@ -31,11 +31,14 @@ const renderCourse = (courseList, personList, onCourseDelete) => {
         <td>{course.enddate}</td>
         <td>{course.passgrade}</td>
         <td>
+          <Link to={`/enrollment/${course.id}`}>
+            <Button variant="primary">Students</Button>
+          </Link>
+          &nbsp;
           <Link to={`/courseform/${course.id}`}>
             <Button variant="primary">Edit</Button>
           </Link>
-        </td>
-        <td>
+          &nbsp;
           <Button
             variant="primary"
             onClick={() => {

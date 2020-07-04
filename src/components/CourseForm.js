@@ -23,13 +23,13 @@ const CourseForm = (props) => {
   // define formFields
   const [formFields, setFormFields] = useState(emptyForm);
   // get id from route parameter :id
-  const currentId = parseInt(props.match.params.id);
+  const courseId = parseInt(props.match.params.id);
 
   // find data for current id, put in formFields
   useEffect(() => {
-    if (currentId !== 0) {
+    if (courseId !== 0) {
       props.courseList.forEach((course) => {
-        if (course.id === currentId) {
+        if (course.id === courseId) {
           setFormFields({
             id: course.id,
             teacherid: course.teacherid,
@@ -42,7 +42,7 @@ const CourseForm = (props) => {
         }
       });
     }
-  }, [currentId, props.courseList]);
+  }, [courseId, props.courseList]);
 
   // event when form field changes
   const onFieldChange = (event) => {
@@ -80,7 +80,7 @@ const CourseForm = (props) => {
   const onSubmit = (event) => {
     event.preventDefault();
     props.onFormSubmit(formFields);
-    if (currentId === 0) {
+    if (courseId === 0) {
       setFormFields(emptyForm);
     }
   };
@@ -184,7 +184,7 @@ const CourseForm = (props) => {
         </Table>
         <div>
           <Button type="submit" variant="primary">
-            {currentId === 0 ? "Add" : "Save"}
+            {courseId === 0 ? "Add" : "Save"}
           </Button>
         </div>
       </form>

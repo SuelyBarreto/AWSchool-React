@@ -19,8 +19,7 @@ const renderPerson = (personList, onPersonDelete) => {
           <Link to={`/personform/${person.id}`}>
             <Button variant="primary">Edit</Button>
           </Link>
-        </td>
-        <td>
+          &nbsp;
           <Button
             variant="primary"
             onClick={() => {
