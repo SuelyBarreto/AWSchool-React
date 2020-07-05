@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./Components.css";
 
 // define AssignmentForm component
@@ -15,8 +17,9 @@ const AssignmentForm = (props) => {
   const emptyForm = {
     id: assignmentId,
     courseid: courseId,
-    studentid: 0,
-    averagegrade: 0,
+    title: "",
+    description: "",
+    duedate: "",
   };
 
   // define formFields
@@ -30,8 +33,9 @@ const AssignmentForm = (props) => {
           setFormFields({
             id: assignment.id,
             courseid: assignment.courseid,
-            studentid: assignment.studentid,
-            averagegrade: assignment.averagegrade,
+            title: assignment.title,
+            description: assignment.description,
+            duedate: assignment.duedate,
           });
         }
       });
@@ -43,6 +47,22 @@ const AssignmentForm = (props) => {
     setFormFields({
       ...formFields,
       [event.target.name]: event.target.value,
+    });
+  };
+
+  // convert date to string mm/dd/yyyy
+  const dateToString = (date) => {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return month + "/" + day + "/" + year;
+  };
+
+  // event when due date changes
+  const onDueDateChange = (dateSelected) => {
+    setFormFields({
+      ...formFields,
+      duedate: dateToString(dateSelected),
     });
   };
 
@@ -66,43 +86,6 @@ const AssignmentForm = (props) => {
     return courseTitle;
   };
 
-  // show list of student for selection
-  const renderStudent = () => {
-    // build a list of student ids already enrolled
-    const enrolledStudents = props.assignmentList
-      .filter((assignment) => assignment.courseid === courseId)
-      .map((assignment) => assignment.studentid);
-
-    // includes course teacher in enrolled students list
-    // to avoid adding the teacher as student
-    const teacherId = props.courseList.find((course) => course.id === courseId)
-      .teacherid;
-    enrolledStudents.push(teacherId);
-    console.log(teacherId, enrolledStudents);
-
-    // build a list of students available to enroll
-    const availableStudents = props.personList.filter(
-      (person) => person.isstudent && !enrolledStudents.includes(person.id)
-    );
-
-    let allStudents = [];
-    if (formFields.studentid === 0) {
-      allStudents.push(
-        <option value="0" key="0">
-          0 - Not selected
-        </option>
-      );
-    }
-    availableStudents.forEach((person) => {
-      allStudents.push(
-        <option value={person.id} key={person.id}>
-          {person.id} - {person.personname}
-        </option>
-      );
-    });
-    return allStudents;
-  };
-
   // main form
   return (
     <div>
@@ -119,26 +102,35 @@ const AssignmentForm = (props) => {
               <td>{renderCourse()}</td>
             </tr>
             <tr>
-              <td>Student</td>
+              <td>Title</td>
               <td>
-                <select
-                  name="studentid"
-                  value={formFields.studentid}
+                <input
+                  name="title"
                   onChange={onFieldChange}
-                >
-                  {renderStudent()};
-                </select>
+                  value={formFields.title}
+                  placeholder="title"
+                  type="text"
+                />
               </td>
             </tr>
             <tr>
-              <td>Grade</td>
+              <td>Description</td>
               <td>
                 <input
-                  name="grade"
+                  name="description"
                   onChange={onFieldChange}
-                  value={formFields.averagegrade}
-                  placeholder="grade"
+                  value={formFields.description}
+                  placeholder="description"
                   type="text"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Due Date</td>
+              <td>
+                <DatePicker
+                  selected={Date.parse(formFields.duedate)}
+                  onChange={onDueDateChange}
                 />
               </td>
             </tr>
@@ -161,7 +153,6 @@ const AssignmentForm = (props) => {
 AssignmentForm.propTypes = {
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
-  personList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
 };
 

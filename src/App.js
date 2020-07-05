@@ -12,10 +12,11 @@ import Person from "./components/Person";
 import PersonForm from "./components/PersonForm";
 import Course from "./components/Course";
 import CourseForm from "./components/CourseForm";
-import Assignment from "./components/Assignment";
-import AssignmentStudent from "./components/AssignmentStudent";
 import Enrollment from "./components/Enrollment";
 import EnrollmentForm from "./components/EnrollmentForm";
+import Assignment from "./components/Assignment";
+import AssignmentForm from "./components/AssignmentForm";
+import AssignmentStudent from "./components/AssignmentStudent";
 
 const API_URL_BASE =
   "https://4jqwh1vygi.execute-api.us-west-2.amazonaws.com/prod";
@@ -129,6 +130,8 @@ const App = () => {
 
   // callback to add or update person form
   const onPersonFormSubmit = (formFields) => {
+    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
+
     // prepare params
     const params = {
       id: formFields.id,
@@ -148,7 +151,7 @@ const App = () => {
         setMessageText(
           formFields.id === 0
             ? `Success: Person added.`
-            : `Success: Person updaded.`
+            : `Success: Person updated.`
         );
       })
       .catch((error) => {
@@ -158,6 +161,8 @@ const App = () => {
 
   // callback to add or update course form
   const onCourseFormSubmit = (formFields) => {
+    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
+
     // prepare params
     const params = {
       id: formFields.id,
@@ -168,7 +173,7 @@ const App = () => {
       enddate: formFields.enddate,
       passgrade: parseFloat(formFields.passgrade),
     };
-    console.log(`Course submit debug ----> `, params, formFields);
+
     // add or update course
     axios
       .post(API_URL_BASE + `/course/${formFields.id}`, params)
@@ -177,7 +182,7 @@ const App = () => {
         setMessageText(
           formFields.id === 0
             ? `Success: Course added.`
-            : `Success: Course updaded.`
+            : `Success: Course updated.`
         );
       })
       .catch((error) => {
@@ -187,6 +192,8 @@ const App = () => {
 
   // callback to add or update enrollment form
   const onEnrollmentFormSubmit = (formFields) => {
+    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
+
     // prepare params
     const params = {
       id: formFields.id,
@@ -203,7 +210,36 @@ const App = () => {
         setMessageText(
           formFields.id === 0
             ? `Success: Enrollment added.`
-            : `Success: Enrollment updaded.`
+            : `Success: Enrollment updated.`
+        );
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
+  // callback to add or update enrollment form
+  const onAssignmentFormSubmit = (formFields) => {
+    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
+
+    // prepare params
+    const params = {
+      id: formFields.id,
+      courseid: parseInt(formFields.courseid),
+      title: formFields.title,
+      description: formFields.description,
+      duedate: formFields.duedate,
+    };
+
+    // add or update enrollment (coursestudent)
+    axios
+      .post(API_URL_BASE + `/assignment/${formFields.id}`, params)
+      .then((response) => {
+        setAssignmentUpdate(assignmentUpdate + 1);
+        setMessageText(
+          formFields.id === 0
+            ? `Success: Assignment added.`
+            : `Success: Assignment updated.`
         );
       })
       .catch((error) => {
@@ -213,6 +249,7 @@ const App = () => {
 
   // callback to delete person
   const onPersonDelete = (id) => {
+    setMessageText(`Deleting...`);
     axios
       .delete(API_URL_BASE + `/person/${id}`)
       .then((response) => {
@@ -226,6 +263,7 @@ const App = () => {
 
   // callback to delete course
   const onCourseDelete = (id) => {
+    setMessageText(`Deleting...`);
     axios
       .delete(API_URL_BASE + `/course/${id}`)
       .then((response) => {
@@ -239,6 +277,7 @@ const App = () => {
 
   // callback to delete enrollment (coursestudent)
   const onEnrollmentDelete = (id) => {
+    setMessageText(`Deleting...`);
     axios
       .delete(API_URL_BASE + `/coursestudent/${id}`)
       .then((response) => {
@@ -252,6 +291,7 @@ const App = () => {
 
   // callback to delete assignment
   const onAssignmentDelete = (id) => {
+    setMessageText(`Deleting...`);
     axios
       .delete(API_URL_BASE + `/assignment/${id}`)
       .then((response) => {
@@ -417,6 +457,17 @@ const App = () => {
               assignmentList={assignmentList}
               courseList={courseList}
               onAssignmentDelete={onAssignmentDelete}
+            />
+          )}
+        />
+        <Route
+          path="/assignmentform/:courseid/:id"
+          render={(props) => (
+            <AssignmentForm
+              {...props}
+              assignmentList={assignmentList}
+              courseList={courseList}
+              onFormSubmit={onAssignmentFormSubmit}
             />
           )}
         />
