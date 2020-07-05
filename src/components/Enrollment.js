@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
-import "./Enrollment.css";
+import "./Components.css";
 
 // Enrollment Component
 const Enrollment = (props) => {

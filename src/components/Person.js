@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
-import "./Person.css";
+import "./Components.css";
 
 const renderPerson = (personList, onPersonDelete) => {
   return personList.map((person, index) => {
@@ -36,7 +36,6 @@ const renderPerson = (personList, onPersonDelete) => {
 
 // Person Component
 const Person = (props) => {
-  console.log(`rendering persons...`, props);
   return (
     <div>
       <h1>Person</h1>

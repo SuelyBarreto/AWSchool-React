@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
-import "./Course.css";
+import "./Components.css";
 
 const renderTeacher = (personList, teacherid) => {
   let teacherName = `No teacher`;
@@ -33,6 +33,10 @@ const renderCourse = (courseList, personList, onCourseDelete) => {
         <td>
           <Link to={`/enrollment/${course.id}`}>
             <Button variant="primary">Students</Button>
+          </Link>
+          &nbsp;
+          <Link to={`/assignment/${course.id}`}>
+            <Button variant="primary">Assignments</Button>
           </Link>
           &nbsp;
           <Link to={`/courseform/${course.id}`}>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import "./Login.css";
+import "./Components.css";
 
 // define Login component
 const Login = (props) => {

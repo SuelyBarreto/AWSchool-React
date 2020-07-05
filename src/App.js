@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 // import Nav from "react-bootstrap/Nav";
 // import Alert from "react-bootstrap/Alert";
 import "./App.css";
@@ -12,7 +12,7 @@ import Person from "./components/Person";
 import PersonForm from "./components/PersonForm";
 import Course from "./components/Course";
 import CourseForm from "./components/CourseForm";
-// import Assignment from "./components/Assignment";
+import Assignment from "./components/Assignment";
 import AssignmentStudent from "./components/AssignmentStudent";
 import Enrollment from "./components/Enrollment";
 import EnrollmentForm from "./components/EnrollmentForm";
@@ -30,6 +30,7 @@ const App = () => {
   const [enrollmentList, setEnrollmentList] = useState([]);
   const [enrollmentUpdate, setEnrollmentUpdate] = useState(0);
   const [assignmentList, setAssignmentList] = useState([]);
+  const [assignmentUpdate, setAssignmentUpdate] = useState(0);
   const [assignmentStudentList, setAssignmentStudentList] = useState([]);
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
@@ -92,7 +93,7 @@ const App = () => {
       .catch((error) => {
         setMessageText(`Error: ${error.message}`);
       });
-  }, []);
+  }, [assignmentUpdate]);
 
   // API to get assignmentstudents
   useEffect(() => {
@@ -249,6 +250,19 @@ const App = () => {
       });
   };
 
+  // callback to delete assignment
+  const onAssignmentDelete = (id) => {
+    axios
+      .delete(API_URL_BASE + `/assignment/${id}`)
+      .then((response) => {
+        setAssignmentUpdate(assignmentUpdate + 1);
+        setMessageText(`Success: Assignment deleted.`);
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
   // show current user email if logged in
   const renderUser = () => {
     if (currentUser) {
@@ -324,7 +338,7 @@ const App = () => {
     );
   };
 
-  //
+  // render all routes
   const renderAllRoutes = () => {
     return (
       <Switch>
@@ -395,12 +409,17 @@ const App = () => {
             />
           )}
         />
-        {/* <Route
-          path="/assignment"
+        <Route
+          path="/assignment/:id"
           render={(props) => (
-            <Assignment {...props} assignmentList={assignmentList} />
+            <Assignment
+              {...props}
+              assignmentList={assignmentList}
+              courseList={courseList}
+              onAssignmentDelete={onAssignmentDelete}
+            />
           )}
-        /> */}
+        />
         <Route
           path="/assignmentstudent"
           render={(props) => (

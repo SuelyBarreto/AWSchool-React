@@ -1,10 +1,9 @@
 import React from "react";
 import Image from "react-bootstrap/Image";
-import "./Home.css";
+import "./Components.css";
 
 // Home Component
 const Home = (props) => {
-  console.log(`rendering Home...`, props);
   return (
     <div className="container">
       <h1>Welcome!</h1>

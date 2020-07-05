@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import "./AssignmentStudent.css";
+import "./Components.css";
 
 const renderAssignmentStudent = (assignmentStudentList) => {
   return assignmentStudentList.map((assignmentStudent, index) => {

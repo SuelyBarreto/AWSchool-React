@@ -73,6 +73,13 @@ const EnrollmentForm = (props) => {
       .filter((enrollment) => enrollment.courseid === courseId)
       .map((enrollment) => enrollment.studentid);
 
+    // includes course teacher in enrolled students list
+    // to avoid adding the teacher as student
+    const teacherId = props.courseList.find((course) => course.id === courseId)
+      .teacherid;
+    enrolledStudents.push(teacherId);
+    console.log(teacherId, enrolledStudents);
+
     // build a list of students available to enroll
     const availableStudents = props.personList.filter(
       (person) => person.isstudent && !enrolledStudents.includes(person.id)

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import "./PersonForm.css";
+import "./Components.css";
 
 // define PersonForm component
 const PersonForm = (props) => {
