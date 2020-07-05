@@ -116,12 +116,12 @@ const AssignmentForm = (props) => {
             <tr>
               <td>Description</td>
               <td>
-                <input
+                <textarea
                   name="description"
                   onChange={onFieldChange}
                   value={formFields.description}
-                  placeholder="description"
-                  type="text"
+                  rows={5}
+                  cols={80}
                 />
               </td>
             </tr>

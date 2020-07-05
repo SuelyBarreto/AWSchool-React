@@ -1,7 +1,11 @@
 .splash {
-  width: 50%;
+  width: 80%;
 }
 
 th {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: sans-serif;
+}
+
+.yesno {
+  align-content: center;
 }

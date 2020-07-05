@@ -12,9 +12,9 @@ const renderPerson = (personList, onPersonDelete) => {
         <td>{person.id}</td>
         <td>{person.personname}</td>
         <td>{person.email}</td>
-        <td>{person.isadmin ? `yes` : ``}</td>
-        <td>{person.isteacher ? `yes` : ``}</td>
-        <td>{person.isstudent ? `yes` : ``}</td>
+        <td className="yesno">{person.isadmin ? `yes` : ``}</td>
+        <td className="yesno">{person.isteacher ? `yes` : ``}</td>
+        <td className="yesno">{person.isstudent ? `yes` : ``}</td>
         <td>
           <Link to={`/personform/${person.id}`}>
             <Button variant="primary">Edit</Button>
@@ -46,9 +46,9 @@ const Person = (props) => {
               <th>Id</th>
               <th>Name</th>
               <th>Email</th>
-              <th>Administrator</th>
-              <th>Teacher</th>
-              <th>Student</th>
+              <th className="yesno">Administrator</th>
+              <th className="yesno">Teacher</th>
+              <th className="yesno">Student</th>
               <th>Actions</th>
             </tr>
           </thead>
