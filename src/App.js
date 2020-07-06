@@ -16,7 +16,8 @@ import Enrollment from "./components/Enrollment";
 import EnrollmentForm from "./components/EnrollmentForm";
 import Assignment from "./components/Assignment";
 import AssignmentForm from "./components/AssignmentForm";
-import AssignmentStudent from "./components/AssignmentStudent";
+import Answer from "./components/Answer";
+import AnswerForm from "./components/AnswerForm";
 
 const API_URL_BASE =
   "https://4jqwh1vygi.execute-api.us-west-2.amazonaws.com/prod";
@@ -32,7 +33,8 @@ const App = () => {
   const [enrollmentUpdate, setEnrollmentUpdate] = useState(0);
   const [assignmentList, setAssignmentList] = useState([]);
   const [assignmentUpdate, setAssignmentUpdate] = useState(0);
-  const [assignmentStudentList, setAssignmentStudentList] = useState([]);
+  const [answerList, setAnswerList] = useState([]);
+  const [answerUpdate, setAnswerUpdate] = useState(0);
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -96,12 +98,12 @@ const App = () => {
       });
   }, [assignmentUpdate]);
 
-  // API to get assignmentstudents
+  // API to get answers (assignmentstudents)
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/assignmentstudent")
       .then((response) => {
-        setAssignmentStudentList(sortById(response.data));
+        setAnswerList(sortByStudentId(response.data));
       })
       .catch((error) => {
         setMessageText(`Error: ${error.message}`);
@@ -218,7 +220,7 @@ const App = () => {
       });
   };
 
-  // callback to add or update enrollment form
+  // callback to add or update assignment form
   const onAssignmentFormSubmit = (formFields) => {
     setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
 
@@ -231,7 +233,7 @@ const App = () => {
       duedate: formFields.duedate,
     };
 
-    // add or update enrollment (coursestudent)
+    // add or update assignment
     axios
       .post(API_URL_BASE + `/assignment/${formFields.id}`, params)
       .then((response) => {
@@ -240,6 +242,37 @@ const App = () => {
           formFields.id === 0
             ? `Success: Assignment added.`
             : `Success: Assignment updated.`
+        );
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
+  // callback to add or update answer form
+  const onAnswerFormSubmit = (formFields) => {
+    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
+
+    // prepare params
+    const params = {
+      id: formFields.id,
+      assignmentid: parseInt(formFields.assignmentid),
+      studentid: parseInt(formFields.studentid),
+      answer: formFields.answer,
+      dateanswered: formFields.dateanswered,
+      grade: formFields.grade,
+      dategraded: formFields.dategraded,
+    };
+
+    // add or update answer (assignmentstudent)
+    axios
+      .post(API_URL_BASE + `/assignmentstudent/${formFields.id}`, params)
+      .then((response) => {
+        setAnswerUpdate(answerUpdate + 1);
+        setMessageText(
+          formFields.id === 0
+            ? `Success: Answer added.`
+            : `Success: Answer updated.`
         );
       })
       .catch((error) => {
@@ -297,6 +330,20 @@ const App = () => {
       .then((response) => {
         setAssignmentUpdate(assignmentUpdate + 1);
         setMessageText(`Success: Assignment deleted.`);
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
+  // callback to delete answer
+  const onAnswerDelete = (id) => {
+    setMessageText(`Deleting...`);
+    axios
+      .delete(API_URL_BASE + `/assignmentstudent/${id}`)
+      .then((response) => {
+        setAnswerUpdate(answerUpdate + 1);
+        setMessageText(`Success: Answer deleted.`);
       })
       .catch((error) => {
         setMessageText(`Error: ${error.message}`);
@@ -384,6 +431,10 @@ const App = () => {
       <Switch>
         <Route path="/" exact component={Home} />
         <Route
+          path="/login"
+          render={(props) => <Login {...props} onLogin={onLogin} />}
+        />
+        <Route
           path="/person"
           render={(props) => (
             <Person
@@ -394,7 +445,7 @@ const App = () => {
           )}
         />
         <Route
-          path="/personform/:id"
+          path="/personform/:personid"
           render={(props) => (
             <PersonForm
               {...props}
@@ -416,7 +467,7 @@ const App = () => {
           )}
         />
         <Route
-          path="/courseform/:id"
+          path="/courseform/:courseid"
           render={(props) => (
             <CourseForm
               {...props}
@@ -427,7 +478,7 @@ const App = () => {
           )}
         />
         <Route
-          path="/enrollment/:id"
+          path="/enrollment/:courseid"
           render={(props) => (
             <Enrollment
               {...props}
@@ -439,7 +490,7 @@ const App = () => {
           )}
         />
         <Route
-          path="/enrollmentform/:courseid/:id"
+          path="/enrollmentform/:courseid/:enrollmentid"
           render={(props) => (
             <EnrollmentForm
               {...props}
@@ -451,7 +502,7 @@ const App = () => {
           )}
         />
         <Route
-          path="/assignment/:id"
+          path="/assignment/:courseid"
           render={(props) => (
             <Assignment
               {...props}
@@ -462,7 +513,7 @@ const App = () => {
           )}
         />
         <Route
-          path="/assignmentform/:courseid/:id"
+          path="/assignmentform/:courseid/:assignmentid"
           render={(props) => (
             <AssignmentForm
               {...props}
@@ -473,17 +524,29 @@ const App = () => {
           )}
         />
         <Route
-          path="/assignmentstudent"
+          path="/answer/:courseid/:assignmentid"
           render={(props) => (
-            <AssignmentStudent
+            <Answer
               {...props}
-              assignmentStudentList={assignmentStudentList}
+              answerList={answerList}
+              assignmentList={assignmentList}
+              courseList={courseList}
+              personList={personList}
+              onAnswerDelete={onAnswerDelete}
             />
           )}
         />
         <Route
-          path="/login"
-          render={(props) => <Login {...props} onLogin={onLogin} />}
+          path="/answerform/:courseid/:assignmentid/:answerid"
+          render={(props) => (
+            <AnswerForm
+              {...props}
+              answerList={answerList}
+              assignmentList={assignmentList}
+              personList={personList}
+              onFormSubmit={onAnswerFormSubmit}
+            />
+          )}
         />
       </Switch>
     );

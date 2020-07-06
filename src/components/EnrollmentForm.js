@@ -9,7 +9,7 @@ import "./Components.css";
 const EnrollmentForm = (props) => {
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
-  const enrollmentId = parseInt(props.match.params.id);
+  const enrollmentId = parseInt(props.match.params.enrollmentid);
 
   // define emptyForm
   const emptyForm = {

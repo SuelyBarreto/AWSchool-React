@@ -8,7 +8,7 @@ import "./Components.css";
 // Enrollment Component
 const Enrollment = (props) => {
   // get id from route parameter :id
-  const courseId = parseInt(props.match.params.id);
+  const courseId = parseInt(props.match.params.courseid);
 
   const renderCourse = () => {
     let courseTitle = `${courseId} - N/A`;

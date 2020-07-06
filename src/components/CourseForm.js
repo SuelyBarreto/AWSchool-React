@@ -9,6 +9,9 @@ import "./Components.css";
 
 // define CourseForm component
 const CourseForm = (props) => {
+  // get id from route parameter :id
+  const courseId = parseInt(props.match.params.courseid);
+
   // define emptyForm
   const emptyForm = {
     id: 0,
@@ -22,8 +25,6 @@ const CourseForm = (props) => {
 
   // define formFields
   const [formFields, setFormFields] = useState(emptyForm);
-  // get id from route parameter :id
-  const courseId = parseInt(props.match.params.id);
 
   // find data for current id, put in formFields
   useEffect(() => {

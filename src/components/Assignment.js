@@ -8,7 +8,7 @@ import "./Components.css";
 // Assignment Component
 const Assignment = (props) => {
   // get id from route parameter :id
-  const courseId = parseInt(props.match.params.id);
+  const courseId = parseInt(props.match.params.courseid);
 
   const renderCourse = () => {
     let courseTitle = `${courseId} - N/A`;
@@ -31,6 +31,10 @@ const Assignment = (props) => {
             <td>{assignment.description}</td>
             <td>{assignment.duedate}</td>
             <td>
+              <Link to={`/answer/${courseId}/${assignment.id}`}>
+                <Button variant="primary">Answers</Button>
+              </Link>
+              &nbsp;
               <Link to={`/assignmentform/${courseId}/${assignment.id}`}>
                 <Button variant="primary">Edit</Button>
               </Link>

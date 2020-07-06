@@ -11,7 +11,7 @@ import "./Components.css";
 const AssignmentForm = (props) => {
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
-  const assignmentId = parseInt(props.match.params.id);
+  const assignmentId = parseInt(props.match.params.assignmentid);
 
   // define emptyForm
   const emptyForm = {

@@ -21,14 +21,14 @@ const PersonForm = (props) => {
   // define formFields
   const [formFields, setFormFields] = useState(emptyForm);
   // get id from route parameter :id
-  // const [currentId, setCurrentId] = useState(parseInt(props.match.params.id));
-  const currentId = parseInt(props.match.params.id);
+  // const [personId, setCurrentId] = useState(parseInt(props.match.params.id));
+  const personId = parseInt(props.match.params.personid);
 
   // find data for current id, put in formFields
   useEffect(() => {
-    if (currentId !== 0) {
+    if (personId !== 0) {
       props.personList.forEach((person) => {
-        if (person.id === currentId) {
+        if (person.id === personId) {
           setFormFields({
             id: person.id,
             email: person.email,
@@ -41,7 +41,7 @@ const PersonForm = (props) => {
         }
       });
     }
-  }, [currentId, props.personList]);
+  }, [personId, props.personList]);
 
   // event when form field changes
   const onFieldChange = (event) => {
@@ -65,7 +65,7 @@ const PersonForm = (props) => {
       return;
     }
     props.onFormSubmit(formFields);
-    if (currentId === 0) {
+    if (personId === 0) {
       setFormFields(emptyForm);
     }
   };
@@ -154,7 +154,7 @@ const PersonForm = (props) => {
         </Table>
         <div>
           <Button type="submit" variant="primary">
-            {currentId === 0 ? "Add" : "Save"}
+            {personId === 0 ? "Add" : "Save"}
           </Button>
           &nbsp;
           <Link to={`/person`}>
