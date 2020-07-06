@@ -108,7 +108,7 @@ const App = () => {
       .catch((error) => {
         setMessageText(`Error: ${error.message}`);
       });
-  }, []);
+  }, [answerUpdate]);
 
   // callback to login
   const onLogin = (formFields) => {
@@ -260,7 +260,7 @@ const App = () => {
       studentid: parseInt(formFields.studentid),
       answer: formFields.answer,
       dateanswered: formFields.dateanswered,
-      grade: formFields.grade,
+      grade: parseFloat(formFields.grade),
       dategraded: formFields.dategraded,
     };
 
@@ -543,6 +543,8 @@ const App = () => {
               {...props}
               answerList={answerList}
               assignmentList={assignmentList}
+              enrollmentList={enrollmentList}
+              courseList={courseList}
               personList={personList}
               onFormSubmit={onAnswerFormSubmit}
             />
