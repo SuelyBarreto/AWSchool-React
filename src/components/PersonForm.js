@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import { Link } from "react-router-dom";
 import "./Components.css";
 
 // define PersonForm component
@@ -57,6 +58,12 @@ const PersonForm = (props) => {
   // event for submit button
   const onSubmit = (event) => {
     event.preventDefault();
+    if (!(formFields.isteacher || formFields.isstudent || formFields.isadmin)) {
+      props.setMessageText(
+        `Validation: person must be an admin, a teacher or a student`
+      );
+      return;
+    }
     props.onFormSubmit(formFields);
     if (currentId === 0) {
       setFormFields(emptyForm);
@@ -149,6 +156,10 @@ const PersonForm = (props) => {
           <Button type="submit" variant="primary">
             {currentId === 0 ? "Add" : "Save"}
           </Button>
+          &nbsp;
+          <Link to={`/person`}>
+            <Button variant="primary">Person List</Button>
+          </Link>
         </div>
       </form>
     </div>
@@ -158,6 +169,7 @@ const PersonForm = (props) => {
 PersonForm.propTypes = {
   personList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
+  setMessageText: PropTypes.func.isRequired,
 };
 
 export default PersonForm;

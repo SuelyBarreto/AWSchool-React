@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
-// import "./EnrollmentForm.css";
+import "./Components.css";
 
 // define EnrollmentForm component
 const EnrollmentForm = (props) => {
@@ -66,8 +66,19 @@ const EnrollmentForm = (props) => {
     return courseTitle;
   };
 
+  // return current student id and name
+  const renderStaticStudent = () => {
+    let studentName = `${formFields.studentid} - N/A`;
+    props.personList.forEach((person) => {
+      if (person.id === formFields.studentid) {
+        studentName = `${person.id} - ${person.personname}`;
+      }
+    });
+    return studentName;
+  };
+
   // show list of student for selection
-  const renderStudent = () => {
+  const renderStudentOptions = () => {
     // build a list of student ids already enrolled
     const enrolledStudents = props.enrollmentList
       .filter((enrollment) => enrollment.courseid === courseId)
@@ -78,7 +89,6 @@ const EnrollmentForm = (props) => {
     const teacherId = props.courseList.find((course) => course.id === courseId)
       .teacherid;
     enrolledStudents.push(teacherId);
-    console.log(teacherId, enrolledStudents);
 
     // build a list of students available to enroll
     const availableStudents = props.personList.filter(
@@ -103,6 +113,23 @@ const EnrollmentForm = (props) => {
     return allStudents;
   };
 
+  // show student dropdown if adding
+  const renderStudent = () => {
+    if (enrollmentId === 0) {
+      return (
+        <select
+          name="studentid"
+          value={formFields.studentid}
+          onChange={onFieldChange}
+        >
+          {renderStudentOptions()};
+        </select>
+      );
+    } else {
+      return renderStaticStudent();
+    }
+  };
+
   // main form
   return (
     <div>
@@ -120,15 +147,7 @@ const EnrollmentForm = (props) => {
             </tr>
             <tr>
               <td>Student</td>
-              <td>
-                <select
-                  name="studentid"
-                  value={formFields.studentid}
-                  onChange={onFieldChange}
-                >
-                  {renderStudent()};
-                </select>
-              </td>
+              <td>{renderStudent()}</td>
             </tr>
             <tr>
               <td>Grade</td>

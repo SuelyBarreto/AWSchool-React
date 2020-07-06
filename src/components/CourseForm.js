@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Components.css";
@@ -78,6 +79,10 @@ const CourseForm = (props) => {
   // event for submit button
   const onSubmit = (event) => {
     event.preventDefault();
+    if (formFields.teacherid === 0) {
+      props.setMessageText(`Validation: course must have a teacher.`);
+      return;
+    }
     props.onFormSubmit(formFields);
     if (courseId === 0) {
       setFormFields(emptyForm);
@@ -185,6 +190,10 @@ const CourseForm = (props) => {
           <Button type="submit" variant="primary">
             {courseId === 0 ? "Add" : "Save"}
           </Button>
+          &nbsp;
+          <Link to={`/course`}>
+            <Button variant="primary">Course List</Button>
+          </Link>
         </div>
       </form>
     </div>
@@ -195,6 +204,7 @@ CourseForm.propTypes = {
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
+  setMessageText: PropTypes.func.isRequired,
 };
 
 export default CourseForm;

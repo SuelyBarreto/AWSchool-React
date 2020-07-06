@@ -59,7 +59,7 @@ const Enrollment = (props) => {
 
   return (
     <div>
-      <h1>Course {renderCourse()}</h1>
+      <h1>Enrollment: Course {renderCourse()}</h1>
       <div className="enrollmentlistlist">
         <Table hover>
           <thead>
@@ -74,6 +74,10 @@ const Enrollment = (props) => {
         <p>
           <Link to={`/enrollmentform/${courseId}/0`}>
             <Button variant="primary">Add New</Button>
+          </Link>
+          &nbsp;
+          <Link to={`/course`}>
+            <Button variant="primary">Course List</Button>
           </Link>
         </p>
       </div>

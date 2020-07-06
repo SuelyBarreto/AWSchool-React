@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 import "./Components.css";
 
 const renderTeacher = (personList, teacherid) => {
-  let teacherName = `No teacher`;
+  let teacherName = `${teacherid} - Invalid Id`;
   personList.forEach((person) => {
     if (person.id === teacherid) {
       if (person.isteacher) {
-        teacherName = `${person.personname} - ${person.id}`;
+        teacherName = `${person.id} - ${person.personname}`;
       } else {
-        teacherName = `No teacher`;
+        teacherName = `${teacherid} - Invalid Teacher`;
       }
     }
   });
@@ -32,7 +32,7 @@ const renderCourse = (courseList, personList, onCourseDelete) => {
         <td>{course.passgrade}</td>
         <td>
           <Link to={`/enrollment/${course.id}`}>
-            <Button variant="primary">Students</Button>
+            <Button variant="primary">Enrollment</Button>
           </Link>
           &nbsp;
           <Link to={`/assignment/${course.id}`}>

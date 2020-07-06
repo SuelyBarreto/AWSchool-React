@@ -51,7 +51,7 @@ const Assignment = (props) => {
 
   return (
     <div>
-      <h1>Assignments: {renderCourse()}</h1>
+      <h1>Assignments: Course {renderCourse()}</h1>
       <div className="assignmentlistlist">
         <Table hover>
           <thead>
@@ -68,6 +68,10 @@ const Assignment = (props) => {
         <p>
           <Link to={`/assignmentform/${courseId}/0`}>
             <Button variant="primary">Add New</Button>
+          </Link>
+          &nbsp;
+          <Link to={`/course`}>
+            <Button variant="primary">Course List</Button>
           </Link>
         </p>
       </div>

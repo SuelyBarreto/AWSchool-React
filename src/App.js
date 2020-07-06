@@ -400,6 +400,7 @@ const App = () => {
               {...props}
               personList={personList}
               onFormSubmit={onPersonFormSubmit}
+              setMessageText={setMessageText}
             />
           )}
         />
