@@ -86,7 +86,7 @@ const AssignmentForm = (props) => {
     return courseTitle;
   };
 
-  // main form
+  // render main form
   return (
     <div>
       <h3>Assignment Form</h3>
@@ -150,6 +150,7 @@ const AssignmentForm = (props) => {
   );
 };
 
+// define prop types
 AssignmentForm.propTypes = {
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,

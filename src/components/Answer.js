@@ -12,6 +12,7 @@ const Answer = (props) => {
   const courseId = parseInt(props.match.params.courseid);
   const assignmentId = parseInt(props.match.params.assignmentid);
 
+  // return course id and title
   const renderCourse = () => {
     let courseTitle = `${courseId} - N/A`;
     props.courseList.forEach((course) => {
@@ -22,6 +23,7 @@ const Answer = (props) => {
     return courseTitle;
   };
 
+  // return assignment id and title
   const renderAssignment = () => {
     let assignmentTitle = `${assignmentId} - N/A`;
     props.assignmentList.forEach((assignment) => {
@@ -32,6 +34,7 @@ const Answer = (props) => {
     return assignmentTitle;
   };
 
+  // return student id and name
   const renderStudent = (studentid) => {
     let studentName = `${studentid} - N/A`;
     props.personList.forEach((person) => {
@@ -42,12 +45,13 @@ const Answer = (props) => {
     return studentName;
   };
 
+  // render answer
   const renderAnswer = (answerList) => {
     return answerList
       .filter((answer) => answer.assignmentid === assignmentId)
-      .map((answer, index) => {
+      .map((answer) => {
         return (
-          <tr key={index}>
+          <tr key={answer.id}>
             <td>{answer.id}</td>
             <td>{renderStudent(answer.studentid)}</td>
             <td>{answer.answer}</td>
@@ -73,6 +77,7 @@ const Answer = (props) => {
       });
   };
 
+  // render main form
   return (
     <div>
       <h1>
@@ -107,6 +112,7 @@ const Answer = (props) => {
   );
 };
 
+// define prop types
 Answer.propTypes = {
   answerList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,

@@ -20,8 +20,8 @@ const PersonForm = (props) => {
 
   // define formFields
   const [formFields, setFormFields] = useState(emptyForm);
-  // get id from route parameter :id
-  // const [personId, setCurrentId] = useState(parseInt(props.match.params.id));
+
+  // get id from route parameter :personid
   const personId = parseInt(props.match.params.personid);
 
   // find data for current id, put in formFields
@@ -70,7 +70,7 @@ const PersonForm = (props) => {
     }
   };
 
-  // main form
+  // render main form
   return (
     <div>
       <h3>Person Form</h3>
@@ -166,6 +166,7 @@ const PersonForm = (props) => {
   );
 };
 
+// define prop types
 PersonForm.propTypes = {
   personList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,

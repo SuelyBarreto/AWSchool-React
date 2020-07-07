@@ -113,7 +113,7 @@ const EnrollmentForm = (props) => {
     return allStudents;
   };
 
-  // show student dropdown if adding
+  // show student dropdown when adding
   const renderStudent = () => {
     if (enrollmentId === 0) {
       return (
@@ -130,7 +130,7 @@ const EnrollmentForm = (props) => {
     }
   };
 
-  // main form
+  // render main form
   return (
     <div>
       <h3>Enrollment Form</h3>
@@ -177,6 +177,7 @@ const EnrollmentForm = (props) => {
   );
 };
 
+// define prop types
 EnrollmentForm.propTypes = {
   enrollmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,

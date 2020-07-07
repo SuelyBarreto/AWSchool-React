@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "react-bootstrap/Navbar";
-// import Button from "react-bootstrap/Button";
-// import Nav from "react-bootstrap/Nav";
-// import Alert from "react-bootstrap/Alert";
 import "./App.css";
+
 import Login from "./components/Login";
 import Home from "./components/Home";
 import Person from "./components/Person";
@@ -19,22 +17,27 @@ import AssignmentForm from "./components/AssignmentForm";
 import Answer from "./components/Answer";
 import AnswerForm from "./components/AnswerForm";
 
+// Base URL for AWS API Gateway
 const API_URL_BASE =
   "https://4jqwh1vygi.execute-api.us-west-2.amazonaws.com/prod";
 
 // App component
 const App = () => {
-  // Declare and initialize state
+  // state for tables
   const [personList, setPersonList] = useState([]);
-  const [personUpdate, setPersonUpdate] = useState(0);
   const [courseList, setCourseList] = useState([]);
-  const [courseUpdate, setCourseUpdate] = useState(0);
   const [enrollmentList, setEnrollmentList] = useState([]);
-  const [enrollmentUpdate, setEnrollmentUpdate] = useState(0);
   const [assignmentList, setAssignmentList] = useState([]);
-  const [assignmentUpdate, setAssignmentUpdate] = useState(0);
   const [answerList, setAnswerList] = useState([]);
+
+  // state to signal table changes
+  const [personUpdate, setPersonUpdate] = useState(0);
+  const [courseUpdate, setCourseUpdate] = useState(0);
+  const [enrollmentUpdate, setEnrollmentUpdate] = useState(0);
+  const [assignmentUpdate, setAssignmentUpdate] = useState(0);
   const [answerUpdate, setAnswerUpdate] = useState(0);
+
+  // state for messages and logged in user
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -50,7 +53,7 @@ const App = () => {
     );
   };
 
-  // API to get all persons
+  // API call to get all persons
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/person")
@@ -62,7 +65,7 @@ const App = () => {
       });
   }, [personUpdate]);
 
-  // API to get all courses
+  // API call to get all courses
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/course")
@@ -74,7 +77,7 @@ const App = () => {
       });
   }, [courseUpdate]);
 
-  // API to get enrollment (coursestudent)
+  // API call to get enrollment (coursestudent)
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/coursestudent")
@@ -86,7 +89,7 @@ const App = () => {
       });
   }, [enrollmentUpdate]);
 
-  // API to get all assignments
+  // API call to get all assignments
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/assignment")
@@ -98,7 +101,7 @@ const App = () => {
       });
   }, [assignmentUpdate]);
 
-  // API to get answers (assignmentstudents)
+  // API call to get all answers (assignmentstudents)
   useEffect(() => {
     axios
       .get(API_URL_BASE + "/assignmentstudent")
@@ -145,7 +148,7 @@ const App = () => {
       isstudent: formFields.isstudent,
     };
 
-    // add or update person
+    // API call to add or update person
     axios
       .post(API_URL_BASE + `/person/${formFields.id}`, params)
       .then((response) => {
@@ -176,7 +179,7 @@ const App = () => {
       passgrade: parseFloat(formFields.passgrade),
     };
 
-    // add or update course
+    // API call to add or update course
     axios
       .post(API_URL_BASE + `/course/${formFields.id}`, params)
       .then((response) => {
@@ -204,7 +207,7 @@ const App = () => {
       averagegrade: parseFloat(formFields.averagegrade),
     };
 
-    // add or update enrollment (coursestudent)
+    // API call to add or update enrollment (coursestudent)
     axios
       .post(API_URL_BASE + `/coursestudent/${formFields.id}`, params)
       .then((response) => {
@@ -233,7 +236,7 @@ const App = () => {
       duedate: formFields.duedate,
     };
 
-    // add or update assignment
+    // API call to add or update assignment
     axios
       .post(API_URL_BASE + `/assignment/${formFields.id}`, params)
       .then((response) => {
@@ -264,7 +267,7 @@ const App = () => {
       dategraded: formFields.dategraded,
     };
 
-    // add or update answer (assignmentstudent)
+    // API call to add or update answer (assignmentstudent)
     axios
       .post(API_URL_BASE + `/assignmentstudent/${formFields.id}`, params)
       .then((response) => {
@@ -283,6 +286,8 @@ const App = () => {
   // callback to delete person
   const onPersonDelete = (id) => {
     setMessageText(`Deleting...`);
+
+    // API call to delete
     axios
       .delete(API_URL_BASE + `/person/${id}`)
       .then((response) => {
@@ -297,6 +302,8 @@ const App = () => {
   // callback to delete course
   const onCourseDelete = (id) => {
     setMessageText(`Deleting...`);
+
+    // API call to delete
     axios
       .delete(API_URL_BASE + `/course/${id}`)
       .then((response) => {
@@ -311,6 +318,8 @@ const App = () => {
   // callback to delete enrollment (coursestudent)
   const onEnrollmentDelete = (id) => {
     setMessageText(`Deleting...`);
+
+    // API call to delete
     axios
       .delete(API_URL_BASE + `/coursestudent/${id}`)
       .then((response) => {
@@ -325,6 +334,8 @@ const App = () => {
   // callback to delete assignment
   const onAssignmentDelete = (id) => {
     setMessageText(`Deleting...`);
+
+    // API call to delete
     axios
       .delete(API_URL_BASE + `/assignment/${id}`)
       .then((response) => {
@@ -339,6 +350,8 @@ const App = () => {
   // callback to delete answer
   const onAnswerDelete = (id) => {
     setMessageText(`Deleting...`);
+
+    // API call to delete
     axios
       .delete(API_URL_BASE + `/assignmentstudent/${id}`)
       .then((response) => {
@@ -350,7 +363,7 @@ const App = () => {
       });
   };
 
-  // show current user email if logged in
+  // Nav - show current user email if logged in
   const renderUser = () => {
     if (currentUser) {
       return (
@@ -375,7 +388,7 @@ const App = () => {
     }
   };
 
-  // render Navigation bar
+  // Nav - render Navigation bar
   const renderNavBar = () => {
     return (
       <Navbar fixed="top" bg="dark" variant="dark">
@@ -554,7 +567,7 @@ const App = () => {
     );
   };
 
-  // render only login page until logged in
+  // render only login page until user logs in
   const renderLoginOrRoutes = () => {
     if (currentUser) {
       return renderAllRoutes();
@@ -563,7 +576,7 @@ const App = () => {
     }
   };
 
-  //
+  // render main Router
   return (
     <Router>
       <div className="AppRoute">

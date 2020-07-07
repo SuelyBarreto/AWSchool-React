@@ -90,6 +90,7 @@ const CourseForm = (props) => {
     }
   };
 
+  // render teacher
   const renderTeacher = (person) => {
     let allTeachers = [];
     props.personList.forEach((person) => {
@@ -112,7 +113,7 @@ const CourseForm = (props) => {
     return allTeachers;
   };
 
-  // main form
+  // render main form
   return (
     <div>
       <h3>Course Form</h3>
@@ -201,6 +202,7 @@ const CourseForm = (props) => {
   );
 };
 
+// define prop types
 CourseForm.propTypes = {
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,

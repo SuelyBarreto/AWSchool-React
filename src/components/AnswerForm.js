@@ -99,6 +99,7 @@ const AnswerForm = (props) => {
     return courseTitle;
   };
 
+  // return assignment id and title
   const renderAssignment = () => {
     let assignmentTitle = `${assignmentId} - N/A`;
     props.assignmentList.forEach((assignment) => {
@@ -158,7 +159,7 @@ const AnswerForm = (props) => {
     return allStudents;
   };
 
-  // show student dropdown if adding
+  // show student dropdown when adding
   const renderStudent = () => {
     if (answerId === 0) {
       return (
@@ -175,7 +176,7 @@ const AnswerForm = (props) => {
     }
   };
 
-  // main form
+  // render main form
   return (
     <div>
       <h3>Answer Form</h3>
@@ -256,6 +257,7 @@ const AnswerForm = (props) => {
   );
 };
 
+// define prop types
 AnswerForm.propTypes = {
   answerList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,

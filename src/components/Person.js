@@ -5,37 +5,39 @@ import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Components.css";
 
-const renderPerson = (personList, onPersonDelete) => {
-  return personList.map((person, index) => {
-    return (
-      <tr key={index}>
-        <td>{person.id}</td>
-        <td>{person.personname}</td>
-        <td>{person.email}</td>
-        <td className="yesno">{person.isadmin ? `yes` : ``}</td>
-        <td className="yesno">{person.isteacher ? `yes` : ``}</td>
-        <td className="yesno">{person.isstudent ? `yes` : ``}</td>
-        <td>
-          <Link to={`/personform/${person.id}`}>
-            <Button variant="primary">Edit</Button>
-          </Link>
-          &nbsp;
-          <Button
-            variant="primary"
-            onClick={() => {
-              onPersonDelete(person.id);
-            }}
-          >
-            Delete
-          </Button>
-        </td>
-      </tr>
-    );
-  });
-};
-
-// Person Component
+// Person component
 const Person = (props) => {
+  // render person
+  const renderPerson = () => {
+    return props.personList.map((person) => {
+      return (
+        <tr key={person.id}>
+          <td>{person.id}</td>
+          <td>{person.personname}</td>
+          <td>{person.email}</td>
+          <td className="yesno">{person.isadmin ? `yes` : ``}</td>
+          <td className="yesno">{person.isteacher ? `yes` : ``}</td>
+          <td className="yesno">{person.isstudent ? `yes` : ``}</td>
+          <td>
+            <Link to={`/personform/${person.id}`}>
+              <Button variant="primary">Edit</Button>
+            </Link>
+            &nbsp;
+            <Button
+              variant="primary"
+              onClick={() => {
+                props.onPersonDelete(person.id);
+              }}
+            >
+              Delete
+            </Button>
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  // render main form
   return (
     <div>
       <h1>Person</h1>
@@ -52,7 +54,7 @@ const Person = (props) => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>{renderPerson(props.personList, props.onPersonDelete)}</tbody>
+          <tbody>{renderPerson()}</tbody>
         </Table>
         <p>
           <Link to="/personform/0">
@@ -64,6 +66,7 @@ const Person = (props) => {
   );
 };
 
+// define prop types
 Person.propTypes = {
   personList: PropTypes.array.isRequired,
   onPersonDelete: PropTypes.func.isRequired,

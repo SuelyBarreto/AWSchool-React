@@ -5,60 +5,63 @@ import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Components.css";
 
-const renderTeacher = (personList, teacherid) => {
-  let teacherName = `${teacherid} - Invalid Id`;
-  personList.forEach((person) => {
-    if (person.id === teacherid) {
-      if (person.isteacher) {
-        teacherName = `${person.id} - ${person.personname}`;
-      } else {
-        teacherName = `${teacherid} - Invalid Teacher`;
-      }
-    }
-  });
-  return teacherName;
-};
-
-const renderCourse = (courseList, personList, onCourseDelete) => {
-  return courseList.map((course, index) => {
-    return (
-      <tr key={index}>
-        <td>{course.id}</td>
-        <td>{course.title}</td>
-        <td>{course.description}</td>
-        <td>{renderTeacher(personList, course.teacherid)}</td>
-        <td>{course.startdate}</td>
-        <td>{course.enddate}</td>
-        <td>{course.passgrade}</td>
-        <td>
-          <Link to={`/enrollment/${course.id}`}>
-            <Button variant="primary">Enrollment</Button>
-          </Link>
-          &nbsp;
-          <Link to={`/assignment/${course.id}`}>
-            <Button variant="primary">Assignments</Button>
-          </Link>
-          &nbsp;
-          <Link to={`/courseform/${course.id}`}>
-            <Button variant="primary">Edit</Button>
-          </Link>
-          &nbsp;
-          <Button
-            variant="primary"
-            onClick={() => {
-              onCourseDelete(course.id);
-            }}
-          >
-            Delete
-          </Button>
-        </td>
-      </tr>
-    );
-  });
-};
-
 // Course Component
 const Course = (props) => {
+  // return teacher id and name
+  const renderTeacher = (teacherid) => {
+    let teacherName = `${teacherid} - Invalid Id`;
+    props.personList.forEach((person) => {
+      if (person.id === teacherid) {
+        if (person.isteacher) {
+          teacherName = `${person.id} - ${person.personname}`;
+        } else {
+          teacherName = `${teacherid} - Invalid Teacher`;
+        }
+      }
+    });
+    return teacherName;
+  };
+
+  // render course
+  const renderCourse = () => {
+    return props.courseList.map((course) => {
+      return (
+        <tr key={course.id}>
+          <td>{course.id}</td>
+          <td>{course.title}</td>
+          <td>{course.description}</td>
+          <td>{renderTeacher(course.teacherid)}</td>
+          <td>{course.startdate}</td>
+          <td>{course.enddate}</td>
+          <td>{course.passgrade}</td>
+          <td>
+            <Link to={`/enrollment/${course.id}`}>
+              <Button variant="primary">Enrollment</Button>
+            </Link>
+            &nbsp;
+            <Link to={`/assignment/${course.id}`}>
+              <Button variant="primary">Assignments</Button>
+            </Link>
+            &nbsp;
+            <Link to={`/courseform/${course.id}`}>
+              <Button variant="primary">Edit</Button>
+            </Link>
+            &nbsp;
+            <Button
+              variant="primary"
+              onClick={() => {
+                props.onCourseDelete(course.id);
+              }}
+            >
+              Delete
+            </Button>
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  // render main form
   return (
     <div>
       <h1>Course</h1>
@@ -76,13 +79,7 @@ const Course = (props) => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {renderCourse(
-              props.courseList,
-              props.personList,
-              props.onCourseDelete
-            )}
-          </tbody>
+          <tbody>{renderCourse()}</tbody>
         </Table>
         <p>
           <Link to="/courseform/0">
@@ -94,6 +91,7 @@ const Course = (props) => {
   );
 };
 
+// define prop types
 Course.propTypes = {
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,

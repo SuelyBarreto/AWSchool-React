@@ -29,7 +29,7 @@ const Login = (props) => {
     props.onLogin(formFields);
   };
 
-  // main form
+  // main login form
   return (
     <div>
       <h3>Login</h3>
@@ -72,6 +72,7 @@ const Login = (props) => {
   );
 };
 
+// define prop types
 Login.propTypes = {
   onLogin: PropTypes.func.isRequired,
 };

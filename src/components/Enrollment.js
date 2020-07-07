@@ -10,6 +10,7 @@ const Enrollment = (props) => {
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
 
+  // render course
   const renderCourse = () => {
     let courseTitle = `${courseId} - N/A`;
     props.courseList.forEach((course) => {
@@ -20,6 +21,7 @@ const Enrollment = (props) => {
     return courseTitle;
   };
 
+  // render student
   const renderStudent = (studentId) => {
     let studentName = `${studentId} - N/A`;
     props.personList.forEach((person) => {
@@ -30,12 +32,14 @@ const Enrollment = (props) => {
     return studentName;
   };
 
+  // render enrollment
   const renderEnrollment = (enrollmentList) => {
     return enrollmentList
       .filter((enrollment) => enrollment.courseid === courseId)
-      .map((enrollment, index) => {
+      .map((enrollment) => {
         return (
-          <tr key={index}>
+          <tr key={enrollment.id}>
+            <td>{enrollment.id}</td>
             <td>{renderStudent(enrollment.studentid)}</td>
             <td>{enrollment.averagegrade}</td>
             <td>
@@ -57,6 +61,7 @@ const Enrollment = (props) => {
       });
   };
 
+  // render main form
   return (
     <div>
       <h1>Enrollment: Course {renderCourse()}</h1>
@@ -64,6 +69,7 @@ const Enrollment = (props) => {
         <Table hover>
           <thead>
             <tr>
+              <th>Id</th>
               <th>Student Id</th>
               <th>Grade</th>
               <th>Actions</th>
@@ -85,6 +91,7 @@ const Enrollment = (props) => {
   );
 };
 
+// define prop types
 Enrollment.propTypes = {
   enrollmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,

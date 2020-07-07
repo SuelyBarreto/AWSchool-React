@@ -10,6 +10,7 @@ const Assignment = (props) => {
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
 
+  // return course id and title
   const renderCourse = () => {
     let courseTitle = `${courseId} - N/A`;
     props.courseList.forEach((course) => {
@@ -20,12 +21,13 @@ const Assignment = (props) => {
     return courseTitle;
   };
 
+  // render assignment
   const renderAssignment = (assignmentList) => {
     return assignmentList
       .filter((assignment) => assignment.courseid === courseId)
-      .map((assignment, index) => {
+      .map((assignment) => {
         return (
-          <tr key={index}>
+          <tr key={assignment.id}>
             <td>{assignment.id}</td>
             <td>{assignment.title}</td>
             <td>{assignment.description}</td>
@@ -53,6 +55,7 @@ const Assignment = (props) => {
       });
   };
 
+  // render main form
   return (
     <div>
       <h1>Assignments: Course {renderCourse()}</h1>
@@ -83,6 +86,7 @@ const Assignment = (props) => {
   );
 };
 
+// define prop types
 Assignment.propTypes = {
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
