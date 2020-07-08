@@ -16,10 +16,23 @@ import Assignment from "./components/Assignment";
 import AssignmentForm from "./components/AssignmentForm";
 import Answer from "./components/Answer";
 import AnswerForm from "./components/AnswerForm";
+import { id } from "date-fns/locale";
 
 // Base URL for AWS API Gateway
 const API_URL_BASE =
   "https://4jqwh1vygi.execute-api.us-west-2.amazonaws.com/prod";
+
+// sort by id
+const sortById = (objs) => {
+  return objs.sort((a, b) => (a.id > b.id ? 1 : b.id > a.id ? -1 : 0));
+};
+
+// sort by student id
+const sortByStudentId = (objs) => {
+  return objs.sort((a, b) =>
+    a.studentid > b.studentid ? 1 : b.studentid > a.studentid ? -1 : 0
+  );
+};
 
 // App component
 const App = () => {
@@ -41,76 +54,50 @@ const App = () => {
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // sort by id
-  const sortById = (objs) => {
-    return objs.sort((a, b) => (a.id > b.id ? 1 : b.id > a.id ? -1 : 0));
-  };
-
-  // sort by student id
-  const sortByStudentId = (objs) => {
-    return objs.sort((a, b) =>
-      a.studentid > b.studentid ? 1 : b.studentid > a.studentid ? -1 : 0
-    );
+  const getTable = (tableName, setTable, sortBy, setMessage) => {
+    axios
+      .get(API_URL_BASE + `/${tableName}`)
+      .then((response) => {
+        setTable(sortBy(response.data));
+      })
+      .catch((error) => {
+        setMessage(`Error: ${error.message}`);
+      });
   };
 
   // API call to get all persons
   useEffect(() => {
-    axios
-      .get(API_URL_BASE + "/person")
-      .then((response) => {
-        setPersonList(sortById(response.data));
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    getTable("person", setPersonList, sortById, setMessageText);
   }, [personUpdate]);
 
   // API call to get all courses
   useEffect(() => {
-    axios
-      .get(API_URL_BASE + "/course")
-      .then((response) => {
-        setCourseList(sortById(response.data));
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    getTable("course", setCourseList, sortById, setMessageText);
   }, [courseUpdate]);
 
   // API call to get enrollment (coursestudent)
   useEffect(() => {
-    axios
-      .get(API_URL_BASE + "/coursestudent")
-      .then((response) => {
-        setEnrollmentList(sortByStudentId(response.data));
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    getTable(
+      "coursestudent",
+      setEnrollmentList,
+      sortByStudentId,
+      setMessageText
+    );
   }, [enrollmentUpdate]);
 
   // API call to get all assignments
   useEffect(() => {
-    axios
-      .get(API_URL_BASE + "/assignment")
-      .then((response) => {
-        setAssignmentList(sortById(response.data));
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    getTable("assignment", setAssignmentList, sortById, setMessageText);
   }, [assignmentUpdate]);
 
   // API call to get all answers (assignmentstudents)
   useEffect(() => {
-    axios
-      .get(API_URL_BASE + "/assignmentstudent")
-      .then((response) => {
-        setAnswerList(sortByStudentId(response.data));
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    getTable(
+      "assignmentstudent",
+      setAnswerList,
+      sortByStudentId,
+      setMessageText
+    );
   }, [answerUpdate]);
 
   // callback to login
@@ -133,10 +120,35 @@ const App = () => {
     }
   };
 
+  const postTable = (
+    tableName,
+    messageName,
+    id,
+    params,
+    setUpdate,
+    getUpdate,
+    setMessage
+  ) => {
+    setMessage(id === 0 ? `Adding...` : `Updating...`);
+
+    // API call to add or update table
+    axios
+      .post(API_URL_BASE + `/${tableName}/${id}`, params)
+      .then((response) => {
+        setUpdate(getUpdate + 1);
+        setMessage(
+          id === 0
+            ? `Success: ${messageName} added.`
+            : `Success: ${messageName} updated.`
+        );
+      })
+      .catch((error) => {
+        setMessageText(`Error: ${error.message}`);
+      });
+  };
+
   // callback to add or update person form
   const onPersonFormSubmit = (formFields) => {
-    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
-
     // prepare params
     const params = {
       id: formFields.id,
@@ -149,25 +161,19 @@ const App = () => {
     };
 
     // API call to add or update person
-    axios
-      .post(API_URL_BASE + `/person/${formFields.id}`, params)
-      .then((response) => {
-        setPersonUpdate(personUpdate + 1);
-        setMessageText(
-          formFields.id === 0
-            ? `Success: Person added.`
-            : `Success: Person updated.`
-        );
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    postTable(
+      "person",
+      "Person",
+      formFields.id,
+      params,
+      setPersonUpdate,
+      personUpdate,
+      setMessageText
+    );
   };
 
   // callback to add or update course form
   const onCourseFormSubmit = (formFields) => {
-    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
-
     // prepare params
     const params = {
       id: formFields.id,
@@ -180,25 +186,19 @@ const App = () => {
     };
 
     // API call to add or update course
-    axios
-      .post(API_URL_BASE + `/course/${formFields.id}`, params)
-      .then((response) => {
-        setCourseUpdate(courseUpdate + 1);
-        setMessageText(
-          formFields.id === 0
-            ? `Success: Course added.`
-            : `Success: Course updated.`
-        );
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    postTable(
+      "course",
+      "Course",
+      formFields.id,
+      params,
+      setCourseUpdate,
+      courseUpdate,
+      setMessageText
+    );
   };
 
   // callback to add or update enrollment form
   const onEnrollmentFormSubmit = (formFields) => {
-    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
-
     // prepare params
     const params = {
       id: formFields.id,
@@ -208,25 +208,19 @@ const App = () => {
     };
 
     // API call to add or update enrollment (coursestudent)
-    axios
-      .post(API_URL_BASE + `/coursestudent/${formFields.id}`, params)
-      .then((response) => {
-        setEnrollmentUpdate(enrollmentUpdate + 1);
-        setMessageText(
-          formFields.id === 0
-            ? `Success: Enrollment added.`
-            : `Success: Enrollment updated.`
-        );
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    postTable(
+      "coursestudent",
+      "Enrollment",
+      formFields.id,
+      params,
+      setEnrollmentUpdate,
+      enrollmentUpdate,
+      setMessageText
+    );
   };
 
   // callback to add or update assignment form
   const onAssignmentFormSubmit = (formFields) => {
-    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
-
     // prepare params
     const params = {
       id: formFields.id,
@@ -237,25 +231,19 @@ const App = () => {
     };
 
     // API call to add or update assignment
-    axios
-      .post(API_URL_BASE + `/assignment/${formFields.id}`, params)
-      .then((response) => {
-        setAssignmentUpdate(assignmentUpdate + 1);
-        setMessageText(
-          formFields.id === 0
-            ? `Success: Assignment added.`
-            : `Success: Assignment updated.`
-        );
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    postTable(
+      "assignment",
+      "Assignment",
+      formFields.id,
+      params,
+      setAssignmentUpdate,
+      assignmentUpdate,
+      setMessageText
+    );
   };
 
   // callback to add or update answer form
   const onAnswerFormSubmit = (formFields) => {
-    setMessageText(formFields.id === 0 ? `Adding...` : `Updating...`);
-
     // prepare params
     const params = {
       id: formFields.id,
@@ -268,99 +256,97 @@ const App = () => {
     };
 
     // API call to add or update answer (assignmentstudent)
+    postTable(
+      "assignmentstudent",
+      "Answer",
+      formFields.id,
+      params,
+      setAnswerUpdate,
+      answerUpdate,
+      setMessageText
+    );
+  };
+
+  // API call to delete
+  const tableDelete = (
+    tableName,
+    messageName,
+    id,
+    setUpdate,
+    getUpdate,
+    setMessage
+  ) => {
+    setMessage(`Deleting...`);
+
     axios
-      .post(API_URL_BASE + `/assignmentstudent/${formFields.id}`, params)
+      .delete(API_URL_BASE + `/${tableName}/${id}`)
       .then((response) => {
-        setAnswerUpdate(answerUpdate + 1);
-        setMessageText(
-          formFields.id === 0
-            ? `Success: Answer added.`
-            : `Success: Answer updated.`
-        );
+        setUpdate(getUpdate + 1);
+        setMessage(`Success: ${messageName} deleted.`);
       })
       .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
+        setMessage(`Error: ${error.message}`);
       });
   };
 
   // callback to delete person
   const onPersonDelete = (id) => {
-    setMessageText(`Deleting...`);
-
-    // API call to delete
-    axios
-      .delete(API_URL_BASE + `/person/${id}`)
-      .then((response) => {
-        setPersonUpdate(personUpdate + 1);
-        setMessageText(`Success: Person deleted.`);
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    tableDelete(
+      "person",
+      "Person",
+      id,
+      setPersonUpdate,
+      personUpdate,
+      setMessageText
+    );
   };
 
   // callback to delete course
   const onCourseDelete = (id) => {
-    setMessageText(`Deleting...`);
-
-    // API call to delete
-    axios
-      .delete(API_URL_BASE + `/course/${id}`)
-      .then((response) => {
-        setCourseUpdate(courseUpdate + 1);
-        setMessageText(`Success: Course deleted.`);
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    tableDelete(
+      "course",
+      "Course",
+      id,
+      setCourseUpdate,
+      courseUpdate,
+      setMessageText
+    );
   };
 
   // callback to delete enrollment (coursestudent)
   const onEnrollmentDelete = (id) => {
-    setMessageText(`Deleting...`);
-
-    // API call to delete
-    axios
-      .delete(API_URL_BASE + `/coursestudent/${id}`)
-      .then((response) => {
-        setEnrollmentUpdate(enrollmentUpdate + 1);
-        setMessageText(`Success: Enrollment deleted.`);
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    tableDelete(
+      "coursestudent",
+      "Enrollment",
+      id,
+      setEnrollmentUpdate,
+      enrollmentUpdate,
+      setMessageText
+    );
   };
 
   // callback to delete assignment
   const onAssignmentDelete = (id) => {
-    setMessageText(`Deleting...`);
-
-    // API call to delete
-    axios
-      .delete(API_URL_BASE + `/assignment/${id}`)
-      .then((response) => {
-        setAssignmentUpdate(assignmentUpdate + 1);
-        setMessageText(`Success: Assignment deleted.`);
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    tableDelete(
+      "assignment",
+      "Assignment",
+      id,
+      setAssignmentUpdate,
+      assignmentUpdate,
+      setMessageText
+    );
   };
 
   // callback to delete answer
   const onAnswerDelete = (id) => {
-    setMessageText(`Deleting...`);
-
-    // API call to delete
-    axios
-      .delete(API_URL_BASE + `/assignmentstudent/${id}`)
-      .then((response) => {
-        setAnswerUpdate(answerUpdate + 1);
-        setMessageText(`Success: Answer deleted.`);
-      })
-      .catch((error) => {
-        setMessageText(`Error: ${error.message}`);
-      });
+    tableDelete(
+      "assignmentstudent",
+      "Answer",
+      id,
+      setAnswerUpdate,
+      answerUpdate,
+      setMessageText
+    );
   };
 
   // Nav - show current user email if logged in
