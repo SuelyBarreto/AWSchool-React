@@ -98,7 +98,7 @@ const EnrollmentForm = (props) => {
     let allStudents = [];
     if (formFields.studentid === 0) {
       allStudents.push(
-        <option value="0" key="0">
+        <option value={0} key={0}>
           0 - Not selected
         </option>
       );

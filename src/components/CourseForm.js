@@ -51,6 +51,11 @@ const CourseForm = (props) => {
       ...formFields,
       [event.target.name]: event.target.value,
     });
+    console.log(
+      `onFieldChange name and value`,
+      event.target.name,
+      event.target.value
+    );
   };
 
   // convert date to string mm/dd/yyyy
@@ -79,6 +84,7 @@ const CourseForm = (props) => {
 
   // event for submit button
   const onSubmit = (event) => {
+    console.log(`onSubmit`, formFields);
     event.preventDefault();
     if (formFields.teacherid === 0) {
       props.setMessageText(`Validation: course must have a teacher.`);
@@ -91,8 +97,15 @@ const CourseForm = (props) => {
   };
 
   // render teacher
-  const renderTeacher = (person) => {
+  const renderTeacher = () => {
     let allTeachers = [];
+    if (courseId === 0) {
+      allTeachers.push(
+        <option value={0} key={0}>
+          0 - Not Selected
+        </option>
+      );
+    }
     props.personList.forEach((person) => {
       if (person.isteacher) {
         if (person.id === formFields.teacherid) {
@@ -127,7 +140,11 @@ const CourseForm = (props) => {
             <tr>
               <td>Teacher</td>
               <td>
-                <select name="teacherid" onChange={onFieldChange}>
+                <select
+                  name="teacherid"
+                  value={formFields.teacherid}
+                  onChange={onFieldChange}
+                >
                   {renderTeacher()};
                 </select>
               </td>

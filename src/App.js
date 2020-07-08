@@ -487,6 +487,7 @@ const App = () => {
               courseList={courseList}
               personList={personList}
               onFormSubmit={onCourseFormSubmit}
+              setMessageText={setMessageText}
             />
           )}
         />
