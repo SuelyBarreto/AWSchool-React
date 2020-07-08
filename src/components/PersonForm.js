@@ -12,6 +12,7 @@ const PersonForm = (props) => {
     id: 0,
     email: "",
     password: "",
+    password2: "",
     personname: "",
     isadmin: false,
     isteacher: false,
@@ -33,6 +34,7 @@ const PersonForm = (props) => {
             id: person.id,
             email: person.email,
             password: person.password,
+            password2: person.password,
             personname: person.personname,
             isadmin: person.isadmin,
             isteacher: person.isteacher,
@@ -58,6 +60,25 @@ const PersonForm = (props) => {
   // event for submit button
   const onSubmit = (event) => {
     event.preventDefault();
+
+    if (!formFields.personname) {
+      props.setMessageText(`Validation: Name cannot be blank.`);
+      return;
+    }
+    if (!formFields.email) {
+      props.setMessageText(`Validation: Email cannot be blank.`);
+      return;
+    }
+    if (formFields.password.length < 4) {
+      props.setMessageText(
+        `Validation: Password must be at least 4 characters long.`
+      );
+      return;
+    }
+    if (formFields.password !== formFields.password2) {
+      props.setMessageText(`Validation: Passwords must match.`);
+      return;
+    }
     if (!(formFields.isteacher || formFields.isstudent || formFields.isadmin)) {
       props.setMessageText(
         `Validation: person must be an admin, a teacher or a student`
@@ -100,7 +121,17 @@ const PersonForm = (props) => {
                   name="password"
                   onChange={onFieldChange}
                   value={formFields.password}
-                  placeholder="password"
+                  type="password"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Retype Password</td>
+              <td>
+                <input
+                  name="password2"
+                  onChange={onFieldChange}
+                  value={formFields.password2}
                   type="password"
                 />
               </td>

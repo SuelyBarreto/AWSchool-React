@@ -84,10 +84,22 @@ const CourseForm = (props) => {
 
   // event for submit button
   const onSubmit = (event) => {
-    console.log(`onSubmit`, formFields);
     event.preventDefault();
+
+    if (!formFields.title) {
+      props.setMessageText(`Validation: Title cannot be blank.`);
+      return;
+    }
+    if (!formFields.description) {
+      props.setMessageText(`Validation: Description cannot be blank.`);
+      return;
+    }
     if (formFields.teacherid === 0) {
-      props.setMessageText(`Validation: course must have a teacher.`);
+      props.setMessageText(`Validation: Course must have a teacher.`);
+      return;
+    }
+    if (Date.parse(formFields.startdate) > Date.parse(formFields.enddate)) {
+      props.setMessageText(`Validation: Start date cannot be after end date.`);
       return;
     }
     props.onFormSubmit(formFields);

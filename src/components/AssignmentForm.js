@@ -69,6 +69,14 @@ const AssignmentForm = (props) => {
   // event for submit button
   const onSubmit = (event) => {
     event.preventDefault();
+    if (!formFields.title) {
+      props.setMessageText(`Validation: Title cannot be blank.`);
+      return;
+    }
+    if (!formFields.description) {
+      props.setMessageText(`Validation: Description cannot be blank.`);
+      return;
+    }
     props.onFormSubmit(formFields);
     if (assignmentId === 0) {
       setFormFields(emptyForm);
@@ -155,6 +163,7 @@ AssignmentForm.propTypes = {
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
+  setMessageText: PropTypes.func.isRequired,
 };
 
 export default AssignmentForm;

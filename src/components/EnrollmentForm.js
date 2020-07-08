@@ -49,6 +49,11 @@ const EnrollmentForm = (props) => {
   // event for submit button
   const onSubmit = (event) => {
     event.preventDefault();
+
+    if (formFields.studentid === 0) {
+      props.setMessageText(`Validation: Enrollment must have a student.`);
+      return;
+    }
     props.onFormSubmit(formFields);
     if (enrollmentId === 0) {
       setFormFields(emptyForm);
@@ -153,7 +158,7 @@ const EnrollmentForm = (props) => {
               <td>Grade</td>
               <td>
                 <input
-                  name="grade"
+                  name="averagegrade"
                   onChange={onFieldChange}
                   value={formFields.averagegrade}
                   placeholder="grade"
@@ -183,6 +188,7 @@ EnrollmentForm.propTypes = {
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
+  setMessageText: PropTypes.func.isRequired,
 };
 
 export default EnrollmentForm;

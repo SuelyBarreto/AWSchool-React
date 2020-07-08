@@ -395,6 +395,11 @@ const App = () => {
     );
   };
 
+  // useEffect(() => {
+  //   const timer = setTimeout(() => setMessageText(""), 3000);
+  //   return () => clearTimeout(timer);
+  // }, []);
+
   // render message
   const renderMessage = () => {
     if (messageText) {
@@ -498,6 +503,7 @@ const App = () => {
               courseList={courseList}
               personList={personList}
               onFormSubmit={onEnrollmentFormSubmit}
+              setMessageText={setMessageText}
             />
           )}
         />
@@ -520,6 +526,7 @@ const App = () => {
               assignmentList={assignmentList}
               courseList={courseList}
               onFormSubmit={onAssignmentFormSubmit}
+              setMessageText={setMessageText}
             />
           )}
         />
@@ -547,6 +554,7 @@ const App = () => {
               courseList={courseList}
               personList={personList}
               onFormSubmit={onAnswerFormSubmit}
+              setMessageText={setMessageText}
             />
           )}
         />

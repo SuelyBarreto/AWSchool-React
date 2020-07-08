@@ -82,6 +82,15 @@ const AnswerForm = (props) => {
   // event for submit button
   const onSubmit = (event) => {
     event.preventDefault();
+
+    if (formFields.studentid === 0) {
+      props.setMessageText(`Validation: Answer must have a student.`);
+      return;
+    }
+    if (!formFields.answer) {
+      props.setMessageText(`Validation: Answer cannot be blank.`);
+      return;
+    }
     props.onFormSubmit(formFields);
     if (answerId === 0) {
       setFormFields(emptyForm);
@@ -265,6 +274,7 @@ AnswerForm.propTypes = {
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
+  setMessageText: PropTypes.func.isRequired,
 };
 
 export default AnswerForm;
