@@ -35,7 +35,8 @@ input {
 /* nav */
 
 .navbar-dark .navbar-brand {
-  color: yellow;
+  font-weight: bold;
+  color: #ff9900;
 }
 
 .nav-item {
