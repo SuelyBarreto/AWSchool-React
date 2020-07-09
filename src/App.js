@@ -396,7 +396,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    // console.log(`debug --->`, messageText);
     if (!messageText) {
       return;
     }
