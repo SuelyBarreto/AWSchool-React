@@ -56,6 +56,7 @@ const App = () => {
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
+  // API call to get
   const getTable = (tableName, setTable, sortBy, setMessage) => {
     axios
       .get(API_URL_BASE + `/${tableName}`)
@@ -122,6 +123,7 @@ const App = () => {
     }
   };
 
+  // API call to post
   const postTable = (
     tableName,
     messageName,
@@ -280,6 +282,7 @@ const App = () => {
   ) => {
     setMessage(`Deleting...`);
 
+    // TODO API call to delete a table item ???
     axios
       .delete(API_URL_BASE + `/${tableName}/${id}`)
       .then((response) => {
@@ -400,6 +403,7 @@ const App = () => {
     );
   };
 
+  // message flashes for 3 seconds
   useEffect(() => {
     if (!messageText) {
       return;

@@ -81,7 +81,7 @@ const PersonForm = (props) => {
     }
     if (!(formFields.isteacher || formFields.isstudent || formFields.isadmin)) {
       props.setMessageText(
-        `Validation: person must be an admin, a teacher or a student`
+        `Validation: Person must be an admin, a teacher or a student.`
       );
       return;
     }

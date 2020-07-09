@@ -1,4 +1,11 @@
-# AWSchool
+# AWSchool - Capstone Project
+
+## Learning Goals
+
+- Demonstrate self-direction, time management, and independent learning
+- Learn and implement at least three new technologies
+- Complete a product lifecycle from conception to delivery
+- Utilize agile practices learned to assist in project completion
 
 ## Description
 
@@ -8,19 +15,30 @@ This is useful for schools using remote learning due to Covid.
 
 ## Example Features
 
-- As a School Administrator, I can add teachers, students, and classes.
-- As a School Administrator, I can assign teachers and students to classes
-- As a Teacher, I can see my classes.
-- As a Teacher, I can assign homework to a class.
-- As a Student, I can see my classes.
-- As a Student, I can see homework assigned to me.
+### As a User, I can
 
-## Learning Goals
+- Login
+- Logout
 
-- Demonstrate self-direction, time management, and independent learning
-- Learn and implement new technologies
-- Complete a product lifecycle from conception to delivery
-- Utilize agile practices learned to assist in project completion
+### As a School Administrator, I can
+
+- View/add/edit/delete teachers
+- View/add/edit/delete students
+- View/add/edit/delete courses
+- Assign teachers to courses
+- Assign students to courses
+
+### As a Teacher, I can
+
+- View my courses
+- View/add/edit/delete assignments
+- View/grade answers
+
+### As a Student, I can
+
+- View my courses
+- View assignments
+- View/add/edit/delete answers
 
 ## Problem Statement
 
@@ -28,12 +46,13 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 ## Project Information
 
-### Overview and Technology Stack
+### Technology Stack
 
-- Design Considerations
-- Front-End Requirements
-  - React Front-End
-- Back-End Requirements
+- Front-End
+  - NodeJS
+  - React
+  - AWS Cognito
+- Back-End
   - AWS API Gateway
   - AWS Lambda Functions
   - AWS DynamoDB
@@ -45,7 +64,51 @@ Teachers and students are working online more than ever. Coordinating homework a
 - Create AWS API Gateway routes to AWS Lambda functions
 - Build UI using a NodeJS React application
 - Integrate REST API with React application
-- Deploy application on an AWS EC2 instance
+- Deploy application on S3
+
+## Validations
+
+### Person
+
+- Email – a person must have a unique, string type email.
+- ID – a person must have a unique, numeric ID that is not zero.
+- A person must be an “administrator”, a “teacher” or a “student”. Person cannot be a teacher and a student at the same course.
+- Password – a person must have a password that is a string, has at least 8 characters, one lower case, one up case, one number and one special character. For front end, person must type password twice and they must match.
+- A person must have a name that is a string.
+
+### Course
+
+- Description – a course must have a description, which is a string.
+- Start Date – a course must have a start date, which is a string.
+- End Date – a course must have an end date, which is also a string. End date must be bigger or equal to start date.
+- ID – a course must have a unique numeric ID.
+- Teacher ID – a course must have a teacher ID, which is numeric.
+- Title – a course must have its own title, which is a string.
+- Login – only a teacher for that course can access its content.
+
+### CourseStudent
+
+- ID – a course student or enrollment must have an ID which is numeric.
+- Course ID – a course student must have a numeric course ID.
+- Average Grade – a course student must have a numeric average grade, which is float.
+- Student Id – a course the student must have a student ID which is numeric and unique.
+
+### Assignment
+
+- ID – an assignment must have an ID which is numeric.
+- Course ID – an assignment must have the course ID which is numeric.
+- Description – an assignment must have a description which is a string.
+- Due Date – an assignment must have a due date which is a string.
+- Title – an assignment must have a title which is a string.
+
+### AssignmentStudent
+
+- ID – an assignment student or answer must have an ID which is numeric.
+- Answer ID – an assignment student or answer must have a numeric answer ID.
+- Answer – an assignment student must have an answer which is a string and can be empty.
+- Date Answered – an assignment student must have a date answered which is a string.
+- Date Graded – an assignment student must have a date graded which is a string and must be bigger or equal to the date answered.
+- Grade - an assignment student or answer must have a grade which is a numeric float.
 
 ## Project Waves
 
@@ -85,7 +148,7 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 - Create React applications
 
-  - Login
+  - Login/Logout
   - Landing Page
   - Admin: Person (list, add, edit, delete)
   - Admin: Courses (list, add, edit, delete)
@@ -99,12 +162,10 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 ### Wave 4
 
+- React Deployment on S3
+- Add validations for Front and Back End
+- OAuth with AWS Cognito
 - CSS
-- OAuth
-
-### Wave 5
-
-React Deployment
 
 ## Notes
 
