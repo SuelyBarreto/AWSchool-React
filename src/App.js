@@ -395,10 +395,15 @@ const App = () => {
     );
   };
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => setMessageText(""), 3000);
-  //   return () => clearTimeout(timer);
-  // }, []);
+  useEffect(() => {
+    // console.log(`debug --->`, messageText);
+    if (!messageText) {
+      return;
+    }
+
+    const timer = setTimeout(() => setMessageText(""), 3000);
+    return () => clearTimeout(timer);
+  }, [messageText]);
 
   // render message
   const renderMessage = () => {
