@@ -73,49 +73,105 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 ![ERD](./ERD.png)
 
+Note: DynamoDB is a NoSQL Database, so the relationships described in the diagram are enforced in code, not in the database.
+
+## Sample Data
+
+### Person
+
+{
+"id": 5,
+"email": "annamarie@barreto.us",
+"password": "1234",
+"personname": "Suely Barreto",
+"isadmin": true,
+"isteacher": true,
+"isstudent": true
+}
+
+### Course
+
+{
+"id": 2,
+"teacherid": 3,
+"title": "Math",
+"description": "Fundamentals of Math",
+"startdate": "08/03/2020",
+"enddate": "01/08/2021",
+"passgrade": 2.7
+}
+
+### CourseStudent
+
+{
+"id": 1,
+"courseid": 1,
+"studentid": 1,
+"averagegrade": 3.2
+}
+
+### Assignment
+
+{
+"id": 1,
+"courseid": 1,
+"title": "hello world",
+"description": "Write a hello world program in Java",
+"duedate": "06/24/2020"
+}
+
+### AssignmentStudent
+
+{
+"id": 1,
+"assignmentid": 1,
+"studentid": 1,
+"answer": "class HelloWorld {\n public static void main(String[] args) {\n System.out.println(`Hello, World!`); \n }\n}",
+"dateanswered": "2020-10-1 3:00 PM GMT+1:00",
+"grade": 3.4,
+"dategraded": "2020-14-1 3:00 PM GMT+1:00"
+}
+
 ## Validations
 
 ### Person
 
-- Email – a person must have a unique, string type email.
-- ID – a person must have a unique, numeric ID that is not zero.
-- A person must be an “administrator”, a “teacher” or a “student”. Person cannot be a teacher and a student at the same course.
-- Password – a person must have a password that is a string, has at least 8 characters, one lower case, one up case, one number and one special character. For front end, person must type password twice and they must match.
-- A person must have a name that is a string.
+- ID – a person must have a unique ID.
+- Email – a person must have an email.
+- Password – a person must have a password with at least 4 characters. In the front end, the password must be typed twice and the two must match.
+- A person must have a name.
+- A person must be an administrator, a teacher, a student or a combination of the three.
 
 ### Course
 
-- Description – a course must have a description, which is a string.
-- Start Date – a course must have a start date, which is a string.
-- End Date – a course must have an end date, which is also a string. End date must be bigger or equal to start date.
-- ID – a course must have a unique numeric ID.
-- Teacher ID – a course must have a teacher ID, which is numeric.
-- Title – a course must have its own title, which is a string.
-- Login – only a teacher for that course can access its content.
+- ID – a course must have a unique ID.
+- Teacher ID – a course must have a teacher ID.
+- Title – a course must have a title.
+- Description – a course must have a description.
+- Start Date – a course must have a start date.
+- End Date – a course must have an end date. End date must be on or after the start date.
 
-### CourseStudent
+### CourseStudent (enrollment)
 
-- ID – a course student or enrollment must have an ID which is numeric.
-- Course ID – a course student must have a numeric course ID.
-- Average Grade – a course student must have a numeric average grade, which is float.
-- Student Id – a course the student must have a student ID which is numeric and unique.
+- ID – an enrollment must have a unique ID.
+- Course ID – an enrollment must have a course ID.
+- Student Id – an enrollment must have a student ID. The student cannot be the course teacher.
 
 ### Assignment
 
-- ID – an assignment must have an ID which is numeric.
-- Course ID – an assignment must have the course ID which is numeric.
-- Description – an assignment must have a description which is a string.
-- Due Date – an assignment must have a due date which is a string.
-- Title – an assignment must have a title which is a string.
+- ID – an assignment must have a unique ID.
+- Course ID – an assignment must have a course ID.
+- Description – an assignment must have a description.
+- Due Date – an assignment must have a due date.
+- Title – an assignment must have a title.
 
-### AssignmentStudent
+### AssignmentStudent (answer)
 
-- ID – an assignment student or answer must have an ID which is numeric.
-- Answer ID – an assignment student or answer must have a numeric answer ID.
-- Answer – an assignment student must have an answer which is a string and can be empty.
-- Date Answered – an assignment student must have a date answered which is a string.
-- Date Graded – an assignment student must have a date graded which is a string and must be bigger or equal to the date answered.
-- Grade - an assignment student or answer must have a grade which is a numeric float.
+- ID – an answer must have a unique ID.
+- Assignment ID – an answer must have an assignment ID.
+- Student ID – an answer must have a student ID.
+- Answer – an answer must have an answer.
+- Date Answered – an answer must have a date answered.
 
 ## Project Waves
 
