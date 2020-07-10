@@ -71,9 +71,9 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 ### ERD
 
-![ERD](./ERD.png)
+![ERD](./AwSchoolErd.png)
 
-Note: DynamoDB is a NoSQL Database, so the relationships described in the diagram are enforced in code, not in the database.
+Note: DynamoDB is a NoSQL Database, so the relationships described in the diagram are enforced in the code, not in the database.
 
 ## Sample Data
 
