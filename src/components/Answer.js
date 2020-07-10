@@ -7,6 +7,13 @@ import "./Components.css";
 
 // Answer Component
 const Answer = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
   const assignmentId = parseInt(props.match.params.assignmentid);
@@ -76,43 +83,49 @@ const Answer = (props) => {
       });
   };
 
-  // render main form
-  return (
-    <div>
-      <h1>
-        Answers: Assignment {renderAssignment()} (Course {renderCourse()})
-      </h1>
-      <div className="answerlistlist">
-        <Table hover>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Student</th>
-              <th>Answer</th>
-              <th>Date Answered</th>
-              <th>Grade</th>
-              <th>Date Graded</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{renderAnswer(props.answerList)}</tbody>
-        </Table>
-        <p>
-          <Link to={`/answerform/${courseId}/${assignmentId}/0`}>
-            <Button variant="primary">Add New</Button>
-          </Link>
-          &nbsp;
-          <Link to={`/assignment/${courseId}`}>
-            <Button variant="primary">Assignment List</Button>
-          </Link>
-        </p>
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h1>
+          Answers: Assignment {renderAssignment()} (Course {renderCourse()})
+        </h1>
+        <div className="answerlistlist">
+          <Table hover>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Student</th>
+                <th>Answer</th>
+                <th>Date Answered</th>
+                <th>Grade</th>
+                <th>Date Graded</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{renderAnswer(props.answerList)}</tbody>
+          </Table>
+          <p>
+            <Link to={`/answerform/${courseId}/${assignmentId}/0`}>
+              <Button variant="primary">Add New</Button>
+            </Link>
+            &nbsp;
+            <Link to={`/assignment/${courseId}`}>
+              <Button variant="primary">Assignment List</Button>
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 // define prop types
 Answer.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   answerList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,

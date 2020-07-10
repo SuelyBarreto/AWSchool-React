@@ -7,6 +7,13 @@ import "./Components.css";
 
 // Assignment Component
 const Assignment = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
 
@@ -55,39 +62,45 @@ const Assignment = (props) => {
       });
   };
 
-  // render main form
-  return (
-    <div>
-      <h1>Assignments: Course {renderCourse()}</h1>
-      <div className="assignmentlistlist">
-        <Table hover>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Due Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{renderAssignment(props.assignmentList)}</tbody>
-        </Table>
-        <p>
-          <Link to={`/assignmentform/${courseId}/0`}>
-            <Button variant="primary">Add New</Button>
-          </Link>
-          &nbsp;
-          <Link to={`/course`}>
-            <Button variant="primary">Course List</Button>
-          </Link>
-        </p>
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h1>Assignments: Course {renderCourse()}</h1>
+        <div className="assignmentlistlist">
+          <Table hover>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{renderAssignment(props.assignmentList)}</tbody>
+          </Table>
+          <p>
+            <Link to={`/assignmentform/${courseId}/0`}>
+              <Button variant="primary">Add New</Button>
+            </Link>
+            &nbsp;
+            <Link to={`/course`}>
+              <Button variant="primary">Course List</Button>
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 // define prop types
 Assignment.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   onAssignmentDelete: PropTypes.func.isRequired,

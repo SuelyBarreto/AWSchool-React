@@ -7,6 +7,13 @@ import "./Components.css";
 
 // define EnrollmentForm component
 const EnrollmentForm = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
   const enrollmentId = parseInt(props.match.params.enrollmentid);
@@ -135,55 +142,61 @@ const EnrollmentForm = (props) => {
     }
   };
 
-  // render main form
-  return (
-    <div>
-      <h3>Enrollment Form</h3>
-      <form onSubmit={onSubmit}>
-        <Table hover>
-          <tbody>
-            <tr>
-              <td>Enrollment Id</td>
-              <td>{formFields.id === 0 ? `New` : formFields.id}</td>
-            </tr>
-            <tr>
-              <td>Course</td>
-              <td>{renderCourse()}</td>
-            </tr>
-            <tr>
-              <td>Student</td>
-              <td>{renderStudent()}</td>
-            </tr>
-            <tr>
-              <td>Grade</td>
-              <td>
-                <input
-                  name="averagegrade"
-                  onChange={onFieldChange}
-                  value={formFields.averagegrade}
-                  placeholder="grade"
-                  type="text"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-        <div>
-          <Button type="submit" variant="primary">
-            {enrollmentId === 0 ? "Add" : "Save"}
-          </Button>
-          &nbsp;
-          <Link to={`/enrollment/${courseId}`}>
-            <Button variant="primary">Enrollment List</Button>
-          </Link>
-        </div>
-      </form>
-    </div>
-  );
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h3>Enrollment Form</h3>
+        <form onSubmit={onSubmit}>
+          <Table hover>
+            <tbody>
+              <tr>
+                <td>Enrollment Id</td>
+                <td>{formFields.id === 0 ? `New` : formFields.id}</td>
+              </tr>
+              <tr>
+                <td>Course</td>
+                <td>{renderCourse()}</td>
+              </tr>
+              <tr>
+                <td>Student</td>
+                <td>{renderStudent()}</td>
+              </tr>
+              <tr>
+                <td>Grade</td>
+                <td>
+                  <input
+                    name="averagegrade"
+                    onChange={onFieldChange}
+                    value={formFields.averagegrade}
+                    placeholder="grade"
+                    type="text"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+          <div>
+            <Button type="submit" variant="primary">
+              {enrollmentId === 0 ? "Add" : "Save"}
+            </Button>
+            &nbsp;
+            <Link to={`/enrollment/${courseId}`}>
+              <Button variant="primary">Enrollment List</Button>
+            </Link>
+          </div>
+        </form>
+      </div>
+    );
+  }
 };
 
 // define prop types
 EnrollmentForm.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   enrollmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,

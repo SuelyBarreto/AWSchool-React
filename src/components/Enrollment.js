@@ -7,6 +7,13 @@ import "./Components.css";
 
 // Enrollment Component
 const Enrollment = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
 
@@ -61,38 +68,44 @@ const Enrollment = (props) => {
       });
   };
 
-  // render main form
-  return (
-    <div>
-      <h1>Enrollment: Course {renderCourse()}</h1>
-      <div className="enrollmentlistlist">
-        <Table hover>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Student Id</th>
-              <th>Grade</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{renderEnrollment(props.enrollmentList)}</tbody>
-        </Table>
-        <p>
-          <Link to={`/enrollmentform/${courseId}/0`}>
-            <Button variant="primary">Add New</Button>
-          </Link>
-          &nbsp;
-          <Link to={`/course`}>
-            <Button variant="primary">Course List</Button>
-          </Link>
-        </p>
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h1>Enrollment: Course {renderCourse()}</h1>
+        <div className="enrollmentlistlist">
+          <Table hover>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Student Id</th>
+                <th>Grade</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{renderEnrollment(props.enrollmentList)}</tbody>
+          </Table>
+          <p>
+            <Link to={`/enrollmentform/${courseId}/0`}>
+              <Button variant="primary">Add New</Button>
+            </Link>
+            &nbsp;
+            <Link to={`/course`}>
+              <Button variant="primary">Course List</Button>
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 // define prop types
 Enrollment.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   enrollmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,

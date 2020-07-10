@@ -73,7 +73,7 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 ![ERD](./AwSchoolErd.png)
 
-Note: DynamoDB is a NoSQL Database, so the relationships described in the diagram are enforced in the code, not in the database.
+Note: AWS DynamoDB is a NoSQL Database, so the relationships described in the diagram are enforced in the code, not in the database.
 
 ## Sample Data
 
@@ -187,7 +187,7 @@ Note: DynamoDB is a NoSQL Database, so the relationships described in the diagra
 
 ### Wave 1
 
-- Create tables in DynamoDB
+- Create tables in AWS DynamoDB
 
   - Person
   - Course
@@ -195,13 +195,13 @@ Note: DynamoDB is a NoSQL Database, so the relationships described in the diagra
   - Assignment
   - AssignmentStudent
 
-- Create role with permission for table access in IAM
+- Create role with permission for table access in AWS IAM
 
-  - Permission for Lambda functions to access DynamoDB
+  - Permission for Lambda functions to access AWS DynamoDB
 
 ### Wave 2
 
-- Create Lambda functions
+- Create AWS Lambda functions
 
   - List Person
   - Add/Edit Person
@@ -236,11 +236,11 @@ Note: DynamoDB is a NoSQL Database, so the relationships described in the diagra
 
 ### Wave 4
 
-- React Deployment on S3
+- React Deployment on AWS S3
 
 ## Notes
 
-- API Gateway Bug
+- AWS API Gateway Bug
 
 Model failure shows error about CORS.
 I was getting an error saying the API call was blocked because of CORS, but it turns out it was a failure of my post request body to match the model defined in the API Gateway ( I was passing an empty string and it expected a Boolean). I spent a day debugging CORS and the problem was in my request body.

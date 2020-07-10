@@ -9,6 +9,13 @@ import "./Components.css";
 
 // define CourseForm component
 const CourseForm = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
 
@@ -138,101 +145,107 @@ const CourseForm = (props) => {
     return allTeachers;
   };
 
-  // render main form
-  return (
-    <div>
-      <h3>Course Form</h3>
-      <form onSubmit={onSubmit}>
-        <Table hover>
-          <tbody>
-            <tr>
-              <td>Course Id</td>
-              <td>{formFields.id === 0 ? `New` : formFields.id}</td>
-            </tr>
-            <tr>
-              <td>Teacher</td>
-              <td>
-                <select
-                  name="teacherid"
-                  value={formFields.teacherid}
-                  onChange={onFieldChange}
-                >
-                  {renderTeacher()};
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td>Title</td>
-              <td>
-                <input
-                  name="title"
-                  onChange={onFieldChange}
-                  value={formFields.title}
-                  placeholder="title"
-                  type="text"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Description</td>
-              <td>
-                <input
-                  name="description"
-                  onChange={onFieldChange}
-                  value={formFields.description}
-                  placeholder="description"
-                  type="text"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Start Date</td>
-              <td>
-                <DatePicker
-                  selected={Date.parse(formFields.startdate)}
-                  onChange={onStartDateChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>End Date</td>
-              <td>
-                <DatePicker
-                  selected={Date.parse(formFields.enddate)}
-                  onChange={onEndDateChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Passing Grade</td>
-              <td>
-                <input
-                  name="passgrade"
-                  onChange={onFieldChange}
-                  value={formFields.passgrade}
-                  placeholder="passing grade"
-                  type="text"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-        <div>
-          <Button type="submit" variant="primary">
-            {courseId === 0 ? "Add" : "Save"}
-          </Button>
-          &nbsp;
-          <Link to={`/course`}>
-            <Button variant="primary">Course List</Button>
-          </Link>
-        </div>
-      </form>
-    </div>
-  );
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h3>Course Form</h3>
+        <form onSubmit={onSubmit}>
+          <Table hover>
+            <tbody>
+              <tr>
+                <td>Course Id</td>
+                <td>{formFields.id === 0 ? `New` : formFields.id}</td>
+              </tr>
+              <tr>
+                <td>Teacher</td>
+                <td>
+                  <select
+                    name="teacherid"
+                    value={formFields.teacherid}
+                    onChange={onFieldChange}
+                  >
+                    {renderTeacher()};
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Title</td>
+                <td>
+                  <input
+                    name="title"
+                    onChange={onFieldChange}
+                    value={formFields.title}
+                    placeholder="title"
+                    type="text"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Description</td>
+                <td>
+                  <input
+                    name="description"
+                    onChange={onFieldChange}
+                    value={formFields.description}
+                    placeholder="description"
+                    type="text"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Start Date</td>
+                <td>
+                  <DatePicker
+                    selected={Date.parse(formFields.startdate)}
+                    onChange={onStartDateChange}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>End Date</td>
+                <td>
+                  <DatePicker
+                    selected={Date.parse(formFields.enddate)}
+                    onChange={onEndDateChange}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Passing Grade</td>
+                <td>
+                  <input
+                    name="passgrade"
+                    onChange={onFieldChange}
+                    value={formFields.passgrade}
+                    placeholder="passing grade"
+                    type="text"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+          <div>
+            <Button type="submit" variant="primary">
+              {courseId === 0 ? "Add" : "Save"}
+            </Button>
+            &nbsp;
+            <Link to={`/course`}>
+              <Button variant="primary">Course List</Button>
+            </Link>
+          </div>
+        </form>
+      </div>
+    );
+  }
 };
 
 // define prop types
 CourseForm.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,

@@ -7,6 +7,13 @@ import "./Components.css";
 
 // define PersonForm component
 const PersonForm = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // define emptyForm
   const emptyForm = {
     id: 0,
@@ -91,114 +98,120 @@ const PersonForm = (props) => {
     }
   };
 
-  // render main form
-  return (
-    <div>
-      <h3>Person Form</h3>
-      <form onSubmit={onSubmit}>
-        <Table hover>
-          <tbody>
-            <tr>
-              <td>Person Id</td>
-              <td>{formFields.id === 0 ? `New` : formFields.id}</td>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <td>
-                <input
-                  name="email"
-                  onChange={onFieldChange}
-                  value={formFields.email}
-                  placeholder="email"
-                  type="text"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Password</td>
-              <td>
-                <input
-                  name="password"
-                  onChange={onFieldChange}
-                  value={formFields.password}
-                  type="password"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Retype Password</td>
-              <td>
-                <input
-                  name="password2"
-                  onChange={onFieldChange}
-                  value={formFields.password2}
-                  type="password"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Name</td>
-              <td>
-                <input
-                  name="personname"
-                  onChange={onFieldChange}
-                  value={formFields.personname}
-                  placeholder="name"
-                  type="text"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Administrator</td>
-              <td>
-                <input
-                  name="isadmin"
-                  onChange={onFieldChange}
-                  checked={formFields.isadmin}
-                  type="checkbox"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Teacher</td>
-              <td>
-                <input
-                  name="isteacher"
-                  onChange={onFieldChange}
-                  checked={formFields.isteacher}
-                  type="checkbox"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Student</td>
-              <td>
-                <input
-                  name="isstudent"
-                  onChange={onFieldChange}
-                  checked={formFields.isstudent}
-                  type="checkbox"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-        <div>
-          <Button type="submit" variant="primary">
-            {personId === 0 ? "Add" : "Save"}
-          </Button>
-          &nbsp;
-          <Link to={`/person`}>
-            <Button variant="primary">Person List</Button>
-          </Link>
-        </div>
-      </form>
-    </div>
-  );
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h3>Person Form</h3>
+        <form onSubmit={onSubmit}>
+          <Table hover>
+            <tbody>
+              <tr>
+                <td>Person Id</td>
+                <td>{formFields.id === 0 ? `New` : formFields.id}</td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td>
+                  <input
+                    name="email"
+                    onChange={onFieldChange}
+                    value={formFields.email}
+                    placeholder="email"
+                    type="text"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Password</td>
+                <td>
+                  <input
+                    name="password"
+                    onChange={onFieldChange}
+                    value={formFields.password}
+                    type="password"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Retype Password</td>
+                <td>
+                  <input
+                    name="password2"
+                    onChange={onFieldChange}
+                    value={formFields.password2}
+                    type="password"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Name</td>
+                <td>
+                  <input
+                    name="personname"
+                    onChange={onFieldChange}
+                    value={formFields.personname}
+                    placeholder="name"
+                    type="text"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Administrator</td>
+                <td>
+                  <input
+                    name="isadmin"
+                    onChange={onFieldChange}
+                    checked={formFields.isadmin}
+                    type="checkbox"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Teacher</td>
+                <td>
+                  <input
+                    name="isteacher"
+                    onChange={onFieldChange}
+                    checked={formFields.isteacher}
+                    type="checkbox"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Student</td>
+                <td>
+                  <input
+                    name="isstudent"
+                    onChange={onFieldChange}
+                    checked={formFields.isstudent}
+                    type="checkbox"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+          <div>
+            <Button type="submit" variant="primary">
+              {personId === 0 ? "Add" : "Save"}
+            </Button>
+            &nbsp;
+            <Link to={`/person`}>
+              <Button variant="primary">Person List</Button>
+            </Link>
+          </div>
+        </form>
+      </div>
+    );
+  }
 };
 
 // define prop types
 PersonForm.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   personList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
   setMessageText: PropTypes.func.isRequired,

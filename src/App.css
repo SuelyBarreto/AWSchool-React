@@ -60,6 +60,8 @@ input {
 /* Footer */
 
 footer {
+  left: 0;
+  right: 0;
   margin-top: 20rem;
   padding-top: 2rem;
   padding-bottom: 1rem;

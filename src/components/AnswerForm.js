@@ -9,6 +9,13 @@ import "./Components.css";
 
 // define AnswerForm component
 const AnswerForm = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
   const assignmentId = parseInt(props.match.params.assignmentid);
@@ -185,89 +192,95 @@ const AnswerForm = (props) => {
     }
   };
 
-  // render main form
-  return (
-    <div>
-      <h3>Answer Form</h3>
-      <form onSubmit={onSubmit}>
-        <Table hover>
-          <tbody>
-            <tr>
-              <td>Answer Id</td>
-              <td>{formFields.id === 0 ? `New` : formFields.id}</td>
-            </tr>
-            <tr>
-              <td>Course</td>
-              <td>{renderCourse()}</td>
-            </tr>
-            <tr>
-              <td>Assignment</td>
-              <td>{renderAssignment()}</td>
-            </tr>
-            <tr>
-              <td>Student</td>
-              <td>{renderStudent()}</td>
-            </tr>
-            <tr>
-              <td>Answer</td>
-              <td>
-                <textarea
-                  name="answer"
-                  onChange={onFieldChange}
-                  value={formFields.answer}
-                  rows={5}
-                  cols={80}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Date Answered</td>
-              <td>
-                <DatePicker
-                  selected={Date.parse(formFields.dateanswered)}
-                  onChange={onDateAnsweredChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Grade</td>
-              <td>
-                <input
-                  name="grade"
-                  onChange={onFieldChange}
-                  value={formFields.grade}
-                  placeholder="grade"
-                  type="text"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Date Graded</td>
-              <td>
-                <DatePicker
-                  selected={Date.parse(formFields.dategraded)}
-                  onChange={onDateGradedChange}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-        <div>
-          <Button type="submit" variant="primary">
-            {answerId === 0 ? "Add" : "Save"}
-          </Button>
-          &nbsp;
-          <Link to={`/answer/${courseId}/${assignmentId}`}>
-            <Button variant="primary">Answer List</Button>
-          </Link>
-        </div>
-      </form>
-    </div>
-  );
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h3>Answer Form</h3>
+        <form onSubmit={onSubmit}>
+          <Table hover>
+            <tbody>
+              <tr>
+                <td>Answer Id</td>
+                <td>{formFields.id === 0 ? `New` : formFields.id}</td>
+              </tr>
+              <tr>
+                <td>Course</td>
+                <td>{renderCourse()}</td>
+              </tr>
+              <tr>
+                <td>Assignment</td>
+                <td>{renderAssignment()}</td>
+              </tr>
+              <tr>
+                <td>Student</td>
+                <td>{renderStudent()}</td>
+              </tr>
+              <tr>
+                <td>Answer</td>
+                <td>
+                  <textarea
+                    name="answer"
+                    onChange={onFieldChange}
+                    value={formFields.answer}
+                    rows={5}
+                    cols={80}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Date Answered</td>
+                <td>
+                  <DatePicker
+                    selected={Date.parse(formFields.dateanswered)}
+                    onChange={onDateAnsweredChange}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Grade</td>
+                <td>
+                  <input
+                    name="grade"
+                    onChange={onFieldChange}
+                    value={formFields.grade}
+                    placeholder="grade"
+                    type="text"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Date Graded</td>
+                <td>
+                  <DatePicker
+                    selected={Date.parse(formFields.dategraded)}
+                    onChange={onDateGradedChange}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+          <div>
+            <Button type="submit" variant="primary">
+              {answerId === 0 ? "Add" : "Save"}
+            </Button>
+            &nbsp;
+            <Link to={`/answer/${courseId}/${assignmentId}`}>
+              <Button variant="primary">Answer List</Button>
+            </Link>
+          </div>
+        </form>
+      </div>
+    );
+  }
 };
 
 // define prop types
 AnswerForm.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   answerList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,
   enrollmentList: PropTypes.array.isRequired,

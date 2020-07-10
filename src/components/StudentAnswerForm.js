@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Components.css";
-// TODO from AnswerForm
+
 // define StudentAnswerForm component
 const StudentAnswerForm = (props) => {
   // get id from route parameter :id
@@ -268,6 +268,7 @@ const StudentAnswerForm = (props) => {
 
 // define prop types
 StudentAnswerForm.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   answerList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,
   enrollmentList: PropTypes.array.isRequired,

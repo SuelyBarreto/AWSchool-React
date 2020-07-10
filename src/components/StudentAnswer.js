@@ -5,7 +5,7 @@ import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Components.css";
 import Assignment from "./Assignment";
-// TODO from Answer
+
 // StudentAnswer Component
 const StudentAnswer = (props) => {
   // get id from route parameter :id
@@ -117,6 +117,7 @@ const StudentAnswer = (props) => {
 
 // define prop types
 StudentAnswer.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   studentAnswerList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,

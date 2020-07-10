@@ -470,6 +470,7 @@ const App = () => {
           render={(props) => (
             <PersonForm
               {...props}
+              currentUser={currentUser}
               personList={personList}
               onFormSubmit={onPersonFormSubmit}
               setMessageText={setMessageText}
@@ -481,6 +482,7 @@ const App = () => {
           render={(props) => (
             <Course
               {...props}
+              currentUser={currentUser}
               courseList={courseList}
               personList={personList}
               onCourseDelete={onCourseDelete}
@@ -492,6 +494,7 @@ const App = () => {
           render={(props) => (
             <CourseForm
               {...props}
+              currentUser={currentUser}
               courseList={courseList}
               personList={personList}
               onFormSubmit={onCourseFormSubmit}
@@ -504,6 +507,7 @@ const App = () => {
           render={(props) => (
             <Enrollment
               {...props}
+              currentUser={currentUser}
               enrollmentList={enrollmentList}
               courseList={courseList}
               personList={personList}
@@ -516,6 +520,7 @@ const App = () => {
           render={(props) => (
             <EnrollmentForm
               {...props}
+              currentUser={currentUser}
               enrollmentList={enrollmentList}
               courseList={courseList}
               personList={personList}
@@ -529,6 +534,7 @@ const App = () => {
           render={(props) => (
             <Assignment
               {...props}
+              currentUser={currentUser}
               assignmentList={assignmentList}
               courseList={courseList}
               onAssignmentDelete={onAssignmentDelete}
@@ -540,6 +546,7 @@ const App = () => {
           render={(props) => (
             <AssignmentForm
               {...props}
+              currentUser={currentUser}
               assignmentList={assignmentList}
               courseList={courseList}
               onFormSubmit={onAssignmentFormSubmit}
@@ -552,6 +559,7 @@ const App = () => {
           render={(props) => (
             <Answer
               {...props}
+              currentUser={currentUser}
               answerList={answerList}
               assignmentList={assignmentList}
               courseList={courseList}
@@ -565,6 +573,7 @@ const App = () => {
           render={(props) => (
             <AnswerForm
               {...props}
+              currentUser={currentUser}
               answerList={answerList}
               assignmentList={assignmentList}
               enrollmentList={enrollmentList}

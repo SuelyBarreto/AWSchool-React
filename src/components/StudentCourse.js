@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Components.css";
-// TODO form course
+
 // StudentCourse Component
 const StudentCourse = (props) => {
   // return teacher id and name
@@ -93,6 +93,7 @@ const StudentCourse = (props) => {
 
 // define prop types
 StudentCourse.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   studentCourseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
   onStudentCourseDelete: PropTypes.func.isRequired,

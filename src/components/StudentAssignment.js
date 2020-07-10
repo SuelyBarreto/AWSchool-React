@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Components.css";
-// TODO from Assignment
+
 // StudentAssignment Component
 const StudentAssignment = (props) => {
   // get id from route parameter :id
@@ -90,6 +90,7 @@ const StudentAssignment = (props) => {
 
 // define prop types
 StudentAssignment.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   studentAssignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   onStudentAssignmentDelete: PropTypes.func.isRequired,

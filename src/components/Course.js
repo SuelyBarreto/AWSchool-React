@@ -7,6 +7,13 @@ import "./Components.css";
 
 // Course Component
 const Course = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // return teacher id and name
   const renderTeacher = (teacherid) => {
     let teacherName = `${teacherid} - Invalid Id`;
@@ -61,38 +68,44 @@ const Course = (props) => {
     });
   };
 
-  // render main form
-  return (
-    <div>
-      <h1>Course</h1>
-      <div className="courselistlist">
-        <Table hover>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Teacher - Id</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Passing Grade</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{renderCourse()}</tbody>
-        </Table>
-        <p>
-          <Link to="/courseform/0">
-            <Button variant="primary">Add New</Button>
-          </Link>
-        </p>
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h1>Course</h1>
+        <div className="courselistlist">
+          <Table hover>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Teacher - Id</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Passing Grade</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{renderCourse()}</tbody>
+          </Table>
+          <p>
+            <Link to="/courseform/0">
+              <Button variant="primary">Add New</Button>
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 // define prop types
 Course.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
   onCourseDelete: PropTypes.func.isRequired,

@@ -9,6 +9,13 @@ import "./Components.css";
 
 // define AssignmentForm component
 const AssignmentForm = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
   const assignmentId = parseInt(props.match.params.assignmentid);
@@ -94,72 +101,78 @@ const AssignmentForm = (props) => {
     return courseTitle;
   };
 
-  // render main form
-  return (
-    <div>
-      <h3>Assignment Form</h3>
-      <form onSubmit={onSubmit}>
-        <Table hover>
-          <tbody>
-            <tr>
-              <td>Assignment Id</td>
-              <td>{formFields.id === 0 ? `New` : formFields.id}</td>
-            </tr>
-            <tr>
-              <td>Course</td>
-              <td>{renderCourse()}</td>
-            </tr>
-            <tr>
-              <td>Title</td>
-              <td>
-                <input
-                  name="title"
-                  onChange={onFieldChange}
-                  value={formFields.title}
-                  placeholder="title"
-                  type="text"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Description</td>
-              <td>
-                <textarea
-                  name="description"
-                  onChange={onFieldChange}
-                  value={formFields.description}
-                  rows={5}
-                  cols={80}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Due Date</td>
-              <td>
-                <DatePicker
-                  selected={Date.parse(formFields.duedate)}
-                  onChange={onDueDateChange}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-        <div>
-          <Button type="submit" variant="primary">
-            {assignmentId === 0 ? "Add" : "Save"}
-          </Button>
-          &nbsp;
-          <Link to={`/assignment/${courseId}`}>
-            <Button variant="primary">Assignment List</Button>
-          </Link>
-        </div>
-      </form>
-    </div>
-  );
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h3>Assignment Form</h3>
+        <form onSubmit={onSubmit}>
+          <Table hover>
+            <tbody>
+              <tr>
+                <td>Assignment Id</td>
+                <td>{formFields.id === 0 ? `New` : formFields.id}</td>
+              </tr>
+              <tr>
+                <td>Course</td>
+                <td>{renderCourse()}</td>
+              </tr>
+              <tr>
+                <td>Title</td>
+                <td>
+                  <input
+                    name="title"
+                    onChange={onFieldChange}
+                    value={formFields.title}
+                    placeholder="title"
+                    type="text"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Description</td>
+                <td>
+                  <textarea
+                    name="description"
+                    onChange={onFieldChange}
+                    value={formFields.description}
+                    rows={5}
+                    cols={80}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Due Date</td>
+                <td>
+                  <DatePicker
+                    selected={Date.parse(formFields.duedate)}
+                    onChange={onDueDateChange}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+          <div>
+            <Button type="submit" variant="primary">
+              {assignmentId === 0 ? "Add" : "Save"}
+            </Button>
+            &nbsp;
+            <Link to={`/assignment/${courseId}`}>
+              <Button variant="primary">Assignment List</Button>
+            </Link>
+          </div>
+        </form>
+      </div>
+    );
+  }
 };
 
 // define prop types
 AssignmentForm.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
