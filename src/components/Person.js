@@ -7,6 +7,13 @@ import "./Components.css";
 
 // Person component
 const Person = (props) => {
+  // get adminId from currentUser
+  const adminId = props.currentUser
+    ? props.currentUser.isadmin
+      ? props.currentUser.id
+      : 0
+    : 0;
+
   // render person
   const renderPerson = () => {
     return props.personList.map((person) => {
@@ -37,37 +44,43 @@ const Person = (props) => {
     });
   };
 
-  // render main form
-  return (
-    <div>
-      <h1>Person</h1>
-      <div className="personlistlist">
-        <Table hover>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th className="yesno">Administrator</th>
-              <th className="yesno">Teacher</th>
-              <th className="yesno">Student</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{renderPerson()}</tbody>
-        </Table>
-        <p>
-          <Link to="/personform/0">
-            <Button variant="primary">Add New</Button>
-          </Link>
-        </p>
+  // check if current user is admin
+  if (adminId === 0) {
+    return <h3>Requires Administrator Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h1>Person</h1>
+        <div className="personlistlist">
+          <Table hover>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th className="yesno">Administrator</th>
+                <th className="yesno">Teacher</th>
+                <th className="yesno">Student</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{renderPerson()}</tbody>
+          </Table>
+          <p>
+            <Link to="/personform/0">
+              <Button variant="primary">Add New</Button>
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 // define prop types
 Person.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   personList: PropTypes.array.isRequired,
   onPersonDelete: PropTypes.func.isRequired,
 };

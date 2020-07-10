@@ -459,6 +459,7 @@ const App = () => {
           render={(props) => (
             <Person
               {...props}
+              currentUser={currentUser}
               personList={personList}
               onPersonDelete={onPersonDelete}
             />
