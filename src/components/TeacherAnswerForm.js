@@ -6,13 +6,26 @@ import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Components.css";
-// TODO from AnswerForm
+
 // define TeacherAnswerForm component
 const TeacherAnswerForm = (props) => {
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
   const assignmentId = parseInt(props.match.params.assignmentid);
   const answerId = parseInt(props.match.params.answerid);
+
+  // get teacherId from currentUser
+  // check it is the teacher for the course
+  const teacherId = props.currentUser
+    ? props.currentUser.isteacher
+      ? props.courseList.find(
+          (course) =>
+            course.teacherid === props.currentUser.id && course.id === courseId
+        )
+        ? props.currentUser.id
+        : 0
+      : 0
+    : 0;
 
   // define emptyForm
   const emptyForm = {
@@ -28,23 +41,29 @@ const TeacherAnswerForm = (props) => {
   // define formFields
   const [formFields, setFormFields] = useState(emptyForm);
 
+  // convert date to string mm/dd/yyyy
+  const dateToString = (date) => {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return month + "/" + day + "/" + year;
+  };
+
   // find data for current id, put in formFields
   useEffect(() => {
-    if (answerId !== 0) {
-      props.answerList.forEach((answer) => {
-        if (answer.id === answerId) {
-          setFormFields({
-            id: answer.id,
-            assignmentid: answer.assignmentid,
-            studentid: answer.studentid,
-            answer: answer.answer,
-            dateanswered: answer.dateanswered,
-            grade: answer.grade,
-            dategraded: answer.dategraded,
-          });
-        }
-      });
-    }
+    props.answerList.forEach((answer) => {
+      if (answer.id === answerId) {
+        setFormFields({
+          id: answer.id,
+          assignmentid: answer.assignmentid,
+          studentid: answer.studentid,
+          answer: answer.answer,
+          dateanswered: answer.dateanswered,
+          grade: answer.grade,
+          dategraded: dateToString(new Date()),
+        });
+      }
+    });
   }, [answerId, props.answerList]);
 
   // event when form field changes
@@ -55,46 +74,10 @@ const TeacherAnswerForm = (props) => {
     });
   };
 
-  // convert date to string mm/dd/yyyy
-  const dateToString = (date) => {
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const year = date.getFullYear();
-    return month + "/" + day + "/" + year;
-  };
-
-  // event when date answered changes
-  const onDateAnsweredChange = (dateSelected) => {
-    setFormFields({
-      ...formFields,
-      dateanswered: dateToString(dateSelected),
-    });
-  };
-
-  // event when date graded changes
-  const onDateGradedChange = (dateSelected) => {
-    setFormFields({
-      ...formFields,
-      dategraded: dateToString(dateSelected),
-    });
-  };
-
   // event for submit button
   const onSubmit = (event) => {
     event.preventDefault();
-
-    if (formFields.studentid === 0) {
-      props.setMessageText(`Validation: Answer must have a student.`);
-      return;
-    }
-    if (!formFields.answer) {
-      props.setMessageText(`Validation: Answer cannot be blank.`);
-      return;
-    }
     props.onFormSubmit(formFields);
-    if (answerId === 0) {
-      setFormFields(emptyForm);
-    }
   };
 
   // return current course id and title
@@ -120,7 +103,7 @@ const TeacherAnswerForm = (props) => {
   };
 
   // return current student id and name
-  const renderStaticStudent = () => {
+  const renderStudent = () => {
     let studentName = `${formFields.studentid} - N/A`;
     props.personList.forEach((person) => {
       if (person.id === formFields.studentid) {
@@ -130,144 +113,77 @@ const TeacherAnswerForm = (props) => {
     return studentName;
   };
 
-  // show list of student for selection
-  const renderStudentOptions = () => {
-    // build a list of students enrolled in the course
-    const enrolledStudents = props.enrollmentList
-      .filter((enrollment) => enrollment.courseid === courseId)
-      .map((enrollment) => enrollment.studentid);
-
-    // build a list of students that already answered
-    const alreadyAnswered = props.answerList
-      .filter((answer) => answer.assignmentid === assignmentId)
-      .map((answer) => answer.studentid);
-
-    // build a list of students available to answer
-    const availableStudents = props.personList.filter(
-      (person) =>
-        person.isstudent &&
-        enrolledStudents.includes(person.id) &&
-        !alreadyAnswered.includes(person.id)
+  // check if current user is teacher
+  if (teacherId === 0) {
+    return <h3>Requires Teacher Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h3>Grading Form</h3>
+        <form onSubmit={onSubmit}>
+          <Table hover>
+            <tbody>
+              <tr>
+                <td>Answer Id</td>
+                <td>{formFields.id}</td>
+              </tr>
+              <tr>
+                <td>Course</td>
+                <td>{renderCourse()}</td>
+              </tr>
+              <tr>
+                <td>Assignment</td>
+                <td>{renderAssignment()}</td>
+              </tr>
+              <tr>
+                <td>Student</td>
+                <td>{renderStudent()}</td>
+              </tr>
+              <tr>
+                <td>Answer</td>
+                <td>{formFields.answer}</td>
+              </tr>
+              <tr>
+                <td>Date Answered</td>
+                <td>{formFields.dateanswered}</td>
+              </tr>
+              <tr>
+                <td>Grade</td>
+                <td>
+                  <input
+                    name="grade"
+                    onChange={onFieldChange}
+                    value={formFields.grade}
+                    placeholder="grade"
+                    type="text"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Date Graded</td>
+                <td>{formFields.dategraded}</td>
+              </tr>
+            </tbody>
+          </Table>
+          <div>
+            <Button type="submit" variant="primary">
+              Save
+            </Button>
+            &nbsp;
+            <Link to={`/teacheranswer/${courseId}/${assignmentId}`}>
+              <Button variant="primary">Answer List</Button>
+            </Link>
+          </div>
+        </form>
+      </div>
     );
-
-    let allStudents = [];
-    if (formFields.studentid === 0) {
-      allStudents.push(
-        <option value={0} key={0}>
-          0 - Not selected
-        </option>
-      );
-    }
-    availableStudents.forEach((person) => {
-      allStudents.push(
-        <option value={person.id} key={person.id}>
-          {person.id} - {person.personname}
-        </option>
-      );
-    });
-    return allStudents;
-  };
-
-  // show student dropdown when adding
-  const renderStudent = () => {
-    if (answerId === 0) {
-      return (
-        <select
-          name="studentid"
-          value={formFields.studentid}
-          onChange={onFieldChange}
-        >
-          {renderStudentOptions()};
-        </select>
-      );
-    } else {
-      return renderStaticStudent();
-    }
-  };
-
-  // render main form
-  return (
-    <div>
-      <h3>Answer Form</h3>
-      <form onSubmit={onSubmit}>
-        <Table hover>
-          <tbody>
-            <tr>
-              <td>Answer Id</td>
-              <td>{formFields.id === 0 ? `New` : formFields.id}</td>
-            </tr>
-            <tr>
-              <td>Course</td>
-              <td>{renderCourse()}</td>
-            </tr>
-            <tr>
-              <td>Assignment</td>
-              <td>{renderAssignment()}</td>
-            </tr>
-            <tr>
-              <td>Student</td>
-              <td>{renderStudent()}</td>
-            </tr>
-            <tr>
-              <td>Answer</td>
-              <td>
-                <textarea
-                  name="answer"
-                  onChange={onFieldChange}
-                  value={formFields.answer}
-                  rows={5}
-                  cols={80}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Date Answered</td>
-              <td>
-                <DatePicker
-                  selected={Date.parse(formFields.dateanswered)}
-                  onChange={onDateAnsweredChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Grade</td>
-              <td>
-                <input
-                  name="grade"
-                  onChange={onFieldChange}
-                  value={formFields.grade}
-                  placeholder="grade"
-                  type="text"
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>Date Graded</td>
-              <td>
-                <DatePicker
-                  selected={Date.parse(formFields.dategraded)}
-                  onChange={onDateGradedChange}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </Table>
-        <div>
-          <Button type="submit" variant="primary">
-            {answerId === 0 ? "Add" : "Save"}
-          </Button>
-          &nbsp;
-          <Link to={`/answer/${courseId}/${assignmentId}`}>
-            <Button variant="primary">Answer List</Button>
-          </Link>
-        </div>
-      </form>
-    </div>
-  );
+  }
 };
 
 // define prop types
 TeacherAnswerForm.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   answerList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,
   enrollmentList: PropTypes.array.isRequired,

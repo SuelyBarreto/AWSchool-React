@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Components.css";
-import Assignment from "./Assignment";
 
 // Answer Component
 const Answer = (props) => {

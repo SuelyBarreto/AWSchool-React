@@ -5,8 +5,8 @@ import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Components.css";
 
-// Assignment Component
-const Assignment = (props) => {
+// Teacher Assignment Component
+const TeacherAssignment = (props) => {
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
 
@@ -105,11 +105,11 @@ const Assignment = (props) => {
 };
 
 // define prop types
-Assignment.propTypes = {
+TeacherAssignment.propTypes = {
   currentUser: PropTypes.object.isRequired,
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   onAssignmentDelete: PropTypes.func.isRequired,
 };
 
-export default Assignment;
+export default TeacherAssignment;

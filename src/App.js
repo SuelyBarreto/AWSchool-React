@@ -20,6 +20,8 @@ import TeacherCourse from "./components/TeacherCourse";
 import TeacherEnrollment from "./components/TeacherEnrollment";
 import TeacherAssignment from "./components/TeacherAssignment";
 import TeacherAssignmentForm from "./components/TeacherAssignmentForm";
+import TeacherAnswer from "./components/TeacherAnswer";
+import TeacherAnswerForm from "./components/TeacherAnswerForm";
 
 // Base URL for AWS API Gateway
 const API_URL_BASE =
@@ -283,7 +285,7 @@ const App = () => {
   ) => {
     setMessage(`Deleting...`);
 
-    // TODO AWS API Gateway call to delete a table item ???
+    // AWS API Gateway call to delete a table item
     axios
       .delete(API_URL_BASE + `/${tableName}/${id}`)
       .then((response) => {
@@ -615,6 +617,36 @@ const App = () => {
               assignmentList={assignmentList}
               courseList={courseList}
               onFormSubmit={onAssignmentFormSubmit}
+              setMessageText={setMessageText}
+            />
+          )}
+        />
+        <Route
+          path="/teacheranswer/:courseid/:assignmentid"
+          render={(props) => (
+            <TeacherAnswer
+              {...props}
+              currentUser={currentUser}
+              answerList={answerList}
+              assignmentList={assignmentList}
+              courseList={courseList}
+              personList={personList}
+              onAnswerDelete={onAnswerDelete}
+            />
+          )}
+        />
+        <Route
+          path="/teacheranswerform/:courseid/:assignmentid/:answerid"
+          render={(props) => (
+            <TeacherAnswerForm
+              {...props}
+              currentUser={currentUser}
+              answerList={answerList}
+              assignmentList={assignmentList}
+              enrollmentList={enrollmentList}
+              courseList={courseList}
+              personList={personList}
+              onFormSubmit={onAnswerFormSubmit}
               setMessageText={setMessageText}
             />
           )}

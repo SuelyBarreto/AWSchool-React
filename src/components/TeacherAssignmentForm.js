@@ -7,8 +7,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Components.css";
 
-// define AssignmentForm component
-const AssignmentForm = (props) => {
+// define TeacherAssignmentForm component
+const TeacherAssignmentForm = (props) => {
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
   const assignmentId = parseInt(props.match.params.assignmentid);
@@ -177,7 +177,7 @@ const AssignmentForm = (props) => {
 };
 
 // define prop types
-AssignmentForm.propTypes = {
+TeacherAssignmentForm.propTypes = {
   currentUser: PropTypes.object.isRequired,
   assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
@@ -185,4 +185,4 @@ AssignmentForm.propTypes = {
   setMessageText: PropTypes.func.isRequired,
 };
 
-export default AssignmentForm;
+export default TeacherAssignmentForm;
