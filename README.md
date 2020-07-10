@@ -79,58 +79,68 @@ Note: DynamoDB is a NoSQL Database, so the relationships described in the diagra
 
 ### Person
 
-> {
-> "id": 5,
-> "email": "annamarie@gmail.com",
-> "password": "1234",
-> "personname": "Anna Marie",
-> "isadmin": true,
-> "isteacher": true,
-> "isstudent": true
-> }
+```json
+{
+  "id": 5,
+  "email": "annamarie@gmail.com",
+  "password": "1234",
+  "personname": "Anna Marie",
+  "isadmin": true,
+  "isteacher": true,
+  "isstudent": true
+}
+```
 
 ### Course
 
+```json
 {
-"id": 2,
-"teacherid": 3,
-"title": "Math",
-"description": "Fundamentals of Math",
-"startdate": "08/03/2020",
-"enddate": "01/08/2021",
-"passgrade": 2.7
+  "id": 2,
+  "teacherid": 3,
+  "title": "Math",
+  "description": "Fundamentals of Math",
+  "startdate": "08/03/2020",
+  "enddate": "01/08/2021",
+  "passgrade": 2.7
 }
+```
 
 ### CourseStudent
 
+```json
 {
-"id": 1,
-"courseid": 1,
-"studentid": 1,
-"averagegrade": 3.2
+  "id": 1,
+  "courseid": 1,
+  "studentid": 1,
+  "averagegrade": 3.2
 }
+```
 
 ### Assignment
 
+```json
 {
-"id": 1,
-"courseid": 1,
-"title": "hello world",
-"description": "Write a hello world program in Java",
-"duedate": "07/07/2020"
+  "id": 1,
+  "courseid": 1,
+  "title": "hello world",
+  "description": "Write a hello world program in Java",
+  "duedate": "07/07/2020"
 }
+```
 
 ### AssignmentStudent
 
+```json
 {
-"id": 1,
-"assignmentid": 1,
-"studentid": 1,
-"answer": "class HelloWorld {\n public static void main(String[] args) {\n System.out.println(`Hello, World!`); \n }\n}",
-"dateanswered": "07/03/2020",
-"grade": 3.4,
-"dategraded": "07/05/2020"
+  "id": 1,
+  "assignmentid": 1,
+  "studentid": 1,
+  "answer": "class HelloWorld {\n public static void main(String[] args) {\n System.out.println(`Hello, World!`); \n }\n}",
+  "dateanswered": "07/03/2020",
+  "grade": 3.4,
+  "dategraded": "07/05/2020"
 }
+```
 
 ## Validations
 
