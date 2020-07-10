@@ -4,11 +4,24 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Components.css";
-// TODO from Assignment
-// TeacherAssignment Component
-const TeacherAssignment = (props) => {
+
+// Assignment Component
+const Assignment = (props) => {
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
+
+  // get teacherId from currentUser
+  // check it is the teacher for the course
+  const teacherId = props.currentUser
+    ? props.currentUser.isteacher
+      ? props.courseList.find(
+          (course) =>
+            course.teacherid === props.currentUser.id && course.id === courseId
+        )
+        ? props.currentUser.id
+        : 0
+      : 0
+    : 0;
 
   // return course id and title
   const renderCourse = () => {
@@ -21,32 +34,30 @@ const TeacherAssignment = (props) => {
     return courseTitle;
   };
 
-  // render teacherAssignment
-  const renderTeacherAssignment = (teacherAssignmentList) => {
-    return teacherAssignmentList
-      .filter((teacherAssignment) => teacherAssignment.courseid === courseId)
-      .map((teacherAssignment) => {
+  // render assignment
+  const renderAssignment = (assignmentList) => {
+    return assignmentList
+      .filter((assignment) => assignment.courseid === courseId)
+      .map((assignment) => {
         return (
-          <tr key={teacherAssignment.id}>
-            <td>{teacherAssignment.id}</td>
-            <td>{teacherAssignment.title}</td>
-            <td>{teacherAssignment.description}</td>
-            <td>{teacherAssignment.duedate}</td>
+          <tr key={assignment.id}>
+            <td>{assignment.id}</td>
+            <td>{assignment.title}</td>
+            <td>{assignment.description}</td>
+            <td>{assignment.duedate}</td>
             <td>
-              <Link to={`/answer/${courseId}/${teacherAssignment.id}`}>
+              <Link to={`/teacheranswer/${courseId}/${assignment.id}`}>
                 <Button variant="primary">Answers</Button>
               </Link>
               &nbsp;
-              <Link
-                to={`/teacherAssignmentform/${courseId}/${teacherAssignment.id}`}
-              >
+              <Link to={`/teacherassignmentform/${courseId}/${assignment.id}`}>
                 <Button variant="primary">Edit</Button>
               </Link>
               &nbsp;
               <Button
                 variant="primary"
                 onClick={() => {
-                  props.onTeacherAssignmentDelete(teacherAssignment.id);
+                  props.onAssignmentDelete(assignment.id);
                 }}
               >
                 Delete
@@ -57,42 +68,48 @@ const TeacherAssignment = (props) => {
       });
   };
 
-  // render main form
-  return (
-    <div>
-      <h1>TeacherAssignments: Course {renderCourse()}</h1>
-      <div className="teacherAssignmentlistlist">
-        <Table hover>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Due Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{renderTeacherAssignment(props.teacherAssignmentList)}</tbody>
-        </Table>
-        <p>
-          <Link to={`/teacherAssignmentform/${courseId}/0`}>
-            <Button variant="primary">Add New</Button>
-          </Link>
-          &nbsp;
-          <Link to={`/course`}>
-            <Button variant="primary">Course List</Button>
-          </Link>
-        </p>
+  // check if current user is teacher
+  if (teacherId === 0) {
+    return <h3>Requires Teacher Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h1>Assignments: Course {renderCourse()}</h1>
+        <div className="assignmentlistlist">
+          <Table hover>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{renderAssignment(props.assignmentList)}</tbody>
+          </Table>
+          <p>
+            <Link to={`/teacherassignmentform/${courseId}/0`}>
+              <Button variant="primary">Add New</Button>
+            </Link>
+            &nbsp;
+            <Link to={`/course`}>
+              <Button variant="primary">Course List</Button>
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 // define prop types
-TeacherAssignment.propTypes = {
-  teacherAssignmentList: PropTypes.array.isRequired,
+Assignment.propTypes = {
+  currentUser: PropTypes.object.isRequired,
+  assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
-  onTeacherAssignmentDelete: PropTypes.func.isRequired,
+  onAssignmentDelete: PropTypes.func.isRequired,
 };
 
-export default TeacherAssignment;
+export default Assignment;

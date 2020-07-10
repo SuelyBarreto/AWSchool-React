@@ -18,7 +18,8 @@ import Answer from "./components/Answer";
 import AnswerForm from "./components/AnswerForm";
 import TeacherCourse from "./components/TeacherCourse";
 import TeacherEnrollment from "./components/TeacherEnrollment";
-// import { id } from "date-fns/locale";
+import TeacherAssignment from "./components/TeacherAssignment";
+import TeacherAssignmentForm from "./components/TeacherAssignmentForm";
 
 // Base URL for AWS API Gateway
 const API_URL_BASE =
@@ -590,6 +591,31 @@ const App = () => {
               enrollmentList={enrollmentList}
               courseList={courseList}
               personList={personList}
+            />
+          )}
+        />
+        <Route
+          path="/teacherassignment/:courseid"
+          render={(props) => (
+            <TeacherAssignment
+              {...props}
+              currentUser={currentUser}
+              assignmentList={assignmentList}
+              courseList={courseList}
+              onAssignmentDelete={onAssignmentDelete}
+            />
+          )}
+        />
+        <Route
+          path="/teacherassignmentform/:courseid/:assignmentid"
+          render={(props) => (
+            <TeacherAssignmentForm
+              {...props}
+              currentUser={currentUser}
+              assignmentList={assignmentList}
+              courseList={courseList}
+              onFormSubmit={onAssignmentFormSubmit}
+              setMessageText={setMessageText}
             />
           )}
         />
