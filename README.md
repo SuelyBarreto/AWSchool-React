@@ -3,15 +3,16 @@
 ## Learning Goals
 
 - Demonstrate self-direction, time management, and independent learning
-- Learn and implement at least three new technologies
+- Learn and implement new technologies
+- Gain experience with React and learn AWS technologies (S3, Cognito, API Gateway, Lambda and DynamoDB)
 - Complete a product lifecycle from conception to delivery
 - Utilize agile practices learned to assist in project completion
 
 ## Description
 
-Website where teachers can assign homework to their students.
+Create a website where teachers can assign homework to their students.
 Students can view their assigned homework.
-This is useful for schools using remote learning due to Covid.
+This is useful for schools using remote learning due to Covid - 19.
 
 ## Example Features
 

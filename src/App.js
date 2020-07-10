@@ -56,7 +56,7 @@ const App = () => {
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // API call to get
+  // AWS API Gateway call to get
   const getTable = (tableName, setTable, sortBy, setMessage) => {
     axios
       .get(API_URL_BASE + `/${tableName}`)
@@ -68,17 +68,17 @@ const App = () => {
       });
   };
 
-  // API call to get all persons
+  // AWS API Gateway call to get all persons
   useEffect(() => {
     getTable("person", setPersonList, sortById, setMessageText);
   }, [personUpdate]);
 
-  // API call to get all courses
+  // AWS API Gateway call to get all courses
   useEffect(() => {
     getTable("course", setCourseList, sortById, setMessageText);
   }, [courseUpdate]);
 
-  // API call to get enrollment (coursestudent)
+  // AWS API Gateway call to get enrollment (coursestudent)
   useEffect(() => {
     getTable(
       "coursestudent",
@@ -88,12 +88,12 @@ const App = () => {
     );
   }, [enrollmentUpdate]);
 
-  // API call to get all assignments
+  // AWS API Gateway call to get all assignments
   useEffect(() => {
     getTable("assignment", setAssignmentList, sortById, setMessageText);
   }, [assignmentUpdate]);
 
-  // API call to get all answers (assignmentstudents)
+  // AWS API Gateway call to get all answers (assignmentstudents)
   useEffect(() => {
     getTable(
       "assignmentstudent",
@@ -123,7 +123,7 @@ const App = () => {
     }
   };
 
-  // API call to post
+  // AWS API Gateway call to post
   const postTable = (
     tableName,
     messageName,
@@ -135,7 +135,7 @@ const App = () => {
   ) => {
     setMessage(id === 0 ? `Adding...` : `Updating...`);
 
-    // API call to add or update table
+    // AWS API Gateway call to add or update table
     axios
       .post(API_URL_BASE + `/${tableName}/${id}`, params)
       .then((response) => {
@@ -164,7 +164,7 @@ const App = () => {
       isstudent: formFields.isstudent,
     };
 
-    // API call to add or update person
+    // AWS API Gateway call to add or update person
     postTable(
       "person",
       "Person",
@@ -189,7 +189,7 @@ const App = () => {
       passgrade: parseFloat(formFields.passgrade),
     };
 
-    // API call to add or update course
+    // AWS API Gateway call to add or update course
     postTable(
       "course",
       "Course",
@@ -211,7 +211,7 @@ const App = () => {
       averagegrade: parseFloat(formFields.averagegrade),
     };
 
-    // API call to add or update enrollment (coursestudent)
+    // AWS API Gateway call to add or update enrollment (coursestudent)
     postTable(
       "coursestudent",
       "Enrollment",
@@ -234,7 +234,7 @@ const App = () => {
       duedate: formFields.duedate,
     };
 
-    // API call to add or update assignment
+    // AWS API Gateway call to add or update assignment
     postTable(
       "assignment",
       "Assignment",
@@ -259,7 +259,7 @@ const App = () => {
       dategraded: formFields.dategraded,
     };
 
-    // API call to add or update answer (assignmentstudent)
+    // AWS API Gateway call to add or update answer (assignmentstudent)
     postTable(
       "assignmentstudent",
       "Answer",
@@ -271,7 +271,7 @@ const App = () => {
     );
   };
 
-  // API call to delete
+  // AWS API Gateway call to delete
   const tableDelete = (
     tableName,
     messageName,
@@ -282,7 +282,7 @@ const App = () => {
   ) => {
     setMessage(`Deleting...`);
 
-    // TODO API call to delete a table item ???
+    // TODO AWS API Gateway call to delete a table item ???
     axios
       .delete(API_URL_BASE + `/${tableName}/${id}`)
       .then((response) => {
