@@ -4,7 +4,7 @@
 
 - Demonstrate self-direction, time management, and independent learning
 - Learn and implement new technologies
-- Gain experience with React and learn AWS technologies (S3, Cognito, API Gateway, Lambda and DynamoDB)
+- Gain experience with React and learn AWS technologies (S3, API Gateway, Lambda and DynamoDB)
 - Complete a product lifecycle from conception to delivery
 - Utilize agile practices learned to assist in project completion
 
@@ -52,11 +52,13 @@ Teachers and students are working online more than ever. Coordinating homework a
 - Front-End
   - NodeJS
   - React
-  - AWS Cognito
+  - AWS S3
 - Back-End
   - AWS API Gateway
   - AWS Lambda Functions
   - AWS DynamoDB
+
+![Tech Stack](./TechStack.png)
 
 ### Steps to Create Solution
 
@@ -65,7 +67,11 @@ Teachers and students are working online more than ever. Coordinating homework a
 - Create AWS API Gateway routes to AWS Lambda functions
 - Build UI using a NodeJS React application
 - Integrate REST API with React application
-- Deploy application on S3
+- Deploy application to AWS S3
+
+### ERD
+
+![ERD](./ERD.png)
 
 ## Validations
 
