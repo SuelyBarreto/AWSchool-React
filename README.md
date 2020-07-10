@@ -79,15 +79,15 @@ Note: DynamoDB is a NoSQL Database, so the relationships described in the diagra
 
 ### Person
 
-{
-"id": 5,
-"email": "annamarie@barreto.us",
-"password": "1234",
-"personname": "Suely Barreto",
-"isadmin": true,
-"isteacher": true,
-"isstudent": true
-}
+> {
+> "id": 5,
+> "email": "annamarie@gmail.com",
+> "password": "1234",
+> "personname": "Anna Marie",
+> "isadmin": true,
+> "isteacher": true,
+> "isstudent": true
+> }
 
 ### Course
 
@@ -117,7 +117,7 @@ Note: DynamoDB is a NoSQL Database, so the relationships described in the diagra
 "courseid": 1,
 "title": "hello world",
 "description": "Write a hello world program in Java",
-"duedate": "06/24/2020"
+"duedate": "07/07/2020"
 }
 
 ### AssignmentStudent
@@ -127,9 +127,9 @@ Note: DynamoDB is a NoSQL Database, so the relationships described in the diagra
 "assignmentid": 1,
 "studentid": 1,
 "answer": "class HelloWorld {\n public static void main(String[] args) {\n System.out.println(`Hello, World!`); \n }\n}",
-"dateanswered": "2020-10-1 3:00 PM GMT+1:00",
+"dateanswered": "07/03/2020",
 "grade": 3.4,
-"dategraded": "2020-14-1 3:00 PM GMT+1:00"
+"dategraded": "07/05/2020"
 }
 
 ## Validations
@@ -209,10 +209,10 @@ Note: DynamoDB is a NoSQL Database, so the relationships described in the diagra
 
 ### Wave 3
 
-- Create React applications
+- Create React application
 
   - Login/Logout
-  - Landing Page
+  - Home Page
   - Admin: Person (list, add, edit, delete)
   - Admin: Courses (list, add, edit, delete)
   - Admin: Students by Course (list, add, delete)
@@ -222,13 +222,11 @@ Note: DynamoDB is a NoSQL Database, so the relationships described in the diagra
   - Teacher: Assignment Answers by Assignment (list, grade)
   - Students: Courses (list)
   - Students: Assignments by Course (list, answer)
+  - Add validations for Front and Back End
 
 ### Wave 4
 
 - React Deployment on S3
-- Add validations for Front and Back End
-- OAuth with AWS Cognito
-- CSS
 
 ## Notes
 
