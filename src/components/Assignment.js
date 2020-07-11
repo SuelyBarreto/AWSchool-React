@@ -51,7 +51,9 @@ const Assignment = (props) => {
               <Button
                 variant="primary"
                 onClick={() => {
-                  props.onAssignmentDelete(assignment.id);
+                  if (window.confirm("Confirm delete?")) {
+                    props.onAssignmentDelete(assignment.id);
+                  }
                 }}
               >
                 Delete

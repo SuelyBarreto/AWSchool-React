@@ -33,7 +33,9 @@ const Person = (props) => {
             <Button
               variant="primary"
               onClick={() => {
-                props.onPersonDelete(person.id);
+                if (window.confirm("Confirm delete?")) {
+                  props.onPersonDelete(person.id);
+                }
               }}
             >
               Delete

@@ -57,7 +57,9 @@ const Course = (props) => {
             <Button
               variant="primary"
               onClick={() => {
-                props.onCourseDelete(course.id);
+                if (window.confirm("Confirm delete?")) {
+                  props.onCourseDelete(course.id);
+                }
               }}
             >
               Delete

@@ -72,7 +72,9 @@ const Answer = (props) => {
               <Button
                 variant="primary"
                 onClick={() => {
-                  props.onAnswerDelete(answer.id);
+                  if (window.confirm("Confirm delete?")) {
+                    props.onAnswerDelete(answer.id);
+                  }
                 }}
               >
                 Delete
