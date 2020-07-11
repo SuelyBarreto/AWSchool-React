@@ -46,6 +46,7 @@ const StudentAssignment = (props) => {
     console.log(`Debug answer list`, props.answerList, answer);
     if (!answer) {
       answer = {
+        id: 0,
         answer: "",
         dateanswered: "",
         grade: "",
@@ -70,10 +71,12 @@ const StudentAssignment = (props) => {
             <td>{assignment.duedate}</td>
             <td>{answer.answer}</td>
             <td>{answer.dateanswered}</td>
-            <td>{answer.grade}</td>
+            <td>{answer.dategraded ? answer.grade : ""}</td>
             <td>{answer.dategraded}</td>
             <td>
-              <Link to={`/studentanswer/${courseId}/${assignment.id}`}>
+              <Link
+                to={`/studentanswerform/${courseId}/${assignment.id}/${answer.id}`}
+              >
                 <Button variant="primary">Answer</Button>
               </Link>
             </td>

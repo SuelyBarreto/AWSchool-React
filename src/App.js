@@ -24,6 +24,7 @@ import TeacherAnswer from "./components/TeacherAnswer";
 import TeacherAnswerForm from "./components/TeacherAnswerForm";
 import StudentCourse from "./components/StudentCourse";
 import StudentAssignment from "./components/StudentAssignment";
+import StudentAnswerForm from "./components/StudentAnswerForm";
 
 // Base URL for AWS API Gateway
 const API_URL_BASE =
@@ -688,6 +689,21 @@ const App = () => {
               enrollmentList={enrollmentList}
               assignmentList={assignmentList}
               answerList={answerList}
+            />
+          )}
+        />
+        <Route
+          path="/studentanswerform/:courseid/:assignmentid/:answerid"
+          render={(props) => (
+            <StudentAnswerForm
+              {...props}
+              currentUser={currentUser}
+              courseList={courseList}
+              enrollmentList={enrollmentList}
+              assignmentList={assignmentList}
+              answerList={answerList}
+              onFormSubmit={onAnswerFormSubmit}
+              setMessageText={setMessageText}
             />
           )}
         />

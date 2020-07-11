@@ -78,6 +78,7 @@ const TeacherAnswerForm = (props) => {
   const onSubmit = (event) => {
     event.preventDefault();
     props.onFormSubmit(formFields);
+    props.history.goBack();
   };
 
   // return current course id and title
