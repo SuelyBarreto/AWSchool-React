@@ -173,8 +173,8 @@ const AssignmentForm = (props) => {
 // define prop types
 AssignmentForm.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
+  assignmentList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
   setMessageText: PropTypes.func.isRequired,
 };

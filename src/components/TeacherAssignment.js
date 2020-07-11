@@ -107,8 +107,8 @@ const TeacherAssignment = (props) => {
 // define prop types
 TeacherAssignment.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  assignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
+  assignmentList: PropTypes.array.isRequired,
   onAssignmentDelete: PropTypes.func.isRequired,
 };
 

@@ -197,9 +197,9 @@ const EnrollmentForm = (props) => {
 // define prop types
 EnrollmentForm.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  enrollmentList: PropTypes.array.isRequired,
-  courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
+  courseList: PropTypes.array.isRequired,
+  enrollmentList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
   setMessageText: PropTypes.func.isRequired,
 };

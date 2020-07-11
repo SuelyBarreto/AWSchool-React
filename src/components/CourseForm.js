@@ -246,8 +246,8 @@ const CourseForm = (props) => {
 // define prop types
 CourseForm.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
+  courseList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
   setMessageText: PropTypes.func.isRequired,
 };

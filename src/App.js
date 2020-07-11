@@ -488,8 +488,8 @@ const App = () => {
             <Course
               {...props}
               currentUser={currentUser}
-              courseList={courseList}
               personList={personList}
+              courseList={courseList}
               onCourseDelete={onCourseDelete}
             />
           )}
@@ -500,8 +500,8 @@ const App = () => {
             <CourseForm
               {...props}
               currentUser={currentUser}
-              courseList={courseList}
               personList={personList}
+              courseList={courseList}
               onFormSubmit={onCourseFormSubmit}
               setMessageText={setMessageText}
             />
@@ -513,9 +513,9 @@ const App = () => {
             <Enrollment
               {...props}
               currentUser={currentUser}
-              enrollmentList={enrollmentList}
-              courseList={courseList}
               personList={personList}
+              courseList={courseList}
+              enrollmentList={enrollmentList}
               onEnrollmentDelete={onEnrollmentDelete}
             />
           )}
@@ -526,9 +526,9 @@ const App = () => {
             <EnrollmentForm
               {...props}
               currentUser={currentUser}
-              enrollmentList={enrollmentList}
-              courseList={courseList}
               personList={personList}
+              courseList={courseList}
+              enrollmentList={enrollmentList}
               onFormSubmit={onEnrollmentFormSubmit}
               setMessageText={setMessageText}
             />
@@ -540,8 +540,8 @@ const App = () => {
             <Assignment
               {...props}
               currentUser={currentUser}
-              assignmentList={assignmentList}
               courseList={courseList}
+              assignmentList={assignmentList}
               onAssignmentDelete={onAssignmentDelete}
             />
           )}
@@ -552,8 +552,8 @@ const App = () => {
             <AssignmentForm
               {...props}
               currentUser={currentUser}
-              assignmentList={assignmentList}
               courseList={courseList}
+              assignmentList={assignmentList}
               onFormSubmit={onAssignmentFormSubmit}
               setMessageText={setMessageText}
             />
@@ -565,10 +565,10 @@ const App = () => {
             <Answer
               {...props}
               currentUser={currentUser}
-              answerList={answerList}
-              assignmentList={assignmentList}
-              courseList={courseList}
               personList={personList}
+              courseList={courseList}
+              assignmentList={assignmentList}
+              answerList={answerList}
               onAnswerDelete={onAnswerDelete}
             />
           )}
@@ -579,11 +579,11 @@ const App = () => {
             <AnswerForm
               {...props}
               currentUser={currentUser}
-              answerList={answerList}
-              assignmentList={assignmentList}
-              enrollmentList={enrollmentList}
-              courseList={courseList}
               personList={personList}
+              courseList={courseList}
+              enrollmentList={enrollmentList}
+              assignmentList={assignmentList}
+              answerList={answerList}
               onFormSubmit={onAnswerFormSubmit}
               setMessageText={setMessageText}
             />
@@ -605,9 +605,9 @@ const App = () => {
             <TeacherEnrollment
               {...props}
               currentUser={currentUser}
-              enrollmentList={enrollmentList}
-              courseList={courseList}
               personList={personList}
+              courseList={courseList}
+              enrollmentList={enrollmentList}
             />
           )}
         />
@@ -617,8 +617,8 @@ const App = () => {
             <TeacherAssignment
               {...props}
               currentUser={currentUser}
-              assignmentList={assignmentList}
               courseList={courseList}
+              assignmentList={assignmentList}
               onAssignmentDelete={onAssignmentDelete}
             />
           )}
@@ -629,8 +629,8 @@ const App = () => {
             <TeacherAssignmentForm
               {...props}
               currentUser={currentUser}
-              assignmentList={assignmentList}
               courseList={courseList}
+              assignmentList={assignmentList}
               onFormSubmit={onAssignmentFormSubmit}
               setMessageText={setMessageText}
             />
@@ -642,10 +642,10 @@ const App = () => {
             <TeacherAnswer
               {...props}
               currentUser={currentUser}
-              answerList={answerList}
-              assignmentList={assignmentList}
-              courseList={courseList}
               personList={personList}
+              courseList={courseList}
+              assignmentList={assignmentList}
+              answerList={answerList}
               onAnswerDelete={onAnswerDelete}
             />
           )}
@@ -656,11 +656,11 @@ const App = () => {
             <TeacherAnswerForm
               {...props}
               currentUser={currentUser}
-              answerList={answerList}
-              assignmentList={assignmentList}
-              enrollmentList={enrollmentList}
-              courseList={courseList}
               personList={personList}
+              courseList={courseList}
+              enrollmentList={enrollmentList}
+              assignmentList={assignmentList}
+              answerList={answerList}
               onFormSubmit={onAnswerFormSubmit}
               setMessageText={setMessageText}
             />

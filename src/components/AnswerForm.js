@@ -281,11 +281,11 @@ const AnswerForm = (props) => {
 // define prop types
 AnswerForm.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  answerList: PropTypes.array.isRequired,
-  assignmentList: PropTypes.array.isRequired,
-  enrollmentList: PropTypes.array.isRequired,
-  courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
+  courseList: PropTypes.array.isRequired,
+  enrollmentList: PropTypes.array.isRequired,
+  assignmentList: PropTypes.array.isRequired,
+  answerList: PropTypes.array.isRequired,
   onFormSubmit: PropTypes.func.isRequired,
   setMessageText: PropTypes.func.isRequired,
 };

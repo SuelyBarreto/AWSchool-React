@@ -118,10 +118,10 @@ const StudentAnswer = (props) => {
 // define prop types
 StudentAnswer.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  studentAnswerList: PropTypes.array.isRequired,
-  assignmentList: PropTypes.array.isRequired,
-  courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
+  courseList: PropTypes.array.isRequired,
+  assignmentList: PropTypes.array.isRequired,
+  studentAnswerList: PropTypes.array.isRequired,
   onStudentAnswerDelete: PropTypes.func.isRequired,
 };
 

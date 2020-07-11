@@ -106,9 +106,9 @@ const Enrollment = (props) => {
 // define prop types
 Enrollment.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  enrollmentList: PropTypes.array.isRequired,
-  courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
+  courseList: PropTypes.array.isRequired,
+  enrollmentList: PropTypes.array.isRequired,
   onEnrollmentDelete: PropTypes.func.isRequired,
 };
 

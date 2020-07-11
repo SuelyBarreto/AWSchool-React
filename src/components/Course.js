@@ -106,8 +106,8 @@ const Course = (props) => {
 // define prop types
 Course.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  courseList: PropTypes.array.isRequired,
   personList: PropTypes.array.isRequired,
+  courseList: PropTypes.array.isRequired,
   onCourseDelete: PropTypes.func.isRequired,
 };
 
