@@ -5,10 +5,27 @@ import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import "./Components.css";
 
-// StudentAssignment Component
+// Student Assignment Component
 const StudentAssignment = (props) => {
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
+
+  const enrolledInCourse = (studentId) => {
+    const enrolled = props.enrollmentList.find(
+      (enrollment) =>
+        enrollment.courseid === courseId && enrollment.studentid === studentId
+    );
+    return enrolled;
+  };
+
+  // get studentId from currentUser, check if enrolled
+  const studentId = props.currentUser
+    ? props.currentUser.isstudent
+      ? enrolledInCourse(props.currentUser.id)
+        ? props.currentUser.id
+        : 0
+      : 0
+    : 0;
 
   // return course id and title
   const renderCourse = () => {
@@ -21,79 +38,94 @@ const StudentAssignment = (props) => {
     return courseTitle;
   };
 
-  // render studentAssignment
-  const renderStudentAssignment = (studentAssignmentList) => {
-    return studentAssignmentList
-      .filter((studentAssignment) => studentAssignment.courseid === courseId)
-      .map((studentAssignment) => {
-        return (
-          <tr key={studentAssignment.id}>
-            <td>{studentAssignment.id}</td>
-            <td>{studentAssignment.title}</td>
-            <td>{studentAssignment.description}</td>
-            <td>{studentAssignment.duedate}</td>
+  const getAnswer = (assignmentId) => {
+    let answer = props.answerList.find(
+      (answer) =>
+        answer.assignmentid === assignmentId && answer.studentid === studentId
+    );
+    console.log(`Debug answer list`, props.answerList, answer);
+    if (!answer) {
+      answer = {
+        answer: "",
+        dateanswered: "",
+        grade: "",
+        dategraded: "",
+      };
+    }
+    return answer;
+  };
+
+  // render assignment
+  const renderAssignment = () => {
+    let allAssignments = [];
+    props.assignmentList
+      .filter((assignment) => assignment.courseid === courseId)
+      .forEach((assignment) => {
+        const answer = getAnswer(assignment.id);
+        allAssignments.push(
+          <tr key={assignment.id}>
+            <td>{assignment.id}</td>
+            <td>{assignment.title}</td>
+            <td>{assignment.description}</td>
+            <td>{assignment.duedate}</td>
+            <td>{answer.answer}</td>
+            <td>{answer.dateanswered}</td>
+            <td>{answer.grade}</td>
+            <td>{answer.dategraded}</td>
             <td>
-              <Link to={`/answer/${courseId}/${studentAssignment.id}`}>
-                <Button variant="primary">Answers</Button>
+              <Link to={`/studentanswer/${courseId}/${assignment.id}`}>
+                <Button variant="primary">Answer</Button>
               </Link>
-              &nbsp;
-              <Link
-                to={`/studentAssignmentform/${courseId}/${studentAssignment.id}`}
-              >
-                <Button variant="primary">Edit</Button>
-              </Link>
-              &nbsp;
-              <Button
-                variant="primary"
-                onClick={() => {
-                  props.onStudentAssignmentDelete(studentAssignment.id);
-                }}
-              >
-                Delete
-              </Button>
             </td>
           </tr>
         );
       });
+    return allAssignments;
   };
 
-  // render main form
-  return (
-    <div>
-      <h1>StudentAssignments: Course {renderCourse()}</h1>
-      <div className="studentAssignmentlistlist">
-        <Table hover>
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Due Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>{renderStudentAssignment(props.studentAssignmentList)}</tbody>
-        </Table>
-        <p>
-          <Link to={`/studentAssignmentform/${courseId}/0`}>
-            <Button variant="primary">Add New</Button>
-          </Link>
-          &nbsp;
-          <Link to={`/course`}>
-            <Button variant="primary">Course List</Button>
-          </Link>
-        </p>
+  // check if current user is student
+  if (studentId === 0) {
+    return <h3>Requires studentid Login</h3>;
+  } else {
+    // render main form
+    return (
+      <div>
+        <h1>Assignments: Course {renderCourse()}</h1>
+        <div className="assignmentlistlist">
+          <Table hover>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Answer</th>
+                <th>Date Answered</th>
+                <th>Grade</th>
+                <th>Date Graded</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>{renderAssignment()}</tbody>
+          </Table>
+          <p>
+            <Link to={`/studentcourse`}>
+              <Button variant="primary">Course List</Button>
+            </Link>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 // define prop types
 StudentAssignment.propTypes = {
   currentUser: PropTypes.object.isRequired,
-  studentAssignmentList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
-  onStudentAssignmentDelete: PropTypes.func.isRequired,
+  enrollmentList: PropTypes.array.isRequired,
+  assignmentList: PropTypes.array.isRequired,
+  answerList: PropTypes.array.isRequired,
 };
 
 export default StudentAssignment;

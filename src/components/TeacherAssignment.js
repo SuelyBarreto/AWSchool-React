@@ -94,7 +94,7 @@ const TeacherAssignment = (props) => {
               <Button variant="primary">Add New</Button>
             </Link>
             &nbsp;
-            <Link to={`/course`}>
+            <Link to={`/teachercourse`}>
               <Button variant="primary">Course List</Button>
             </Link>
           </p>

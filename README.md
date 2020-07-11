@@ -14,7 +14,7 @@ Create a website where teachers can assign homework to their students.
 Students can view their assigned homework.
 This is useful for schools using remote learning due to Covid - 19.
 
-## Example Features
+## Features
 
 ### As a User, I can
 
@@ -73,7 +73,7 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 ![ERD](./AwSchoolErd.png)
 
-Note: AWS DynamoDB is a NoSQL Database, so the relationships described in the diagram are enforced in the code, not in the database.
+**Note**: AWS DynamoDB is a NoSQL Database, so the relationships described in the diagram are enforced in the code, not in the database.
 
 ## Sample Data
 
