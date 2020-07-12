@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import Icon from "./Icon";
 import "./Components.css";
 
 // Answer Component
@@ -66,7 +67,9 @@ const Answer = (props) => {
             <td>{answer.dategraded}</td>
             <td>
               <Link to={`/answerform/${courseId}/${assignmentId}/${answer.id}`}>
-                <Button variant="primary">Edit</Button>
+                <Button variant="primary">
+                  <Icon iconType="edit" />
+                </Button>
               </Link>
               &nbsp;
               <Button
@@ -77,7 +80,7 @@ const Answer = (props) => {
                   }
                 }}
               >
-                Delete
+                <Icon iconType="delete" />
               </Button>
             </td>
           </tr>
@@ -112,11 +115,15 @@ const Answer = (props) => {
           </Table>
           <p>
             <Link to={`/answerform/${courseId}/${assignmentId}/0`}>
-              <Button variant="primary">Add New</Button>
+              <Button variant="primary">
+                <Icon iconType="add" /> Add New
+              </Button>
             </Link>
             &nbsp;
             <Link to={`/assignment/${courseId}`}>
-              <Button variant="primary">Assignment List</Button>
+              <Button variant="primary">
+                <Icon iconType="back" /> Assignment List
+              </Button>
             </Link>
           </p>
         </div>

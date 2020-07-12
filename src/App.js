@@ -385,28 +385,51 @@ const App = () => {
     }
   };
 
+  // Nav - render links for each role
+  const renderLinks = () => {
+    let allLinks = [];
+    allLinks.push(
+      <Link to="/" key="1">
+        <li className="nav-item">Home</li>
+      </Link>
+    );
+    if (currentUser) {
+      if (currentUser.isadmin) {
+        allLinks.push(
+          <Link to="/person" key="2">
+            <li className="nav-item">Person</li>
+          </Link>
+        );
+        allLinks.push(
+          <Link to="/course" key="3">
+            <li className="nav-item">All Courses</li>
+          </Link>
+        );
+      }
+      if (currentUser.isteacher) {
+        allLinks.push(
+          <Link to="/teachercourse" key="4">
+            <li className="nav-item">Teacher Courses</li>
+          </Link>
+        );
+      }
+      if (currentUser.isstudent) {
+        allLinks.push(
+          <Link to="/studentcourse" key="5">
+            <li className="nav-item">Student Courses</li>
+          </Link>
+        );
+      }
+    }
+    return allLinks;
+  };
+
   // Nav - render Navigation bar
   const renderNavBar = () => {
     return (
       <Navbar fixed="top" bg="dark" variant="dark">
         <Navbar.Brand>AWSchool</Navbar.Brand>
-        <ul className="navbar-nav mr-auto">
-          <Link to="/">
-            <li className="nav-item">Home</li>
-          </Link>
-          <Link to="/person">
-            <li className="nav-item">Person</li>
-          </Link>
-          <Link to="/course">
-            <li className="nav-item">All Courses</li>
-          </Link>
-          <Link to="/teachercourse">
-            <li className="nav-item">Teacher Courses</li>
-          </Link>
-          <Link to="/studentcourse">
-            <li className="nav-item">Student Courses</li>
-          </Link>
-        </ul>
+        <ul className="navbar-nav mr-auto">{renderLinks()}</ul>
         {renderUser()}
       </Navbar>
     );
@@ -435,7 +458,7 @@ const App = () => {
         </p>
       );
     } else {
-      return <div></div>;
+      return <p>&nbsp;</p>;
     }
   };
 

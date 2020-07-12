@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import Icon from "./Icon";
 import "./Components.css";
 
 // define PersonForm component
@@ -196,11 +197,14 @@ const PersonForm = (props) => {
           </Table>
           <div>
             <Button type="submit" variant="primary">
+              <Icon iconType="add" />
               {personId === 0 ? "Add" : "Save"}
             </Button>
             &nbsp;
             <Link to={`/person`}>
-              <Button variant="primary">Person List</Button>
+              <Button variant="primary">
+                <Icon iconType="back" /> Person List t
+              </Button>
             </Link>
           </div>
         </form>

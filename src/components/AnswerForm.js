@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import Icon from "./Icon";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Components.css";
@@ -265,11 +266,13 @@ const AnswerForm = (props) => {
           </Table>
           <div>
             <Button type="submit" variant="primary">
-              {answerId === 0 ? "Add" : "Save"}
+              <Icon iconType="add" /> {answerId === 0 ? "Add" : "Save"}
             </Button>
             &nbsp;
             <Link to={`/answer/${courseId}/${assignmentId}`}>
-              <Button variant="primary">Answer List</Button>
+              <Button variant="primary">
+                <Icon iconType="back" /> Answer List
+              </Button>
             </Link>
           </div>
         </form>

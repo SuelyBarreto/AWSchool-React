@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import Icon from "./Icon";
 import "./Components.css";
-import TeacherCourse from "./TeacherCourse";
 
 // Enrollment Component
 const Enrollment = (props) => {
@@ -82,7 +82,10 @@ const Enrollment = (props) => {
           </Table>
           <p>
             <Link to={`/teachercourse`}>
-              <Button variant="primary">Course List</Button>
+              <Button variant="primary">
+                <Icon iconType="back" />
+                Course List
+              </Button>
             </Link>
           </p>
         </div>

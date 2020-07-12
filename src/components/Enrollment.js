@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import Icon from "./Icon";
 import "./Components.css";
 
 // Enrollment Component
@@ -51,7 +52,9 @@ const Enrollment = (props) => {
             <td>{enrollment.averagegrade}</td>
             <td>
               <Link to={`/enrollmentform/${courseId}/${enrollment.id}`}>
-                <Button variant="primary">Edit</Button>
+                <Button variant="primary">
+                  <Icon iconType="edit" />
+                </Button>
               </Link>
               &nbsp;
               <Button
@@ -62,7 +65,7 @@ const Enrollment = (props) => {
                   }
                 }}
               >
-                Delete
+                <Icon iconType="delete" />
               </Button>
             </td>
           </tr>
@@ -92,11 +95,15 @@ const Enrollment = (props) => {
           </Table>
           <p>
             <Link to={`/enrollmentform/${courseId}/0`}>
-              <Button variant="primary">Add New</Button>
+              <Button variant="primary">
+                <Icon iconType="add" /> Add New
+              </Button>
             </Link>
             &nbsp;
             <Link to={`/course`}>
-              <Button variant="primary">Course List</Button>
+              <Button variant="primary">
+                <Icon iconType="back" /> Course List
+              </Button>
             </Link>
           </p>
         </div>

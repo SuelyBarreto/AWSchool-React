@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import Icon from "./Icon";
 import "./Components.css";
 
 // define EnrollmentForm component
@@ -185,7 +186,9 @@ const EnrollmentForm = (props) => {
             </Button>
             &nbsp;
             <Link to={`/enrollment/${courseId}`}>
-              <Button variant="primary">Enrollment List</Button>
+              <Button variant="primary">
+                <Icon iconType="back" /> Enrollment List
+              </Button>
             </Link>
           </div>
         </form>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
+// import sha256 from "js-sha256";
 import "./Components.css";
 
 // define Login component

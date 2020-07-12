@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import Icon from "./Icon";
 import "./Components.css";
 
 // StudentCourse Component
@@ -48,7 +49,9 @@ const StudentCourse = (props) => {
             <td>{course.passgrade}</td>
             <td>
               <Link to={`/studentassignment/${course.id}`}>
-                <Button variant="primary">Assignments</Button>
+                <Button variant="primary">
+                  <Icon iconType="assign" />
+                </Button>
               </Link>
             </td>
           </tr>

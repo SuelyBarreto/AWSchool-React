@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import Icon from "./Icon";
 import "./Components.css";
 
 // define StudentAnswerForm component
@@ -164,11 +165,14 @@ const StudentAnswerForm = (props) => {
           </Table>
           <div>
             <Button type="submit" variant="primary">
-              {answerId === 0 ? "Add" : "Save"}
+              <Icon iconType="add" /> {answerId === 0 ? "Add" : "Save"}
             </Button>
             &nbsp;
             <Link to={`/studentassignment/${courseId}/`}>
-              <Button variant="primary">Assignment List</Button>
+              <Button variant="primary">
+                <Icon iconType="back" />
+                Assignment List
+              </Button>
             </Link>
           </div>
         </form>
