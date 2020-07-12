@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
+import Icon from "./Icon";
 import "./Components.css";
 
 // Person component
@@ -14,6 +15,14 @@ const Person = (props) => {
       : 0
     : 0;
 
+  const renderCheck = (isChecked) => {
+    if (isChecked) {
+      return <Icon iconType="check" />;
+    } else {
+      return <span></span>;
+    }
+  };
+
   // render person
   const renderPerson = () => {
     return props.personList.map((person) => {
@@ -22,12 +31,14 @@ const Person = (props) => {
           <td>{person.id}</td>
           <td>{person.personname}</td>
           <td>{person.email}</td>
-          <td className="yesno">{person.isadmin ? `yes` : ``}</td>
-          <td className="yesno">{person.isteacher ? `yes` : ``}</td>
-          <td className="yesno">{person.isstudent ? `yes` : ``}</td>
+          <td className="yesno">{renderCheck(person.isadmin)}</td>
+          <td className="yesno">{renderCheck(person.isteacher)}</td>
+          <td className="yesno">{renderCheck(person.isstudent)}</td>
           <td>
             <Link to={`/personform/${person.id}`}>
-              <Button variant="primary">Edit</Button>
+              <Button variant="primary">
+                <Icon iconType="edit" />
+              </Button>
             </Link>
             &nbsp;
             <Button
@@ -38,7 +49,7 @@ const Person = (props) => {
                 }
               }}
             >
-              Delete
+              <Icon iconType="delete" />
             </Button>
           </td>
         </tr>
@@ -71,7 +82,9 @@ const Person = (props) => {
           </Table>
           <p>
             <Link to="/personform/0">
-              <Button variant="primary">Add New</Button>
+              <Button variant="primary">
+                <Icon iconType="add" /> Add New
+              </Button>
             </Link>
           </p>
         </div>
