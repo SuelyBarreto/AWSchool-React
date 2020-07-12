@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "react-bootstrap/Navbar";
+import sha256 from "js-sha256";
 import "./App.css";
 
 import Login from "./components/Login";
@@ -115,7 +116,7 @@ const App = () => {
     personList.forEach((person) => {
       if (
         person.email === formFields.email &&
-        person.password === formFields.password
+        person.password === sha256(formFields.password + formFields.email)
       ) {
         user = person;
       }
@@ -163,12 +164,13 @@ const App = () => {
     const params = {
       id: formFields.id,
       email: formFields.email,
-      password: formFields.password,
+      password: sha256(formFields.password + formFields.email),
       personname: formFields.personname,
       isadmin: formFields.isadmin,
       isteacher: formFields.isteacher,
       isstudent: formFields.isstudent,
     };
+    console.log(params);
 
     // AWS API Gateway call to add or update person
     postTable(

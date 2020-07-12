@@ -41,8 +41,8 @@ const PersonForm = (props) => {
           setFormFields({
             id: person.id,
             email: person.email,
-            password: person.password,
-            password2: person.password,
+            password: "",
+            password2: "",
             personname: person.personname,
             isadmin: person.isadmin,
             isteacher: person.isteacher,
@@ -77,9 +77,9 @@ const PersonForm = (props) => {
       props.setMessageText(`Validation: Email cannot be blank.`);
       return;
     }
-    if (formFields.password.length < 4) {
+    if (formFields.password.length < 8) {
       props.setMessageText(
-        `Validation: Password must be at least 4 characters long.`
+        `Validation: Password must be at least 8 characters long.`
       );
       return;
     }
@@ -97,6 +97,7 @@ const PersonForm = (props) => {
     if (personId === 0) {
       setFormFields(emptyForm);
     }
+    props.history.goBack();
   };
 
   // check if current user is admin

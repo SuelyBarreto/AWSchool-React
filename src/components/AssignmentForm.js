@@ -89,6 +89,7 @@ const AssignmentForm = (props) => {
     if (assignmentId === 0) {
       setFormFields(emptyForm);
     }
+    props.history.goBack();
   };
 
   // return current course id and title

@@ -66,6 +66,7 @@ const EnrollmentForm = (props) => {
     if (enrollmentId === 0) {
       setFormFields(emptyForm);
     }
+    props.history.goBack();
   };
 
   // return current course id and title

@@ -114,6 +114,7 @@ const CourseForm = (props) => {
     if (courseId === 0) {
       setFormFields(emptyForm);
     }
+    props.history.goBack();
   };
 
   // render teacher
