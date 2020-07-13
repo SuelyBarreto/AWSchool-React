@@ -77,7 +77,7 @@ const Assignment = (props) => {
     return (
       <div>
         <h1>Assignments: Course {renderCourse()}</h1>
-        <div className="assignmentlistlist">
+        <div>
           <Table hover>
             <thead>
               <tr>

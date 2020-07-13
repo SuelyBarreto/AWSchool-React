@@ -95,7 +95,7 @@ const TeacherAnswer = (props) => {
         <h1>
           Answers: Assignment {renderAssignment()} (Course {renderCourse()})
         </h1>
-        <div className="answerlistlist">
+        <div>
           <Table hover>
             <thead>
               <tr>

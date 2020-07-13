@@ -8,6 +8,7 @@ import "./Components.css";
 
 // Person component
 const Person = (props) => {
+  // ???
   // get adminId from currentUser
   const adminId = props.currentUser
     ? props.currentUser.isadmin
@@ -31,9 +32,9 @@ const Person = (props) => {
           <td>{person.id}</td>
           <td>{person.personname}</td>
           <td>{person.email}</td>
-          <td className="yesno">{renderCheck(person.isadmin)}</td>
-          <td className="yesno">{renderCheck(person.isteacher)}</td>
-          <td className="yesno">{renderCheck(person.isstudent)}</td>
+          <td>{renderCheck(person.isadmin)}</td>
+          <td>{renderCheck(person.isteacher)}</td>
+          <td>{renderCheck(person.isstudent)}</td>
           <td>
             <Link to={`/personform/${person.id}`}>
               <Button variant="primary">
@@ -65,16 +66,16 @@ const Person = (props) => {
     return (
       <div>
         <h1>Person</h1>
-        <div className="personlistlist">
+        <div>
           <Table hover>
             <thead>
               <tr>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th className="yesno">Administrator</th>
-                <th className="yesno">Teacher</th>
-                <th className="yesno">Student</th>
+                <th>Administrator</th>
+                <th>Teacher</th>
+                <th>Student</th>
                 <th>Actions</th>
               </tr>
             </thead>

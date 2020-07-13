@@ -85,7 +85,7 @@ const Course = (props) => {
     return (
       <div>
         <h1>Course</h1>
-        <div className="courselistlist">
+        <div>
           <Table hover>
             <thead>
               <tr>

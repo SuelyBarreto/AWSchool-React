@@ -15,7 +15,7 @@ const Login = (props) => {
   // define formFields
   const [formFields, setFormFields] = useState(emptyForm);
 
-  // event when form field changes
+  // event when formfield changes
   const onFieldChange = (event) => {
     setFormFields({
       ...formFields,

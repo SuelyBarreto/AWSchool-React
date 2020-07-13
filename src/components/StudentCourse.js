@@ -70,7 +70,7 @@ const StudentCourse = (props) => {
         <h3>
           Student: {props.currentUser.id} - {props.currentUser.personname}
         </h3>
-        <div className="courselistlist">
+        <div>
           <Table hover>
             <thead>
               <tr>

@@ -69,7 +69,7 @@ const Enrollment = (props) => {
     return (
       <div>
         <h1>Enrollment: Course {renderCourse()}</h1>
-        <div className="enrollmentlistlist">
+        <div>
           <Table hover>
             <thead>
               <tr>

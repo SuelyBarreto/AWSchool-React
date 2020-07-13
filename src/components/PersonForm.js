@@ -80,7 +80,7 @@ const PersonForm = (props) => {
     const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
     if (!regex.test(formFields.password)) {
       props.setMessageText(
-        `Validation: Password must be have least: 8 characters, 1 number, 1 lower case, 1 upper case and 1 special character.`
+        `Validation: Password must be have at least: 8 characters, 1 number, 1 lower case, 1 upper case and 1 special character.`
       );
       return;
     }

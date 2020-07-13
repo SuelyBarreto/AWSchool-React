@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import "./Components.css";
 
 // Icon Component
+// Delete, Edit, Add, Check
+// Enroll, Assign, Asnwer, Back, Grade,
 const Icon = (props) => {
   switch (props.iconType) {
     case "delete":
@@ -22,7 +24,6 @@ const Icon = (props) => {
           <title>Delete</title>
         </svg>
       );
-    // break;
     case "edit":
       return (
         <svg
@@ -43,7 +44,6 @@ const Icon = (props) => {
           <title>Edit</title>
         </svg>
       );
-    // break;
     case "add":
       return (
         <svg
@@ -175,8 +175,6 @@ const Icon = (props) => {
           <title>Grade</title>
         </svg>
       );
-    case "database":
-      return <i class="fas fa-database"></i>;
     default:
       return <span>{props.iconType}</span>;
   }
@@ -188,7 +186,3 @@ Icon.propTypes = {
 };
 
 export default Icon;
-
-{
-  /* <Icon iconType="edit" /> */
-}
