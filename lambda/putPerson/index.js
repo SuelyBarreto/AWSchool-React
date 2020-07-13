@@ -56,9 +56,9 @@ exports.handler = async (event, context) => {
     statusCode = 400;
   }
 
-  // if password is less than 4 characters
-  if (password.length < 4) {
-    responseBody = `Password must have at least 4 characters`;
+  // if password is not 64 characters (sha256 hash)
+  if (password.length !== 64) {
+    responseBody = `Password must be a sha256 hash`;
     statusCode = 400;
   }
 

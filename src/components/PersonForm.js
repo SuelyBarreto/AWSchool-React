@@ -77,12 +77,14 @@ const PersonForm = (props) => {
       props.setMessageText(`Validation: Email cannot be blank.`);
       return;
     }
-    if (formFields.password.length < 8) {
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+    if (!regex.test(formFields.password)) {
       props.setMessageText(
-        `Validation: Password must be at least 8 characters long.`
+        `Validation: Password must be have least: 8 characters, 1 number, 1 lower case, 1 upper case and 1 special character.`
       );
       return;
     }
+
     if (formFields.password !== formFields.password2) {
       props.setMessageText(`Validation: Passwords must match.`);
       return;
