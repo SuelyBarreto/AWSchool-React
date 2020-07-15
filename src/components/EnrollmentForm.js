@@ -17,14 +17,13 @@ const EnrollmentForm = (props) => {
 
   // get id from route parameter :id
   const courseId = parseInt(props.match.params.courseid);
-  const enrollmentId = parseInt(props.match.params.enrollmentid);
+  const enrollmentId = 0;
 
   // define emptyForm
   const emptyForm = {
     id: enrollmentId,
     courseid: courseId,
     studentid: 0,
-    averagegrade: 0,
   };
 
   // define formFields
@@ -39,7 +38,6 @@ const EnrollmentForm = (props) => {
             id: enrollment.id,
             courseid: enrollment.courseid,
             studentid: enrollment.studentid,
-            averagegrade: enrollment.averagegrade,
           });
         }
       });
@@ -80,17 +78,6 @@ const EnrollmentForm = (props) => {
     return courseTitle;
   };
 
-  // return current student id and name
-  const renderStaticStudent = () => {
-    let studentName = `${formFields.studentid} - N/A`;
-    props.personList.forEach((person) => {
-      if (person.id === formFields.studentid) {
-        studentName = `${person.id} - ${person.personname}`;
-      }
-    });
-    return studentName;
-  };
-
   // show list of student for selection
   const renderStudentOptions = () => {
     // build a list of student ids already enrolled
@@ -129,19 +116,15 @@ const EnrollmentForm = (props) => {
 
   // show student dropdown when adding
   const renderStudent = () => {
-    if (enrollmentId === 0) {
-      return (
-        <select
-          name="studentid"
-          value={formFields.studentid}
-          onChange={onFieldChange}
-        >
-          {renderStudentOptions()};
-        </select>
-      );
-    } else {
-      return renderStaticStudent();
-    }
+    return (
+      <select
+        name="studentid"
+        value={formFields.studentid}
+        onChange={onFieldChange}
+      >
+        {renderStudentOptions()};
+      </select>
+    );
   };
 
   // check if current user is admin
@@ -157,7 +140,7 @@ const EnrollmentForm = (props) => {
             <tbody>
               <tr>
                 <td>Enrollment Id</td>
-                <td>{formFields.id === 0 ? `New` : formFields.id}</td>
+                <td>New</td>
               </tr>
               <tr>
                 <td>Course</td>
@@ -167,23 +150,11 @@ const EnrollmentForm = (props) => {
                 <td>Student</td>
                 <td>{renderStudent()}</td>
               </tr>
-              <tr>
-                <td>Grade</td>
-                <td>
-                  <input
-                    name="averagegrade"
-                    onChange={onFieldChange}
-                    value={formFields.averagegrade}
-                    placeholder="grade"
-                    type="text"
-                  />
-                </td>
-              </tr>
             </tbody>
           </Table>
           <div>
             <Button type="submit" variant="primary">
-              {enrollmentId === 0 ? "Add" : "Save"}
+              Add
             </Button>
             &nbsp;
             <Link to={`/enrollment/${courseId}`}>

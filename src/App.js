@@ -63,7 +63,7 @@ const App = () => {
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // AWS API Gateway call to get
+  // AWS API Gateway GET call
   const getTable = (tableName, setTable, sortBy, setMessage) => {
     axios
       .get(API_URL_BASE + `/${tableName}`)
@@ -75,17 +75,17 @@ const App = () => {
       });
   };
 
-  // AWS API Gateway call to get all persons
+  // AWS API Gateway call to GET all persons
   useEffect(() => {
     getTable("person", setPersonList, sortById, setMessageText);
   }, [personUpdate]);
 
-  // AWS API Gateway call to get all courses
+  // AWS API Gateway call to GET all courses
   useEffect(() => {
     getTable("course", setCourseList, sortById, setMessageText);
   }, [courseUpdate]);
 
-  // AWS API Gateway call to get enrollment (coursestudent)
+  // AWS API Gateway call to GET enrollment (CourseStudent)
   useEffect(() => {
     getTable(
       "coursestudent",
@@ -95,12 +95,12 @@ const App = () => {
     );
   }, [enrollmentUpdate]);
 
-  // AWS API Gateway call to get all assignments
+  // AWS API Gateway call to GET all assignments
   useEffect(() => {
     getTable("assignment", setAssignmentList, sortById, setMessageText);
   }, [assignmentUpdate]);
 
-  // AWS API Gateway call to get all answers (assignmentstudents)
+  // AWS API Gateway call to GET all answers (AssignmentStudents)
   useEffect(() => {
     getTable(
       "assignmentstudent",
@@ -110,7 +110,7 @@ const App = () => {
     );
   }, [answerUpdate]);
 
-  // callback to login
+  // Callback to Login
   const onLogin = (formFields) => {
     let user = null;
     personList.forEach((person) => {
@@ -130,7 +130,7 @@ const App = () => {
     }
   };
 
-  // AWS API Gateway call to post
+  // AWS API Gateway POST call
   const postTable = (
     tableName,
     messageName,
@@ -142,7 +142,7 @@ const App = () => {
   ) => {
     setMessage(id === 0 ? `Adding...` : `Updating...`);
 
-    // AWS API Gateway call to add or update table
+    // AWS API Gateway POST call to add/update a table
     axios
       .post(API_URL_BASE + `/${tableName}/${id}`, params)
       .then((response) => {
@@ -158,7 +158,7 @@ const App = () => {
       });
   };
 
-  // callback to add or update person form
+  // Callback to add/update PersonForm
   const onPersonFormSubmit = (formFields) => {
     // prepare params
     const params = {
@@ -172,7 +172,7 @@ const App = () => {
     };
     console.log(params);
 
-    // AWS API Gateway call to add or update person
+    // AWS API Gateway POST call to add/update Person
     postTable(
       "person",
       "Person",
@@ -184,7 +184,7 @@ const App = () => {
     );
   };
 
-  // callback to add or update course form
+  // Callback to add/update CourseForm
   const onCourseFormSubmit = (formFields) => {
     // prepare params
     const params = {
@@ -197,7 +197,7 @@ const App = () => {
       passgrade: parseFloat(formFields.passgrade),
     };
 
-    // AWS API Gateway call to add or update course
+    // AWS API Gateway POST call to add/update Course
     postTable(
       "course",
       "Course",
@@ -209,7 +209,7 @@ const App = () => {
     );
   };
 
-  // callback to add or update enrollment form
+  // Callback to add/update EnrollmentForm
   const onEnrollmentFormSubmit = (formFields) => {
     // prepare params
     const params = {
@@ -219,7 +219,7 @@ const App = () => {
       averagegrade: parseFloat(formFields.averagegrade),
     };
 
-    // AWS API Gateway call to add or update enrollment (coursestudent)
+    // AWS API Gateway POST call to add/update Enrollment (CourseStudent)
     postTable(
       "coursestudent",
       "Enrollment",
@@ -231,7 +231,7 @@ const App = () => {
     );
   };
 
-  // callback to add or update assignment form
+  // Callback to add/update AssignmentForm
   const onAssignmentFormSubmit = (formFields) => {
     // prepare params
     const params = {
@@ -242,7 +242,7 @@ const App = () => {
       duedate: formFields.duedate,
     };
 
-    // AWS API Gateway call to add or update assignment
+    // AWS API Gateway POST call to add/update Assignment
     postTable(
       "assignment",
       "Assignment",
@@ -254,7 +254,7 @@ const App = () => {
     );
   };
 
-  // callback to add or update answer form
+  // Callback to add/update AnswerForm
   const onAnswerFormSubmit = (formFields) => {
     // prepare params
     const params = {
@@ -267,7 +267,7 @@ const App = () => {
       dategraded: formFields.dategraded,
     };
 
-    // AWS API Gateway call to add or update answer (assignmentstudent)
+    // AWS API Gateway POST call to add/update Answer (AssignmentStudent)
     postTable(
       "assignmentstudent",
       "Answer",
@@ -279,7 +279,7 @@ const App = () => {
     );
   };
 
-  // AWS API Gateway call to delete
+  // AWS API Gateway DELETE call
   const tableDelete = (
     tableName,
     messageName,
@@ -290,7 +290,7 @@ const App = () => {
   ) => {
     setMessage(`Deleting...`);
 
-    // AWS API Gateway call to delete a table item
+    // AWS API Gateway call to DELETE a table item
     axios
       .delete(API_URL_BASE + `/${tableName}/${id}`)
       .then((response) => {
@@ -302,7 +302,7 @@ const App = () => {
       });
   };
 
-  // callback to delete person
+  // callback to DELETE person
   const onPersonDelete = (id) => {
     tableDelete(
       "person",
@@ -314,7 +314,7 @@ const App = () => {
     );
   };
 
-  // callback to delete course
+  // callback to DELETE course
   const onCourseDelete = (id) => {
     tableDelete(
       "course",
@@ -326,7 +326,7 @@ const App = () => {
     );
   };
 
-  // callback to delete enrollment (coursestudent)
+  // callback to DELETE enrollment (CourseStudent)
   const onEnrollmentDelete = (id) => {
     tableDelete(
       "coursestudent",
@@ -338,7 +338,7 @@ const App = () => {
     );
   };
 
-  // callback to delete assignment
+  // callback to DELETE assignment
   const onAssignmentDelete = (id) => {
     tableDelete(
       "assignment",
@@ -350,7 +350,7 @@ const App = () => {
     );
   };
 
-  // callback to delete answer
+  // callback to DELETE answer
   const onAnswerDelete = (id) => {
     tableDelete(
       "assignmentstudent",
@@ -426,7 +426,7 @@ const App = () => {
     return allLinks;
   };
 
-  // Nav - render Navigation bar
+  // Nav - render navigation bar
   const renderNavBar = () => {
     return (
       <Navbar fixed="top" bg="dark" variant="dark">
@@ -437,7 +437,7 @@ const App = () => {
     );
   };
 
-  // message flashes for 3 seconds
+  // message "flashes" for 3 seconds
   useEffect(() => {
     if (!messageText) {
       return;
@@ -542,6 +542,8 @@ const App = () => {
               personList={personList}
               courseList={courseList}
               enrollmentList={enrollmentList}
+              assignmentList={assignmentList}
+              answerList={answerList}
               onEnrollmentDelete={onEnrollmentDelete}
             />
           )}
@@ -634,6 +636,8 @@ const App = () => {
               personList={personList}
               courseList={courseList}
               enrollmentList={enrollmentList}
+              assignmentList={assignmentList}
+              answerList={answerList}
             />
           )}
         />
@@ -701,6 +705,8 @@ const App = () => {
               personList={personList}
               courseList={courseList}
               enrollmentList={enrollmentList}
+              assignmentList={assignmentList}
+              answerList={answerList}
             />
           )}
         />

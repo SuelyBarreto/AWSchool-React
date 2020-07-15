@@ -40,23 +40,56 @@ const Enrollment = (props) => {
     return studentName;
   };
 
+  // show average grade for student
+  const getGrade = (studentId) => {
+    let totalGrade = 0;
+    let countGrade = 0;
+    let countAssignment = 0;
+
+    props.assignmentList
+      .filter((assignment) => assignment.courseid === courseId)
+      .forEach((assignment) => {
+        countAssignment++;
+        const studentAnswer = props.answerList.find(
+          (answer) =>
+            answer.assignmentid === assignment.id &&
+            answer.studentid === studentId
+        );
+        if (studentAnswer) {
+          if (studentAnswer.dategraded) {
+            totalGrade += studentAnswer.grade;
+            countGrade++;
+          }
+        }
+      });
+
+    // calculate average grade
+    let averageGrade = 0;
+    if (countGrade > 0) {
+      averageGrade = totalGrade / countGrade;
+    }
+    return {
+      assignments: countAssignment,
+      graded: countGrade,
+      average: averageGrade.toFixed(2),
+    };
+  };
+
   // render enrollment
   const renderEnrollment = (enrollmentList) => {
     return enrollmentList
       .filter((enrollment) => enrollment.courseid === courseId)
       .map((enrollment) => {
+        const grade = getGrade(enrollment.studentid);
         return (
           <tr key={enrollment.id}>
             <td>{enrollment.id}</td>
             <td>{renderStudent(enrollment.studentid)}</td>
-            <td>{enrollment.averagegrade}</td>
             <td>
-              <Link to={`/enrollmentform/${courseId}/${enrollment.id}`}>
-                <Button variant="primary">
-                  <Icon iconType="edit" />
-                </Button>
-              </Link>
-              &nbsp;
+              {grade.graded} of {grade.assignments}
+            </td>
+            <td>{grade.average}</td>
+            <td>
               <Button
                 variant="primary"
                 onClick={() => {
@@ -87,7 +120,8 @@ const Enrollment = (props) => {
               <tr>
                 <th>Id</th>
                 <th>Student Id</th>
-                <th>Grade</th>
+                <th>Assignments Graded</th>
+                <th>Average Grade</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -118,6 +152,8 @@ Enrollment.propTypes = {
   personList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   enrollmentList: PropTypes.array.isRequired,
+  assignmentList: PropTypes.array.isRequired,
+  answerList: PropTypes.array.isRequired,
   onEnrollmentDelete: PropTypes.func.isRequired,
 };
 

@@ -77,6 +77,17 @@ const PersonForm = (props) => {
       props.setMessageText(`Validation: Email cannot be blank.`);
       return;
     }
+
+    if (
+      props.personList.find(
+        (person) =>
+          person.email === formFields.email && person.id !== formFields.id
+      )
+    ) {
+      props.setMessageText(`Validation: Email already in use.`);
+      return;
+    }
+
     const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
     if (!regex.test(formFields.password)) {
       props.setMessageText(

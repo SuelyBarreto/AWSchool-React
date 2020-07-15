@@ -8,7 +8,6 @@ import "./Components.css";
 
 // Person component
 const Person = (props) => {
-  // ???
   // get adminId from currentUser
   const adminId = props.currentUser
     ? props.currentUser.isadmin

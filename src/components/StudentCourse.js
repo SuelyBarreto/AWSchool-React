@@ -33,11 +33,47 @@ const StudentCourse = (props) => {
     }
   };
 
+  // show average grade for student
+  const getGrade = (courseId) => {
+    let totalGrade = 0;
+    let countGrade = 0;
+    let countAssignment = 0;
+
+    props.assignmentList
+      .filter((assignment) => assignment.courseid === courseId)
+      .forEach((assignment) => {
+        countAssignment++;
+        const studentAnswer = props.answerList.find(
+          (answer) =>
+            answer.assignmentid === assignment.id &&
+            answer.studentid === studentId
+        );
+        if (studentAnswer) {
+          if (studentAnswer.dategraded) {
+            totalGrade += studentAnswer.grade;
+            countGrade++;
+          }
+        }
+      });
+
+    // calculate average grade
+    let averageGrade = 0;
+    if (countGrade > 0) {
+      averageGrade = totalGrade / countGrade;
+    }
+    return {
+      assignments: countAssignment,
+      graded: countGrade,
+      average: averageGrade.toFixed(2),
+    };
+  };
+
   // render course
   const renderCourse = () => {
     return props.courseList
       .filter((course) => enrolledInCourse(course.id))
       .map((course) => {
+        const grade = getGrade(course.id);
         return (
           <tr key={course.id}>
             <td>{course.id}</td>
@@ -47,6 +83,10 @@ const StudentCourse = (props) => {
             <td>{course.startdate}</td>
             <td>{course.enddate}</td>
             <td>{course.passgrade}</td>
+            <td>
+              {grade.graded} of {grade.assignments}
+            </td>
+            <td>{grade.average}</td>
             <td>
               <Link to={`/studentassignment/${course.id}`}>
                 <Button variant="primary">
@@ -81,6 +121,8 @@ const StudentCourse = (props) => {
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Passing Grade</th>
+                <th>Assignments Graded</th>
+                <th>Average Grade</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -98,6 +140,8 @@ StudentCourse.propTypes = {
   personList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   enrollmentList: PropTypes.array.isRequired,
+  assignmentList: PropTypes.array.isRequired,
+  answerList: PropTypes.array.isRequired,
 };
 
 export default StudentCourse;
