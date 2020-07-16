@@ -36,8 +36,9 @@ const PersonForm = (props) => {
   // find data for current id, put in formFields
   useEffect(() => {
     if (personId !== 0) {
-      props.personList.forEach((person) => {
-        if (person.id === personId) {
+      props.personList
+        .filter((person) => person.id === personId)
+        .forEach((person) => {
           setFormFields({
             id: person.id,
             email: person.email,
@@ -48,8 +49,7 @@ const PersonForm = (props) => {
             isteacher: person.isteacher,
             isstudent: person.isstudent,
           });
-        }
-      });
+        });
     }
   }, [personId, props.personList]);
 

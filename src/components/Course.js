@@ -17,17 +17,12 @@ const Course = (props) => {
 
   // return teacher id and name
   const renderTeacher = (teacherid) => {
-    let teacherName = `${teacherid} - Invalid Id`;
-    props.personList.forEach((person) => {
-      if (person.id === teacherid) {
-        if (person.isteacher) {
-          teacherName = `${person.id} - ${person.personname}`;
-        } else {
-          teacherName = `${teacherid} - Invalid Teacher`;
-        }
-      }
-    });
-    return teacherName;
+    const person = props.personList.find(
+      (person) => person.id === teacherid && person.isteacher
+    );
+    return person
+      ? `${person.id} - ${person.personname}`
+      : `${teacherid} - N/A`;
   };
 
   // render course

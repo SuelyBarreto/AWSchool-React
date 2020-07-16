@@ -112,16 +112,11 @@ const App = () => {
 
   // Callback to Login
   const onLogin = (formFields) => {
-    let user = null;
-    personList.forEach((person) => {
-      if (
+    const user = personList.find(
+      (person) =>
         person.email === formFields.email &&
         person.password === sha256(formFields.password + formFields.email)
-      ) {
-        user = person;
-      }
-    });
-
+    );
     if (user) {
       setCurrentUser(user);
       setMessageText(`Success: User logged in.`);

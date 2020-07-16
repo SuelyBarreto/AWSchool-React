@@ -21,35 +21,26 @@ const Answer = (props) => {
 
   // return course id and title
   const renderCourse = () => {
-    let courseTitle = `${courseId} - N/A`;
-    props.courseList.forEach((course) => {
-      if (course.id === courseId) {
-        courseTitle = `${course.id} - ${course.title}`;
-      }
-    });
-    return courseTitle;
+    const course = props.courseList.find((course) => course.id === courseId);
+    return course ? `${course.id} - ${course.title}` : `${courseId} - N/A`;
   };
 
   // return assignment id and title
   const renderAssignment = () => {
-    let assignmentTitle = `${assignmentId} - N/A`;
-    props.assignmentList.forEach((assignment) => {
-      if (assignment.id === assignmentId) {
-        assignmentTitle = `${assignment.id} - ${assignment.title}`;
-      }
-    });
-    return assignmentTitle;
+    const assignment = props.assignmentList.find(
+      (assignment) => assignment.id === assignmentId
+    );
+    return assignment
+      ? `${assignment.id} - ${assignment.title}`
+      : `${assignmentId} - N/A`;
   };
 
   // return student id and name
   const renderStudent = (studentid) => {
-    let studentName = `${studentid} - N/A`;
-    props.personList.forEach((person) => {
-      if (person.id === studentid) {
-        studentName = `${person.id} - ${person.personname}`;
-      }
-    });
-    return studentName;
+    const person = props.personList.find((person) => person.id === studentid);
+    return person
+      ? `${person.id} - ${person.personname}`
+      : `${studentid} - N/A`;
   };
 
   // render answer

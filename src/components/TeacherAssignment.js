@@ -26,13 +26,8 @@ const TeacherAssignment = (props) => {
 
   // return course id and title
   const renderCourse = () => {
-    let courseTitle = `${courseId} - N/A`;
-    props.courseList.forEach((course) => {
-      if (course.id === courseId) {
-        courseTitle = `${course.id} - ${course.title}`;
-      }
-    });
-    return courseTitle;
+    const course = props.courseList.find((course) => course.id === courseId);
+    return course ? `${course.id} - ${course.title}` : `${courseId} - N/A`;
   };
 
   // render assignment

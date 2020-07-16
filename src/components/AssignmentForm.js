@@ -36,8 +36,9 @@ const AssignmentForm = (props) => {
   // find data for current id, put in formFields
   useEffect(() => {
     if (assignmentId !== 0) {
-      props.assignmentList.forEach((assignment) => {
-        if (assignment.id === assignmentId) {
+      props.assignmentList
+        .filter((assignment) => assignment.id === assignmentId)
+        .forEach((assignment) => {
           setFormFields({
             id: assignment.id,
             courseid: assignment.courseid,
@@ -45,8 +46,7 @@ const AssignmentForm = (props) => {
             description: assignment.description,
             duedate: assignment.duedate,
           });
-        }
-      });
+        });
     }
   }, [assignmentId, props.assignmentList]);
 
@@ -92,15 +92,10 @@ const AssignmentForm = (props) => {
     props.history.goBack();
   };
 
-  // return current course id and title
+  // return course id and title
   const renderCourse = () => {
-    let courseTitle = `${courseId} - N/A`;
-    props.courseList.forEach((course) => {
-      if (course.id === courseId) {
-        courseTitle = `${courseId} - ${course.title}`;
-      }
-    });
-    return courseTitle;
+    const course = props.courseList.find((course) => course.id === courseId);
+    return course ? `${course.id} - ${course.title}` : `${courseId} - N/A`;
   };
 
   // check if current user is admin

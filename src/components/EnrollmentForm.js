@@ -32,15 +32,15 @@ const EnrollmentForm = (props) => {
   // find data for current id, put in formFields
   useEffect(() => {
     if (enrollmentId !== 0) {
-      props.enrollmentList.forEach((enrollment) => {
-        if (enrollment.id === enrollmentId) {
+      props.enrollmentList
+        .filter((enrollment) => enrollment.id === enrollmentId)
+        .forEach((enrollment) => {
           setFormFields({
             id: enrollment.id,
             courseid: enrollment.courseid,
             studentid: enrollment.studentid,
           });
-        }
-      });
+        });
     }
   }, [enrollmentId, props.enrollmentList]);
 
@@ -67,15 +67,10 @@ const EnrollmentForm = (props) => {
     props.history.goBack();
   };
 
-  // return current course id and title
+  // return course id and title
   const renderCourse = () => {
-    let courseTitle = `${courseId} - N/A`;
-    props.courseList.forEach((course) => {
-      if (course.id === courseId) {
-        courseTitle = `${courseId} - ${course.title}`;
-      }
-    });
-    return courseTitle;
+    const course = props.courseList.find((course) => course.id === courseId);
+    return course ? `${course.id} - ${course.title}` : `${courseId} - N/A`;
   };
 
   // show list of student for selection

@@ -39,8 +39,9 @@ const AnswerForm = (props) => {
   // find data for current id, put in formFields
   useEffect(() => {
     if (answerId !== 0) {
-      props.answerList.forEach((answer) => {
-        if (answer.id === answerId) {
+      props.answerList
+        .filter((answer) => answer.id === answerId)
+        .forEach((answer) => {
           setFormFields({
             id: answer.id,
             assignmentid: answer.assignmentid,
@@ -50,8 +51,7 @@ const AnswerForm = (props) => {
             grade: answer.grade,
             dategraded: answer.dategraded,
           });
-        }
-      });
+        });
     }
   }, [answerId, props.answerList]);
 
@@ -106,37 +106,30 @@ const AnswerForm = (props) => {
     props.history.goBack();
   };
 
-  // return current course id and title
+  // return course id and title
   const renderCourse = () => {
-    let courseTitle = `${courseId} - N/A`;
-    props.courseList.forEach((course) => {
-      if (course.id === courseId) {
-        courseTitle = `${courseId} - ${course.title}`;
-      }
-    });
-    return courseTitle;
+    const course = props.courseList.find((course) => course.id === courseId);
+    return course ? `${course.id} - ${course.title}` : `${courseId} - N/A`;
   };
 
   // return assignment id and title
   const renderAssignment = () => {
-    let assignmentTitle = `${assignmentId} - N/A`;
-    props.assignmentList.forEach((assignment) => {
-      if (assignment.id === assignmentId) {
-        assignmentTitle = `${assignment.id} - ${assignment.title}`;
-      }
-    });
-    return assignmentTitle;
+    const assignment = props.assignmentList.find(
+      (assignment) => assignment.id === assignmentId
+    );
+    return assignment
+      ? `${assignment.id} - ${assignment.title}`
+      : `${assignmentId} - N/A`;
   };
 
-  // return current student id and name
+  // return student id and name
   const renderStaticStudent = () => {
-    let studentName = `${formFields.studentid} - N/A`;
-    props.personList.forEach((person) => {
-      if (person.id === formFields.studentid) {
-        studentName = `${person.id} - ${person.personname}`;
-      }
-    });
-    return studentName;
+    const person = props.personList.find(
+      (person) => person.id === formFields.studentid
+    );
+    return person
+      ? `${person.id} - ${person.personname}`
+      : `${formFields.studentid} - N/A`;
   };
 
   // show list of student for selection

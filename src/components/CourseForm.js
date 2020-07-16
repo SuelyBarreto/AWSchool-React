@@ -37,8 +37,9 @@ const CourseForm = (props) => {
   // find data for current id, put in formFields
   useEffect(() => {
     if (courseId !== 0) {
-      props.courseList.forEach((course) => {
-        if (course.id === courseId) {
+      props.courseList
+        .filter((course) => course.id === courseId)
+        .forEach((course) => {
           setFormFields({
             id: course.id,
             teacherid: course.teacherid,
@@ -48,8 +49,7 @@ const CourseForm = (props) => {
             enddate: course.enddate,
             passgrade: course.passgrade,
           });
-        }
-      });
+        });
     }
   }, [courseId, props.courseList]);
 
