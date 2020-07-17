@@ -67,6 +67,20 @@ const Enrollment = (props) => {
     };
   };
 
+  //
+  const renderSortButton = (column) => {
+    const iconType = column === props.enrollmentSort ? "sort1" : "sort2";
+    return (
+      <span
+        onClick={() => {
+          props.setEnrollmentSort(column);
+        }}
+      >
+        <Icon iconType={iconType} />
+      </span>
+    );
+  };
+
   // render enrollment
   const renderEnrollment = (enrollmentList) => {
     return enrollmentList
@@ -110,8 +124,14 @@ const Enrollment = (props) => {
           <Table hover>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Student Id</th>
+                <th>
+                  Id &nbsp;
+                  {renderSortButton("id")}
+                </th>
+                <th>
+                  Student Id &nbsp;
+                  {renderSortButton("studentid")}
+                </th>
                 <th>Assignments Graded</th>
                 <th>Average Grade</th>
                 <th>Actions</th>
@@ -147,6 +167,8 @@ Enrollment.propTypes = {
   assignmentList: PropTypes.array.isRequired,
   answerList: PropTypes.array.isRequired,
   onEnrollmentDelete: PropTypes.func.isRequired,
+  enrollmentSort: PropTypes.string.isRequired,
+  setEnrollmentSort: PropTypes.func.isRequired,
 };
 
 export default Enrollment;

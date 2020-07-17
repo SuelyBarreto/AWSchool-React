@@ -65,8 +65,14 @@ const AnswerForm = (props) => {
 
   // convert date to string mm/dd/yyyy
   const dateToString = (date) => {
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
+    let month = date.getMonth() + 1;
+    if (month < 10) {
+      month = "0" + month;
+    }
+    let day = date.getDate();
+    if (day < 10) {
+      day = "0" + day;
+    }
     const year = date.getFullYear();
     return month + "/" + day + "/" + year;
   };

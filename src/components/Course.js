@@ -25,6 +25,20 @@ const Course = (props) => {
       : `${teacherid} - N/A`;
   };
 
+  //
+  const renderSortButton = (column) => {
+    const iconType = column === props.courseSort ? "sort1" : "sort2";
+    return (
+      <span
+        onClick={() => {
+          props.setCourseSort(column);
+        }}
+      >
+        <Icon iconType={iconType} />
+      </span>
+    );
+  };
+
   // render course
   const renderCourse = () => {
     return props.courseList.map((course) => {
@@ -84,13 +98,34 @@ const Course = (props) => {
           <Table hover>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Teacher - Id</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Passing Grade</th>
+                <th>
+                  Id &nbsp;
+                  {renderSortButton("id")}
+                </th>
+                <th>
+                  Title &nbsp;
+                  {renderSortButton("title")}
+                </th>
+                <th>
+                  Description &nbsp;
+                  {renderSortButton("description")}
+                </th>
+                <th>
+                  Teacher &nbsp;
+                  {renderSortButton("teacherid")}
+                </th>
+                <th>
+                  Start Date &nbsp;
+                  {renderSortButton("startdate")}
+                </th>
+                <th>
+                  End Date &nbsp;
+                  {renderSortButton("enddate")}
+                </th>
+                <th>
+                  Passing Grade &nbsp;
+                  {renderSortButton("passgrade")}
+                </th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -115,6 +150,8 @@ Course.propTypes = {
   personList: PropTypes.array.isRequired,
   courseList: PropTypes.array.isRequired,
   onCourseDelete: PropTypes.func.isRequired,
+  courseSort: PropTypes.string.isRequired,
+  setCourseSort: PropTypes.func.isRequired,
 };
 
 export default Course;

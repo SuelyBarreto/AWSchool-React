@@ -39,7 +39,6 @@ const StudentAssignment = (props) => {
       (answer) =>
         answer.assignmentid === assignmentId && answer.studentid === studentId
     );
-    console.log(`Debug answer list`, props.answerList, answer);
     if (!answer) {
       answer = {
         id: 0,

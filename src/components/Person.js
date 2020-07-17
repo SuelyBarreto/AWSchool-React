@@ -8,7 +8,7 @@ import "./Components.css";
 
 // Person component
 const Person = (props) => {
-  // get adminId from currentUser
+  // get administrator Id from current User
   const adminId = props.currentUser
     ? props.currentUser.isadmin
       ? props.currentUser.id
@@ -23,7 +23,21 @@ const Person = (props) => {
     }
   };
 
-  // render person
+  //
+  const renderSortButton = (column) => {
+    const iconType = column === props.personSort ? "sort1" : "sort2";
+    return (
+      <span
+        onClick={() => {
+          props.setPersonSort(column);
+        }}
+      >
+        <Icon iconType={iconType} />
+      </span>
+    );
+  };
+
+  // render Person
   const renderPerson = () => {
     return props.personList.map((person) => {
       return (
@@ -57,21 +71,30 @@ const Person = (props) => {
     });
   };
 
-  // check if current user is admin
+  // check if current user is an administrator
   if (adminId === 0) {
     return <h3>Requires Administrator Login</h3>;
   } else {
     // render main form
     return (
       <div>
-        <h1>Person</h1>
+        <h1>Users</h1>
         <div>
           <Table hover>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>
+                  Id &nbsp;
+                  {renderSortButton("id")}
+                </th>
+                <th>
+                  Name &nbsp;
+                  {renderSortButton("personname")}
+                </th>
+                <th>
+                  Email &nbsp;
+                  {renderSortButton("email")}
+                </th>
                 <th>Administrator</th>
                 <th>Teacher</th>
                 <th>Student</th>
@@ -98,6 +121,8 @@ Person.propTypes = {
   currentUser: PropTypes.object.isRequired,
   personList: PropTypes.array.isRequired,
   onPersonDelete: PropTypes.func.isRequired,
+  personSort: PropTypes.string.isRequired,
+  setPersonSort: PropTypes.func.isRequired,
 };
 
 export default Person;

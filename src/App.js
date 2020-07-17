@@ -31,18 +31,6 @@ import StudentAnswerForm from "./components/StudentAnswerForm";
 const API_URL_BASE =
   "https://4jqwh1vygi.execute-api.us-west-2.amazonaws.com/prod";
 
-// sort by id
-const sortById = (objs) => {
-  return objs.sort((a, b) => (a.id > b.id ? 1 : b.id > a.id ? -1 : 0));
-};
-
-// sort by student id
-const sortByStudentId = (objs) => {
-  return objs.sort((a, b) =>
-    a.studentid > b.studentid ? 1 : b.studentid > a.studentid ? -1 : 0
-  );
-};
-
 // App component
 const App = () => {
   // state for tables
@@ -51,6 +39,15 @@ const App = () => {
   const [enrollmentList, setEnrollmentList] = useState([]);
   const [assignmentList, setAssignmentList] = useState([]);
   const [answerList, setAnswerList] = useState([]);
+  const [logList, setLogList] = useState([]);
+
+  // state to control table sort order
+  const [personSort, setPersonSort] = useState("id");
+  const [courseSort, setCourseSort] = useState("id");
+  const [enrollmentSort, setEnrollmentSort] = useState("studentid");
+  const [assignmentSort, setAssignmentSort] = useState("id");
+  const [answerSort, setAnswerSort] = useState("studentid");
+  const [logSort, setLogSort] = useState("id");
 
   // state to signal table changes
   const [personUpdate, setPersonUpdate] = useState(0);
@@ -58,17 +55,25 @@ const App = () => {
   const [enrollmentUpdate, setEnrollmentUpdate] = useState(0);
   const [assignmentUpdate, setAssignmentUpdate] = useState(0);
   const [answerUpdate, setAnswerUpdate] = useState(0);
+  const [logUpdate, setLogUpdate] = useState(0);
 
   // state for messages and logged in user
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // AWS API Gateway GET call
-  const getTable = (tableName, setTable, sortBy, setMessage) => {
+  // sort by column
+  const sortBy = (objs, column) => {
+    return objs.sort((a, b) =>
+      a[column] > b[column] ? 1 : b[column] > a[column] ? -1 : 0
+    );
+  };
+
+  // AWS API Gateway GET call to each table
+  const getTable = (tableName, setTable, sortColumn, setMessage) => {
     axios
       .get(API_URL_BASE + `/${tableName}`)
       .then((response) => {
-        setTable(sortBy(response.data));
+        setTable(sortBy(response.data, sortColumn));
       })
       .catch((error) => {
         setMessage(`Error: ${error.message}`);
@@ -77,38 +82,38 @@ const App = () => {
 
   // AWS API Gateway call to GET all persons
   useEffect(() => {
-    getTable("person", setPersonList, sortById, setMessageText);
-  }, [personUpdate]);
+    getTable("person", setPersonList, personSort, setMessageText);
+  }, [personUpdate, personSort]);
 
   // AWS API Gateway call to GET all courses
   useEffect(() => {
-    getTable("course", setCourseList, sortById, setMessageText);
-  }, [courseUpdate]);
+    getTable("course", setCourseList, courseSort, setMessageText);
+  }, [courseUpdate, courseSort]);
 
   // AWS API Gateway call to GET enrollment (CourseStudent)
   useEffect(() => {
     getTable(
       "coursestudent",
       setEnrollmentList,
-      sortByStudentId,
+      enrollmentSort,
       setMessageText
     );
-  }, [enrollmentUpdate]);
+  }, [enrollmentUpdate, enrollmentSort]);
 
   // AWS API Gateway call to GET all assignments
   useEffect(() => {
-    getTable("assignment", setAssignmentList, sortById, setMessageText);
-  }, [assignmentUpdate]);
+    getTable("assignment", setAssignmentList, assignmentSort, setMessageText);
+  }, [assignmentUpdate, assignmentSort]);
 
   // AWS API Gateway call to GET all answers (AssignmentStudents)
   useEffect(() => {
-    getTable(
-      "assignmentstudent",
-      setAnswerList,
-      sortByStudentId,
-      setMessageText
-    );
-  }, [answerUpdate]);
+    getTable("assignmentstudent", setAnswerList, answerSort, setMessageText);
+  }, [answerUpdate, answerSort]);
+
+  // AWS API Gateway call to GET all logs
+  useEffect(() => {
+    getTable("log", setLogList, logSort, setMessageText);
+  }, [logUpdate, logSort]);
 
   // Callback to Login
   const onLogin = (formFields) => {
@@ -135,22 +140,51 @@ const App = () => {
     getUpdate,
     setMessage
   ) => {
-    setMessage(id === 0 ? `Adding...` : `Updating...`);
+    if (messageName) {
+      setMessage(id === 0 ? `Adding...` : `Updating...`);
+    }
 
     // AWS API Gateway POST call to add/update a table
     axios
       .post(API_URL_BASE + `/${tableName}/${id}`, params)
       .then((response) => {
         setUpdate(getUpdate + 1);
-        setMessage(
-          id === 0
-            ? `Success: ${messageName} added.`
-            : `Success: ${messageName} updated.`
-        );
+        if (messageName) {
+          setMessage(
+            id === 0
+              ? `Success: ${messageName} added.`
+              : `Success: ${messageName} updated.`
+          );
+        }
       })
       .catch((error) => {
         setMessageText(`Error: ${error.message}`);
       });
+  };
+
+  // Add Log Data
+  const addLog = (action, table, before, after) => {
+    // prepare params
+    const params = {
+      id: 0,
+      personid: currentUser.id,
+      timestamp: new Date(),
+      action: action,
+      table: table,
+      before: before,
+      after: after,
+    };
+
+    // AWS API Gateway POST call to add log
+    postTable(
+      "log",
+      "", // TODO change this...
+      currentUser.id,
+      params,
+      setLogUpdate,
+      logUpdate,
+      setMessageText
+    );
   };
 
   // Callback to add/update PersonForm
@@ -165,7 +199,6 @@ const App = () => {
       isteacher: formFields.isteacher,
       isstudent: formFields.isstudent,
     };
-    console.log(params);
 
     // AWS API Gateway POST call to add/update Person
     postTable(
@@ -202,6 +235,9 @@ const App = () => {
       courseUpdate,
       setMessageText
     );
+
+    // Log this POST course action
+    addLog("post", "course", params, params);
   };
 
   // Callback to add/update EnrollmentForm
@@ -394,7 +430,7 @@ const App = () => {
       if (currentUser.isadmin) {
         allLinks.push(
           <Link to="/person" key="2">
-            <li className="nav-item">Person</li>
+            <li className="nav-item">Users</li>
           </Link>
         );
         allLinks.push(
@@ -406,14 +442,14 @@ const App = () => {
       if (currentUser.isteacher) {
         allLinks.push(
           <Link to="/teachercourse" key="4">
-            <li className="nav-item">Teacher Courses</li>
+            <li className="nav-item">My Courses</li>
           </Link>
         );
       }
       if (currentUser.isstudent) {
         allLinks.push(
           <Link to="/studentcourse" key="5">
-            <li className="nav-item">Student Courses</li>
+            <li className="nav-item">My Courses</li>
           </Link>
         );
       }
@@ -488,6 +524,8 @@ const App = () => {
               currentUser={currentUser}
               personList={personList}
               onPersonDelete={onPersonDelete}
+              personSort={personSort}
+              setPersonSort={setPersonSort}
             />
           )}
         />
@@ -512,6 +550,8 @@ const App = () => {
               personList={personList}
               courseList={courseList}
               onCourseDelete={onCourseDelete}
+              courseSort={courseSort}
+              setCourseSort={setCourseSort}
             />
           )}
         />
@@ -540,6 +580,8 @@ const App = () => {
               assignmentList={assignmentList}
               answerList={answerList}
               onEnrollmentDelete={onEnrollmentDelete}
+              enrollmentSort={enrollmentSort}
+              setEnrollmentSort={setEnrollmentSort}
             />
           )}
         />
@@ -566,6 +608,8 @@ const App = () => {
               courseList={courseList}
               assignmentList={assignmentList}
               onAssignmentDelete={onAssignmentDelete}
+              assignmentSort={assignmentSort}
+              setAssignmentSort={setAssignmentSort}
             />
           )}
         />
@@ -593,6 +637,8 @@ const App = () => {
               assignmentList={assignmentList}
               answerList={answerList}
               onAnswerDelete={onAnswerDelete}
+              answerSort={answerSort}
+              setAnswerSort={setAnswerSort}
             />
           )}
         />
