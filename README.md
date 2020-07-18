@@ -75,9 +75,9 @@ Teachers and students are working online more than ever. Coordinating homework a
 
 **Note**: AWS DynamoDB is a NoSQL Database, so the relationships described in the diagram are enforced in the code, not in the database.
 
-### URL User Experience
+### Component Hierarchy
 
-![URL](./UrlUserExperience.png)
+![ComponentHierarchy](./ComponentHierarchy.png)
 
 ## Sample Data
 
