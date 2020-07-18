@@ -51,6 +51,20 @@ const StudentAssignment = (props) => {
     return answer;
   };
 
+  //
+  const renderSortButton = (column) => {
+    const iconType = column === props.assignmentSort ? "sort1" : "sort2";
+    return (
+      <span
+        onClick={() => {
+          props.setAssignmentSort(column);
+        }}
+      >
+        <Icon iconType={iconType} />
+      </span>
+    );
+  };
+
   // render assignment
   const renderAssignment = () => {
     let allAssignments = [];
@@ -85,7 +99,7 @@ const StudentAssignment = (props) => {
 
   // check if current user is student
   if (studentId === 0) {
-    return <h3>Requires studentid Login</h3>;
+    return <h3>Requires Student Login</h3>;
   } else {
     // render main form
     return (
@@ -95,10 +109,22 @@ const StudentAssignment = (props) => {
           <Table hover>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Due Date</th>
+                <th>
+                  Id &nbsp;
+                  {renderSortButton("id")}
+                </th>
+                <th>
+                  Title &nbsp;
+                  {renderSortButton("title")}
+                </th>
+                <th>
+                  Description &nbsp;
+                  {renderSortButton("description")}
+                </th>
+                <th>
+                  Due Date &nbsp;
+                  {renderSortButton("duedate")}
+                </th>
                 <th>Answer</th>
                 <th>Date Answered</th>
                 <th>Grade</th>
@@ -129,6 +155,8 @@ StudentAssignment.propTypes = {
   enrollmentList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,
   answerList: PropTypes.array.isRequired,
+  assignmentSort: PropTypes.string.isRequired,
+  setAssignmentSort: PropTypes.func.isRequired,
 };
 
 export default StudentAssignment;

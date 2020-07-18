@@ -26,6 +26,7 @@ import TeacherAnswerForm from "./components/TeacherAnswerForm";
 import StudentCourse from "./components/StudentCourse";
 import StudentAssignment from "./components/StudentAssignment";
 import StudentAnswerForm from "./components/StudentAnswerForm";
+import Log from "./components/Log";
 
 // Base URL for AWS API Gateway
 const API_URL_BASE =
@@ -39,7 +40,6 @@ const App = () => {
   const [enrollmentList, setEnrollmentList] = useState([]);
   const [assignmentList, setAssignmentList] = useState([]);
   const [answerList, setAnswerList] = useState([]);
-  const [logList, setLogList] = useState([]);
 
   // state to control table sort order
   const [personSort, setPersonSort] = useState("id");
@@ -47,7 +47,6 @@ const App = () => {
   const [enrollmentSort, setEnrollmentSort] = useState("studentid");
   const [assignmentSort, setAssignmentSort] = useState("id");
   const [answerSort, setAnswerSort] = useState("studentid");
-  const [logSort, setLogSort] = useState("id");
 
   // state to signal table changes
   const [personUpdate, setPersonUpdate] = useState(0);
@@ -55,7 +54,6 @@ const App = () => {
   const [enrollmentUpdate, setEnrollmentUpdate] = useState(0);
   const [assignmentUpdate, setAssignmentUpdate] = useState(0);
   const [answerUpdate, setAnswerUpdate] = useState(0);
-  const [logUpdate, setLogUpdate] = useState(0);
 
   // state for messages and logged in user
   const [messageText, setMessageText] = useState(null);
@@ -110,11 +108,6 @@ const App = () => {
     getTable("assignmentstudent", setAnswerList, answerSort, setMessageText);
   }, [answerUpdate, answerSort]);
 
-  // AWS API Gateway call to GET all logs
-  useEffect(() => {
-    getTable("log", setLogList, logSort, setMessageText);
-  }, [logUpdate, logSort]);
-
   // Callback to Login
   const onLogin = (formFields) => {
     const user = personList.find(
@@ -148,7 +141,9 @@ const App = () => {
     axios
       .post(API_URL_BASE + `/${tableName}/${id}`, params)
       .then((response) => {
-        setUpdate(getUpdate + 1);
+        if (setUpdate) {
+          setUpdate(getUpdate + 1);
+        }
         if (messageName) {
           setMessage(
             id === 0
@@ -178,11 +173,11 @@ const App = () => {
     // AWS API Gateway POST call to add log
     postTable(
       "log",
-      "", // TODO change this...
+      null, // message name
       currentUser.id,
       params,
-      setLogUpdate,
-      logUpdate,
+      null, // setLogUpdate
+      null, // logUpdate
       setMessageText
     );
   };
@@ -438,17 +433,22 @@ const App = () => {
             <li className="nav-item">All Courses</li>
           </Link>
         );
+        allLinks.push(
+          <Link to="/log" key="4">
+            <li className="nav-item">Action Log</li>
+          </Link>
+        );
       }
       if (currentUser.isteacher) {
         allLinks.push(
-          <Link to="/teachercourse" key="4">
+          <Link to="/teachercourse" key="5">
             <li className="nav-item">My Courses</li>
           </Link>
         );
       }
       if (currentUser.isstudent) {
         allLinks.push(
-          <Link to="/studentcourse" key="5">
+          <Link to="/studentcourse" key="6">
             <li className="nav-item">My Courses</li>
           </Link>
         );
@@ -748,6 +748,8 @@ const App = () => {
               enrollmentList={enrollmentList}
               assignmentList={assignmentList}
               answerList={answerList}
+              courseSort={courseSort}
+              setCourseSort={setCourseSort}
             />
           )}
         />
@@ -761,6 +763,8 @@ const App = () => {
               enrollmentList={enrollmentList}
               assignmentList={assignmentList}
               answerList={answerList}
+              assignmentSort={assignmentSort}
+              setAssignmentSort={setAssignmentSort}
             />
           )}
         />
@@ -775,6 +779,17 @@ const App = () => {
               assignmentList={assignmentList}
               answerList={answerList}
               onFormSubmit={onAnswerFormSubmit}
+              setMessageText={setMessageText}
+            />
+          )}
+        />
+        <Route
+          path="/log"
+          render={(props) => (
+            <Log
+              {...props}
+              currentUser={currentUser}
+              personList={personList}
               setMessageText={setMessageText}
             />
           )}
