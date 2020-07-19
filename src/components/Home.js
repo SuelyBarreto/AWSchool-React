@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Image from "react-bootstrap/Image";
 import "./Components.css";
-// TODO
+
 // Home Component
 const Home = (props) => {
   const renderAdminDashboard = () => {
@@ -15,11 +15,13 @@ const Home = (props) => {
     const courseCount = props.courseList.length;
     return (
       <div className="homediv">
-        <h3 className="homeh3">Administrator Information</h3>
-        <p className="homep">Administrators: {adminCount}</p>
-        <p className="homep">Teachers: {teacherCount}</p>
-        <p className="homep">Students: {studentCount}</p>
-        <p className="homep">Courses: {courseCount}</p>
+        <h3 className="homeh3">Administrator Info:</h3>
+        <p className="condensedlines">Administrators: {adminCount}</p>
+        <p className="condensedlines">Teachers: {teacherCount}</p>
+        <p className="condensedlines">Students: {studentCount}</p>
+        <p className="condensedlines">Courses: {courseCount}</p>
+        <h2 className="homeh2">Hire and develop the best.</h2>
+        <h2 className="homeh2">Be customer obsessed!</h2>
       </div>
     );
   };
@@ -56,11 +58,13 @@ const Home = (props) => {
 
     return (
       <div className="homediv">
-        <h3 className="homeh3">Teacher Information</h3>
-        <p className="homep">Courses: {courseCount}</p>
-        <p className="homep">Students: {studentCount}</p>
-        <p className="homep">Assignments: {assignmentCount}</p>
-        <p className="homep">Answers to Grade: {toGradeCount}</p>
+        <h3 className="homeh3">Teacher Info:</h3>
+        <p className="condensedlines">Courses: {courseCount}</p>
+        <p className="condensedlines">Students: {studentCount}</p>
+        <p className="condensedlines">Assignments: {assignmentCount}</p>
+        <p className="condensedlines">Answers to Grade: {toGradeCount}</p>
+        <h2 className="homeh2">Insist on high standards.</h2>
+        <h2 className="homeh2">Earn trust!</h2>
       </div>
     );
   };
@@ -100,11 +104,13 @@ const Home = (props) => {
 
     return (
       <div className="homediv">
-        <h3 className="homeh3">Student Information</h3>
-        <p className="homep">Courses: {courseCount}</p>
-        <p className="homep">Assignments: {assignmentCount}</p>
-        <p className="homep">Answers: {answerCount}</p>
-        <p className="homep">Answers Pending: {toAnswerCount}</p>
+        <h3 className="homeh3">Student Info:</h3>
+        <p className="condensedlines">Courses: {courseCount}</p>
+        <p className="condensedlines">Assignments: {assignmentCount}</p>
+        <p className="condensedlines">Answers: {answerCount}</p>
+        <p className="condensedlines">Answers Pending: {toAnswerCount}</p>
+        <h2 className="homeh2">Invent and simplify.</h2>
+        <h2 className="homeh2">Think Big!</h2>
       </div>
     );
   };
@@ -128,7 +134,7 @@ const Home = (props) => {
   return (
     <section className="home">
       <div className="title">
-        <h1>Welcome to AWSchool - Learn and Be Curious</h1>
+        <h1>Welcome to AWSchool - A Place to Learn and Be Curious</h1>
       </div>
       <div className="container">
         <span className="containerright">

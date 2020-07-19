@@ -81,11 +81,13 @@ const App = () => {
   // AWS API Gateway call to GET all persons
   useEffect(() => {
     getTable("person", setPersonList, personSort, setMessageText);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [personUpdate, personSort]);
 
   // AWS API Gateway call to GET all courses
   useEffect(() => {
     getTable("course", setCourseList, courseSort, setMessageText);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseUpdate, courseSort]);
 
   // AWS API Gateway call to GET enrollment (CourseStudent)
@@ -96,32 +98,20 @@ const App = () => {
       enrollmentSort,
       setMessageText
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enrollmentUpdate, enrollmentSort]);
 
   // AWS API Gateway call to GET all assignments
   useEffect(() => {
     getTable("assignment", setAssignmentList, assignmentSort, setMessageText);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assignmentUpdate, assignmentSort]);
 
   // AWS API Gateway call to GET all answers (AssignmentStudents)
   useEffect(() => {
     getTable("assignmentstudent", setAnswerList, answerSort, setMessageText);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answerUpdate, answerSort]);
-
-  // Callback to Login
-  const onLogin = (formFields) => {
-    const user = personList.find(
-      (person) =>
-        person.email === formFields.email &&
-        person.password === sha256(formFields.password + formFields.email)
-    );
-    if (user) {
-      setCurrentUser(user);
-      setMessageText(`Success: User logged in.`);
-    } else {
-      setMessageText(`Error: Invalid email or password.`);
-    }
-  };
 
   // AWS API Gateway POST call
   const postTable = (
@@ -158,11 +148,11 @@ const App = () => {
   };
 
   // Add Log Data
-  const addLog = (action, table, before, after) => {
+  const addLog = (personid, action, table, before, after) => {
     // prepare params
     const params = {
       id: 0,
-      personid: currentUser.id,
+      personid: personid === 0 ? currentUser.id : personid,
       timestamp: new Date(),
       action: action,
       table: table,
@@ -174,7 +164,7 @@ const App = () => {
     postTable(
       "log",
       null, // message name
-      currentUser.id,
+      0,
       params,
       null, // setLogUpdate
       null, // logUpdate
@@ -182,8 +172,32 @@ const App = () => {
     );
   };
 
+  // Callback to Login
+  const onLogin = (formFields) => {
+    const user = personList.find(
+      (person) =>
+        person.email === formFields.email &&
+        person.password === sha256(formFields.password + formFields.email)
+    );
+    if (user) {
+      setCurrentUser(user);
+      setMessageText(`Success: User logged in.`);
+
+      // Log this LOGIN action
+      addLog(user.id, "login", "person", {}, user);
+    } else {
+      setMessageText(`Error: Invalid email or password.`);
+    }
+  };
+
   // Callback to add/update PersonForm
   const onPersonFormSubmit = (formFields) => {
+    // save previous state
+    const paramsBefore =
+      formFields.id === 0
+        ? {}
+        : personList.find((person) => person.id === formFields.id);
+
     // prepare params
     const params = {
       id: formFields.id,
@@ -205,10 +219,19 @@ const App = () => {
       personUpdate,
       setMessageText
     );
+
+    // Log this POST person action
+    addLog(0, "post", "person", paramsBefore, params);
   };
 
   // Callback to add/update CourseForm
   const onCourseFormSubmit = (formFields) => {
+    // save previous state
+    const paramsBefore =
+      formFields.id === 0
+        ? {}
+        : courseList.find((course) => course.id === formFields.id);
+
     // prepare params
     const params = {
       id: formFields.id,
@@ -232,11 +255,17 @@ const App = () => {
     );
 
     // Log this POST course action
-    addLog("post", "course", params, params);
+    addLog(0, "post", "course", paramsBefore, params);
   };
 
   // Callback to add/update EnrollmentForm
   const onEnrollmentFormSubmit = (formFields) => {
+    // save previous state
+    const paramsBefore =
+      formFields.id === 0
+        ? {}
+        : enrollmentList.find((enroll) => enroll.id === formFields.id);
+
     // prepare params
     const params = {
       id: formFields.id,
@@ -255,10 +284,19 @@ const App = () => {
       enrollmentUpdate,
       setMessageText
     );
+
+    // Log this POST enrollment action
+    addLog(0, "post", "coursestudent", paramsBefore, params);
   };
 
   // Callback to add/update AssignmentForm
   const onAssignmentFormSubmit = (formFields) => {
+    // save previous state
+    const paramsBefore =
+      formFields.id === 0
+        ? {}
+        : assignmentList.find((assign) => assign.id === formFields.id);
+
     // prepare params
     const params = {
       id: formFields.id,
@@ -278,10 +316,19 @@ const App = () => {
       assignmentUpdate,
       setMessageText
     );
+
+    // Log this POST assignment action
+    addLog(0, "post", "assignment", paramsBefore, params);
   };
 
   // Callback to add/update AnswerForm
   const onAnswerFormSubmit = (formFields) => {
+    // save previous state
+    const paramsBefore =
+      formFields.id === 0
+        ? {}
+        : answerList.find((answer) => answer.id === formFields.id);
+
     // prepare params
     const params = {
       id: formFields.id,
@@ -303,6 +350,9 @@ const App = () => {
       answerUpdate,
       setMessageText
     );
+
+    // Log this POST answer action
+    addLog(0, "post", "assignmentstudent", paramsBefore, params);
   };
 
   // AWS API Gateway DELETE call
@@ -330,6 +380,9 @@ const App = () => {
 
   // callback to DELETE person
   const onPersonDelete = (id) => {
+    // save previous state
+    const paramsBefore = personList.find((person) => person.id === id);
+
     tableDelete(
       "person",
       "Person",
@@ -338,10 +391,17 @@ const App = () => {
       personUpdate,
       setMessageText
     );
+
+    // Log this DELETE person action
+    addLog(0, "delete", "person", paramsBefore, {});
   };
 
   // callback to DELETE course
   const onCourseDelete = (id) => {
+    // save previous state
+    const paramsBefore = courseList.find((course) => course.id === id);
+    console.log(`Debug DELETE`, id, paramsBefore);
+
     tableDelete(
       "course",
       "Course",
@@ -350,10 +410,16 @@ const App = () => {
       courseUpdate,
       setMessageText
     );
+
+    // Log this DELETE course action
+    addLog(0, "delete", "course", paramsBefore, {});
   };
 
   // callback to DELETE enrollment (CourseStudent)
   const onEnrollmentDelete = (id) => {
+    // save previous state
+    const paramsBefore = enrollmentList.find((enroll) => enroll.id === id);
+
     tableDelete(
       "coursestudent",
       "Enrollment",
@@ -362,10 +428,16 @@ const App = () => {
       enrollmentUpdate,
       setMessageText
     );
+
+    // Log this DELETE enrollment (coursestudent) action
+    addLog(0, "delete", "coursestudent", paramsBefore, {});
   };
 
   // callback to DELETE assignment
   const onAssignmentDelete = (id) => {
+    // save previous state
+    const paramsBefore = assignmentList.find((assign) => assign.id === id);
+
     tableDelete(
       "assignment",
       "Assignment",
@@ -374,10 +446,16 @@ const App = () => {
       assignmentUpdate,
       setMessageText
     );
+
+    // Log this DELETE assignment action
+    addLog(0, "delete", "assignment", paramsBefore, {});
   };
 
   // callback to DELETE answer
   const onAnswerDelete = (id) => {
+    // save previous state
+    const paramsBefore = answerList.find((answer) => answer.id === id);
+
     tableDelete(
       "assignmentstudent",
       "Answer",
@@ -386,6 +464,9 @@ const App = () => {
       answerUpdate,
       setMessageText
     );
+
+    // Log this DELETE answer action
+    addLog(0, "delete", "assignmentstudent", paramsBefore, {});
   };
 
   // Nav - show current user email if logged in

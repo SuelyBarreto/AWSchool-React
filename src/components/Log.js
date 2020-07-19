@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import Icon from "./Icon";
 import axios from "axios";
@@ -44,6 +43,7 @@ const Log = (props) => {
   // AWS API Gateway call to GET all logs
   useEffect(() => {
     getTable("log", setLogList, logSort, props.setMessageText);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logSort]);
 
   // return person id and name
@@ -73,11 +73,10 @@ const Log = (props) => {
         <tr key={log.id}>
           <td>{log.id}</td>
           <td>{renderPerson(log.personid)}</td>
-          <td>{log.timestamp}</td>
+          <td>{log.timestamp.replace(`T`, ` `)}</td>
           <td>{log.action}</td>
           <td>{log.table}</td>
           <td>{JSON.stringify(log.before, null, ` `)}</td>
-          {/* TODO  */}
           <td>{JSON.stringify(log.after, null, ` `)}</td>
         </tr>
       );
@@ -128,11 +127,6 @@ const Log = (props) => {
             </thead>
             <tbody>{renderLog()}</tbody>
           </Table>
-          <p>
-            <Button variant="primary">
-              <Icon iconType="delete" /> Clear
-            </Button>
-          </p>
         </div>
       </div>
     );
