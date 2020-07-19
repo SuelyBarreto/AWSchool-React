@@ -14,7 +14,6 @@ const API_URL_BASE =
 const Log = (props) => {
   const [logList, setLogList] = useState([]);
   const [logSort, setLogSort] = useState("id");
-  const [logUpdate, setLogUpdate] = useState(0);
 
   // get adminId from currentUser
   const adminId = props.currentUser
@@ -45,7 +44,7 @@ const Log = (props) => {
   // AWS API Gateway call to GET all logs
   useEffect(() => {
     getTable("log", setLogList, logSort, props.setMessageText);
-  }, [logUpdate, logSort]);
+  }, [logSort]);
 
   // return person id and name
   const renderPerson = (personid) => {
@@ -77,9 +76,9 @@ const Log = (props) => {
           <td>{log.timestamp}</td>
           <td>{log.action}</td>
           <td>{log.table}</td>
-          <td>{JSON.stringify(log.before, null, `\t`)}</td>
+          <td>{JSON.stringify(log.before, null, ` `)}</td>
           {/* TODO  */}
-          <td>{JSON.stringify(log.after, null, `<br/>`)}</td>
+          <td>{JSON.stringify(log.after, null, ` `)}</td>
         </tr>
       );
     });

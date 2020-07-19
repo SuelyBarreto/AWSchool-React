@@ -15,6 +15,7 @@ const StudentCourse = (props) => {
       : 0
     : 0;
 
+  // return true if student is enrolled in the course
   const enrolledInCourse = (courseId) => {
     const enrolled = props.enrollmentList.find(
       (enrollment) =>
@@ -38,6 +39,7 @@ const StudentCourse = (props) => {
     let totalGrade = 0;
     let countGrade = 0;
     let countAssignment = 0;
+    let countAnswer = 0;
 
     props.assignmentList
       .filter((assignment) => assignment.courseid === courseId)
@@ -49,6 +51,7 @@ const StudentCourse = (props) => {
             answer.studentid === studentId
         );
         if (studentAnswer) {
+          countAnswer++;
           if (studentAnswer.dategraded) {
             totalGrade += studentAnswer.grade;
             countGrade++;
@@ -63,12 +66,13 @@ const StudentCourse = (props) => {
     }
     return {
       assignments: countAssignment,
+      answers: countAnswer,
       graded: countGrade,
       average: averageGrade.toFixed(2),
     };
   };
 
-  //
+  // shows sort button with the right icon
   const renderSortButton = (column) => {
     const iconType = column === props.courseSort ? "sort1" : "sort2";
     return (
@@ -97,6 +101,9 @@ const StudentCourse = (props) => {
             <td>{course.startdate}</td>
             <td>{course.enddate}</td>
             <td>{course.passgrade}</td>
+            <td>
+              {grade.answers} of {grade.assignments}
+            </td>
             <td>
               {grade.graded} of {grade.assignments}
             </td>
@@ -156,6 +163,7 @@ const StudentCourse = (props) => {
                   Passing Grade &nbsp;
                   {renderSortButton("passgrade")}
                 </th>
+                <th>Assignments Answered</th>
                 <th>Assignments Graded</th>
                 <th>Average Grade</th>
                 <th>Actions</th>

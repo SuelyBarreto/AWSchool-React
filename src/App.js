@@ -511,7 +511,21 @@ const App = () => {
   const renderAllRoutes = () => {
     return (
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route
+          path="/"
+          exact
+          render={(props) => (
+            <Home
+              {...props}
+              currentUser={currentUser}
+              personList={personList}
+              courseList={courseList}
+              enrollmentList={enrollmentList}
+              assignmentList={assignmentList}
+              answerList={answerList}
+            />
+          )}
+        />
         <Route
           path="/login"
           render={(props) => <Login {...props} onLogin={onLogin} />}
@@ -665,6 +679,8 @@ const App = () => {
               {...props}
               currentUser={currentUser}
               courseList={courseList}
+              courseSort={courseSort}
+              setCourseSort={setCourseSort}
             />
           )}
         />
@@ -691,6 +707,8 @@ const App = () => {
               courseList={courseList}
               assignmentList={assignmentList}
               onAssignmentDelete={onAssignmentDelete}
+              assignmentSort={assignmentSort}
+              setAssignmentSort={setAssignmentSort}
             />
           )}
         />
@@ -718,6 +736,8 @@ const App = () => {
               assignmentList={assignmentList}
               answerList={answerList}
               onAnswerDelete={onAnswerDelete}
+              answerSort={answerSort}
+              setAnswerSort={setAnswerSort}
             />
           )}
         />

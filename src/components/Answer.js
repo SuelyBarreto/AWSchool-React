@@ -43,7 +43,7 @@ const Answer = (props) => {
       : `${studentid} - N/A`;
   };
 
-  //
+  // shows sort button with the right icon
   const renderSortButton = (column) => {
     const iconType = column === props.answerSort ? "sort1" : "sort2";
     return (

@@ -49,6 +49,20 @@ const TeacherAnswer = (props) => {
       : `${studentid} - N/A`;
   };
 
+  //
+  const renderSortButton = (column) => {
+    const iconType = column === props.answerSort ? "sort1" : "sort2";
+    return (
+      <span
+        onClick={() => {
+          props.setAnswerSort(column);
+        }}
+      >
+        <Icon iconType={iconType} />
+      </span>
+    );
+  };
+
   // render answer
   const renderAnswer = (answerList) => {
     return answerList
@@ -90,12 +104,30 @@ const TeacherAnswer = (props) => {
           <Table hover>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Student</th>
-                <th>Answer</th>
-                <th>Date Answered</th>
-                <th>Grade</th>
-                <th>Date Graded</th>
+                <th>
+                  Id &nbsp;
+                  {renderSortButton("id")}
+                </th>
+                <th>
+                  Student &nbsp;
+                  {renderSortButton("studentid")}
+                </th>
+                <th>
+                  Answer &nbsp;
+                  {renderSortButton("answer")}
+                </th>
+                <th>
+                  Date Answered &nbsp;
+                  {renderSortButton("dateanswered")}
+                </th>
+                <th>
+                  Grade &nbsp;
+                  {renderSortButton("grade")}
+                </th>
+                <th>
+                  Date Graded &nbsp;
+                  {renderSortButton("dategraded")}
+                </th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -123,6 +155,8 @@ TeacherAnswer.propTypes = {
   assignmentList: PropTypes.array.isRequired,
   answerList: PropTypes.array.isRequired,
   onAnswerDelete: PropTypes.func.isRequired,
+  answerSort: PropTypes.string.isRequired,
+  setAnswerSort: PropTypes.func.isRequired,
 };
 
 export default TeacherAnswer;

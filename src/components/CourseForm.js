@@ -111,6 +111,10 @@ const CourseForm = (props) => {
       props.setMessageText(`Validation: Start date cannot be after end date.`);
       return;
     }
+    if (!formFields.passgrade || isNaN(formFields.passgrade)) {
+      props.setMessageText(`Validation: Passing grade must be a number.`);
+      return;
+    }
     props.onFormSubmit(formFields);
     if (courseId === 0) {
       setFormFields(emptyForm);

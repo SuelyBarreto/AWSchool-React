@@ -23,7 +23,7 @@ const Person = (props) => {
     }
   };
 
-  //
+  // shows sort button with the right icon
   const renderSortButton = (column) => {
     const iconType = column === props.personSort ? "sort1" : "sort2";
     return (

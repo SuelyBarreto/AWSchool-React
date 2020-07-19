@@ -67,7 +67,7 @@ const Enrollment = (props) => {
     };
   };
 
-  //
+  // shows sort button with the right icon
   const renderSortButton = (column) => {
     const iconType = column === props.enrollmentSort ? "sort1" : "sort2";
     return (

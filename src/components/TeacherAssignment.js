@@ -30,6 +30,20 @@ const TeacherAssignment = (props) => {
     return course ? `${course.id} - ${course.title}` : `${courseId} - N/A`;
   };
 
+  //
+  const renderSortButton = (column) => {
+    const iconType = column === props.assignmentSort ? "sort1" : "sort2";
+    return (
+      <span
+        onClick={() => {
+          props.setAssignmentSort(column);
+        }}
+      >
+        <Icon iconType={iconType} />
+      </span>
+    );
+  };
+
   // render assignment
   const renderAssignment = (assignmentList) => {
     return assignmentList
@@ -82,10 +96,22 @@ const TeacherAssignment = (props) => {
           <Table hover>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Due Date</th>
+                <th>
+                  Id &nbsp;
+                  {renderSortButton("id")}
+                </th>
+                <th>
+                  Title &nbsp;
+                  {renderSortButton("title")}
+                </th>
+                <th>
+                  Description &nbsp;
+                  {renderSortButton("description")}
+                </th>
+                <th>
+                  Due Date &nbsp;
+                  {renderSortButton("duedate")}
+                </th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -118,6 +144,8 @@ TeacherAssignment.propTypes = {
   courseList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,
   onAssignmentDelete: PropTypes.func.isRequired,
+  assignmentSort: PropTypes.string.isRequired,
+  setAssignmentSort: PropTypes.func.isRequired,
 };
 
 export default TeacherAssignment;

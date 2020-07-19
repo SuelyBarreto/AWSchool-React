@@ -51,7 +51,7 @@ const StudentAssignment = (props) => {
     return answer;
   };
 
-  //
+  // shows sort button with the right icon
   const renderSortButton = (column) => {
     const iconType = column === props.assignmentSort ? "sort1" : "sort2";
     return (

@@ -15,6 +15,20 @@ const TeacherCourse = (props) => {
       : 0
     : 0;
 
+  //
+  const renderSortButton = (column) => {
+    const iconType = column === props.courseSort ? "sort1" : "sort2";
+    return (
+      <span
+        onClick={() => {
+          props.setCourseSort(column);
+        }}
+      >
+        <Icon iconType={iconType} />
+      </span>
+    );
+  };
+
   // render course
   const renderCourse = () => {
     return props.courseList
@@ -61,12 +75,30 @@ const TeacherCourse = (props) => {
           <Table hover>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Passing Grade</th>
+                <th>
+                  Id &nbsp;
+                  {renderSortButton("id")}
+                </th>
+                <th>
+                  Title &nbsp;
+                  {renderSortButton("title")}
+                </th>
+                <th>
+                  Description &nbsp;
+                  {renderSortButton("description")}
+                </th>
+                <th>
+                  Start Date &nbsp;
+                  {renderSortButton("startdate")}
+                </th>
+                <th>
+                  End Date &nbsp;
+                  {renderSortButton("enddate")}
+                </th>
+                <th>
+                  Passing Grade &nbsp;
+                  {renderSortButton("passgrade")}
+                </th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -82,6 +114,8 @@ const TeacherCourse = (props) => {
 TeacherCourse.propTypes = {
   currentUser: PropTypes.object.isRequired,
   courseList: PropTypes.array.isRequired,
+  courseSort: PropTypes.string.isRequired,
+  setCourseSort: PropTypes.func.isRequired,
 };
 
 export default TeacherCourse;

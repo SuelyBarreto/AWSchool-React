@@ -24,7 +24,7 @@ const Assignment = (props) => {
     return course ? `${course.id} - ${course.title}` : `${courseId} - N/A`;
   };
 
-  //
+  // shows sort button with the right icon
   const renderSortButton = (column) => {
     const iconType = column === props.assignmentSort ? "sort1" : "sort2";
     return (
