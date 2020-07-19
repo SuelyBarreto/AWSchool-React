@@ -43,6 +43,7 @@ const Enrollment = (props) => {
     let totalGrade = 0;
     let countGrade = 0;
     let countAssignment = 0;
+    let countAnswer = 0;
 
     props.assignmentList
       .filter((assignment) => assignment.courseid === courseId)
@@ -54,6 +55,7 @@ const Enrollment = (props) => {
             answer.studentid === studentId
         );
         if (studentAnswer) {
+          countAnswer++;
           if (studentAnswer.dategraded) {
             totalGrade += studentAnswer.grade;
             countGrade++;
@@ -68,9 +70,24 @@ const Enrollment = (props) => {
     }
     return {
       assignments: countAssignment,
+      answers: countAnswer,
       graded: countGrade,
       average: averageGrade.toFixed(2),
     };
+  };
+
+  // shows sort button with the right icon
+  const renderSortButton = (column) => {
+    const iconType = column === props.enrollmentSort ? "sort1" : "sort2";
+    return (
+      <span
+        onClick={() => {
+          props.setEnrollmentSort(column);
+        }}
+      >
+        <Icon iconType={iconType} />
+      </span>
+    );
   };
 
   // render enrollment
@@ -83,6 +100,9 @@ const Enrollment = (props) => {
           <tr key={enrollment.id}>
             <td>{enrollment.id}</td>
             <td>{renderStudent(enrollment.studentid)}</td>
+            <td>
+              {grade.answers} of {grade.assignments}
+            </td>
             <td>
               {grade.graded} of {grade.assignments}
             </td>
@@ -104,8 +124,15 @@ const Enrollment = (props) => {
           <Table hover>
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Student Id</th>
+                <th>
+                  Id &nbsp;
+                  {renderSortButton("id")}
+                </th>
+                <th>
+                  Student Id &nbsp;
+                  {renderSortButton("studentid")}
+                </th>
+                <th>Assignments Answered</th>
                 <th>Assignments Graded</th>
                 <th>Average Grade</th>
               </tr>
@@ -134,6 +161,8 @@ Enrollment.propTypes = {
   enrollmentList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,
   answerList: PropTypes.array.isRequired,
+  enrollmentSort: PropTypes.string.isRequired,
+  setEnrollmentSort: PropTypes.func.isRequired,
 };
 
 export default Enrollment;

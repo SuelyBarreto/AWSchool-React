@@ -695,6 +695,8 @@ const App = () => {
               enrollmentList={enrollmentList}
               assignmentList={assignmentList}
               answerList={answerList}
+              enrollmentSort={enrollmentSort}
+              setEnrollmentSort={setEnrollmentSort}
             />
           )}
         />
