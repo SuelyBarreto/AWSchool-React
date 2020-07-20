@@ -14,33 +14,6 @@ Create a website where teachers can assign homework to their students.
 Students can view their assigned homework.
 This is useful for schools using remote learning due to Covid - 19.
 
-## Features
-
-### As a User, I can
-
-- Login
-- Logout
-
-### As a School Administrator, I can
-
-- View/add/edit/delete teachers
-- View/add/edit/delete students
-- View/add/edit/delete courses
-- Assign teachers to courses
-- Assign students to courses
-
-### As a Teacher, I can
-
-- View my courses
-- View/add/edit/delete assignments
-- View/grade answers
-
-### As a Student, I can
-
-- View my courses
-- View assignments
-- View/add/edit/delete answers
-
 ## Problem Statement
 
 Teachers and students are working online more than ever. Coordinating homework assignments can be difficult. This project aims to offer a simple solution so teachers can share assignments and students can provide their answers, all using an easy website.
@@ -78,6 +51,33 @@ Teachers and students are working online more than ever. Coordinating homework a
 ### Component Hierarchy
 
 ![ComponentHierarchy](./ComponentHierarchy.png)
+
+## Features
+
+### As a User, I can
+
+- Login
+- Logout
+
+### As a School Administrator, I can
+
+- View/add/edit/delete teachers
+- View/add/edit/delete students
+- View/add/edit/delete courses
+- Assign teachers to courses
+- Assign students to courses
+
+### As a Teacher, I can
+
+- View my courses
+- View/add/edit/delete assignments
+- View/grade answers
+
+### As a Student, I can
+
+- View my courses
+- View assignments
+- View/add/edit/delete answers
 
 ## Sample Data
 
