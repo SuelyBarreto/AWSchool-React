@@ -30,7 +30,36 @@ const TeacherAssignment = (props) => {
     return course ? `${course.id} - ${course.title}` : `${courseId} - N/A`;
   };
 
-  //
+  // show average grade for student
+  const getGrade = (assignmentId) => {
+    let totalGrade = 0;
+    let countGrade = 0;
+    let countAnswer = 0;
+
+    const studentAnswers = props.answerList.filter(
+      (answer) => answer.assignmentid === assignmentId
+    );
+    studentAnswers.forEach((answer) => {
+      countAnswer++;
+      if (answer.dategraded) {
+        totalGrade += answer.grade;
+        countGrade++;
+      }
+    });
+
+    // calculate average grade
+    let averageGrade = 0;
+    if (countGrade > 0) {
+      averageGrade = totalGrade / countGrade;
+    }
+    return {
+      answers: countAnswer,
+      graded: countGrade,
+      average: averageGrade.toFixed(2),
+    };
+  };
+
+  // shows sort button with the right icon
   const renderSortButton = (column) => {
     const iconType = column === props.assignmentSort ? "sort1" : "sort2";
     return (
@@ -49,12 +78,17 @@ const TeacherAssignment = (props) => {
     return assignmentList
       .filter((assignment) => assignment.courseid === courseId)
       .map((assignment) => {
+        const grade = getGrade(assignment.id);
         return (
           <tr key={assignment.id}>
             <td>{assignment.id}</td>
             <td>{assignment.title}</td>
             <td>{assignment.description}</td>
             <td>{assignment.duedate}</td>
+            <td>
+              {grade.graded} of {grade.answers}
+            </td>
+            <td>{grade.average}</td>
             <td>
               <Link to={`/teacheranswer/${courseId}/${assignment.id}`}>
                 <Button variant="primary">
@@ -112,6 +146,8 @@ const TeacherAssignment = (props) => {
                   Due Date &nbsp;
                   {renderSortButton("duedate")}
                 </th>
+                <th>Answers Graded</th>
+                <th>Average Grade</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -143,6 +179,7 @@ TeacherAssignment.propTypes = {
   currentUser: PropTypes.object.isRequired,
   courseList: PropTypes.array.isRequired,
   assignmentList: PropTypes.array.isRequired,
+  answerList: PropTypes.array.isRequired,
   onAssignmentDelete: PropTypes.func.isRequired,
   assignmentSort: PropTypes.string.isRequired,
   setAssignmentSort: PropTypes.func.isRequired,

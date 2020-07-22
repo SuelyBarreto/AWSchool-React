@@ -395,7 +395,6 @@ const App = () => {
   const onCourseDelete = (id) => {
     // save previous state
     const paramsBefore = courseList.find((course) => course.id === id);
-    console.log(`Debug DELETE`, id, paramsBefore);
 
     tableDelete(
       "course",
@@ -755,6 +754,8 @@ const App = () => {
               {...props}
               currentUser={currentUser}
               courseList={courseList}
+              assignmentList={assignmentList}
+              answerList={answerList}
               courseSort={courseSort}
               setCourseSort={setCourseSort}
             />
@@ -784,6 +785,7 @@ const App = () => {
               currentUser={currentUser}
               courseList={courseList}
               assignmentList={assignmentList}
+              answerList={answerList}
               onAssignmentDelete={onAssignmentDelete}
               assignmentSort={assignmentSort}
               setAssignmentSort={setAssignmentSort}

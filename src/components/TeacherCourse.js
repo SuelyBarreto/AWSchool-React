@@ -15,7 +15,43 @@ const TeacherCourse = (props) => {
       : 0
     : 0;
 
-  //
+  // show average grade for student
+  const getGrade = (courseId) => {
+    let totalGrade = 0;
+    let countGrade = 0;
+    let countAssignment = 0;
+    let countAnswer = 0;
+
+    props.assignmentList
+      .filter((assignment) => assignment.courseid === courseId)
+      .forEach((assignment) => {
+        countAssignment++;
+        const studentAnswers = props.answerList.filter(
+          (answer) => answer.assignmentid === assignment.id
+        );
+        studentAnswers.forEach((answer) => {
+          countAnswer++;
+          if (answer.dategraded) {
+            totalGrade += answer.grade;
+            countGrade++;
+          }
+        });
+      });
+
+    // calculate average grade
+    let averageGrade = 0;
+    if (countGrade > 0) {
+      averageGrade = totalGrade / countGrade;
+    }
+    return {
+      assignments: countAssignment,
+      answers: countAnswer,
+      graded: countGrade,
+      average: averageGrade.toFixed(2),
+    };
+  };
+
+  // shows sort button with the right icon
   const renderSortButton = (column) => {
     const iconType = column === props.courseSort ? "sort1" : "sort2";
     return (
@@ -34,6 +70,7 @@ const TeacherCourse = (props) => {
     return props.courseList
       .filter((course) => course.teacherid === teacherId)
       .map((course) => {
+        const grade = getGrade(course.id);
         return (
           <tr key={course.id}>
             <td>{course.id}</td>
@@ -42,6 +79,11 @@ const TeacherCourse = (props) => {
             <td>{course.startdate}</td>
             <td>{course.enddate}</td>
             <td>{course.passgrade}</td>
+            <td>{grade.assignments}</td>
+            <td>
+              {grade.graded} of {grade.answers}
+            </td>
+            <td>{grade.average}</td>
             <td>
               <Link to={`/teacherenrollment/${course.id}`}>
                 <Button variant="primary">
@@ -99,6 +141,9 @@ const TeacherCourse = (props) => {
                   Passing Grade &nbsp;
                   {renderSortButton("passgrade")}
                 </th>
+                <th>Assignments</th>
+                <th>Answers Graded</th>
+                <th>Average Grade</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -114,6 +159,8 @@ const TeacherCourse = (props) => {
 TeacherCourse.propTypes = {
   currentUser: PropTypes.object.isRequired,
   courseList: PropTypes.array.isRequired,
+  assignmentList: PropTypes.array.isRequired,
+  answerList: PropTypes.array.isRequired,
   courseSort: PropTypes.string.isRequired,
   setCourseSort: PropTypes.func.isRequired,
 };
