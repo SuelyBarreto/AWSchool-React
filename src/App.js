@@ -32,6 +32,25 @@ import Log from "./components/Log";
 const API_URL_BASE =
   "https://4jqwh1vygi.execute-api.us-west-2.amazonaws.com/prod";
 
+// sort by column
+const sortBy = (objs, column) => {
+  return objs.sort((a, b) =>
+    a[column] > b[column] ? 1 : b[column] > a[column] ? -1 : 0
+  );
+};
+
+// AWS API Gateway GET call to each table
+const getTable = (tableName, setTable, sortColumn, setMessage) => {
+  axios
+    .get(API_URL_BASE + `/${tableName}`)
+    .then((response) => {
+      setTable(sortBy(response.data, sortColumn));
+    })
+    .catch((error) => {
+      setMessage(`Error: ${error.message}`);
+    });
+};
+
 // App component
 const App = () => {
   // state for tables
@@ -59,35 +78,14 @@ const App = () => {
   const [messageText, setMessageText] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // sort by column
-  const sortBy = (objs, column) => {
-    return objs.sort((a, b) =>
-      a[column] > b[column] ? 1 : b[column] > a[column] ? -1 : 0
-    );
-  };
-
-  // AWS API Gateway GET call to each table
-  const getTable = (tableName, setTable, sortColumn, setMessage) => {
-    axios
-      .get(API_URL_BASE + `/${tableName}`)
-      .then((response) => {
-        setTable(sortBy(response.data, sortColumn));
-      })
-      .catch((error) => {
-        setMessage(`Error: ${error.message}`);
-      });
-  };
-
   // AWS API Gateway call to GET all persons
   useEffect(() => {
     getTable("person", setPersonList, personSort, setMessageText);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [personUpdate, personSort]);
 
   // AWS API Gateway call to GET all courses
   useEffect(() => {
     getTable("course", setCourseList, courseSort, setMessageText);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [courseUpdate, courseSort]);
 
   // AWS API Gateway call to GET enrollment (CourseStudent)
@@ -98,19 +96,16 @@ const App = () => {
       enrollmentSort,
       setMessageText
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enrollmentUpdate, enrollmentSort]);
 
   // AWS API Gateway call to GET all assignments
   useEffect(() => {
     getTable("assignment", setAssignmentList, assignmentSort, setMessageText);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assignmentUpdate, assignmentSort]);
 
   // AWS API Gateway call to GET all answers (AssignmentStudents)
   useEffect(() => {
     getTable("assignmentstudent", setAnswerList, answerSort, setMessageText);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answerUpdate, answerSort]);
 
   // AWS API Gateway POST call

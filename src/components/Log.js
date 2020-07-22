@@ -76,8 +76,16 @@ const Log = (props) => {
           <td>{log.timestamp.replace(`T`, ` `)}</td>
           <td>{log.action}</td>
           <td>{log.table}</td>
-          <td>{JSON.stringify(log.before, null, ` `)}</td>
-          <td>{JSON.stringify(log.after, null, ` `)}</td>
+          <td>
+            <div className="action-content">
+              {JSON.stringify(log.before, null, ` `)}
+            </div>
+          </td>
+          <td>
+            <div className="action-content">
+              {JSON.stringify(log.after, null, ` `)}
+            </div>
+          </td>
         </tr>
       );
     });

@@ -8,15 +8,15 @@
 - Complete a product lifecycle from conception to delivery
 - Utilize agile practices learned to assist in project completion
 
+## Problem Statement
+
+Teachers and students are working online more than ever. Coordinating homework assignments can be difficult. This project aims to offer a simple solution so teachers can share assignments and students can provide their answers, all using an easy website.
+
 ## Description
 
 Create a website where teachers can assign homework to their students.
 Students can view their assigned homework.
 This is useful for schools using remote learning due to Covid - 19.
-
-## Problem Statement
-
-Teachers and students are working online more than ever. Coordinating homework assignments can be difficult. This project aims to offer a simple solution so teachers can share assignments and students can provide their answers, all using an easy website.
 
 ## Project Information
 

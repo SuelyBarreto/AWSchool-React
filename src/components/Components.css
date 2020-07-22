@@ -2,6 +2,12 @@ th {
   font-family: sans-serif;
 }
 
+.action-content {
+  width: 150px;
+  max-height: 100px;
+  overflow: scroll;
+}
+
 .title {
   text-align: center;
 }
