@@ -251,7 +251,6 @@ As an Administrator, you can:
 - Login – type your email and password to login
 
 - Landing page – see current number of Administrators, Teachers, Students and Courses
-  ![Admin Home Page](./AdminHomepage.png)
 
 - User List – Shows a list of users with id, name, email and role
 
@@ -259,7 +258,6 @@ As an Administrator, you can:
   - Edit – takes administrator to the user form to edit the current user
   - Delete – deletes person, after confirmation
   - Add – takes administrator to the user form to enter a new user
-    ![Admin User List](./AdminUserList.png)
 
 - User Form – Shows fields to enter email, password, name and role
   - Add/Save – saves the information entered
