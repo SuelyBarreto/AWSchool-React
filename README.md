@@ -249,19 +249,29 @@ As a User of the AWSchool website, you can be an Administrator, a Teacher, or a 
 As an Administrator, you can:
 
 - Login – type your email and password to login
+- Landing page – Shows important information for the administrator.
+- User List – Shows a list of users. You can sort, edit, delete or add new users.
+- Course List – Shows a list of courses. You can sort, edit, delete or add new courses. From here, there are links to manage enrollment and assignments.
+- Enrollment – Shows a list of students enrolled in a course. You can sort, edit, delete or add new students to the course. From here, there is a link to go back to the course list.
+- Assignments – Shows a list of assignments for a course. You can sort, edit, delete or add new assignments for a course. From here, there is a link to go back to the course list.
+- Answer – Shows a list of student answers to an assignment. You can sort, edit, delete or add new answers to an assignment. From here, there is a link to go back to the assignment list.
+- Log – Shows a list of activities in the entire system. You can sort the list.
 
-- Landing page – see current number of Administrators, Teachers, Students and Courses
+As a Teacher, you can:
 
-- User List – Shows a list of users with id, name, email and role
+- Login – type your email and password to login
+- Landing page – Shows important information for the teacher.
+- Course List – Shows a list of courses for the teacher. You can sort the list. From here, there are links to see enrollment and manage assignments.
+- Enrollment – Shows a list of students enrolled in a course. You can sort the list. From here, there is a link to go back to the course list.
+- Assignments – Shows a list of assignments for a course. You can sort, edit, delete or add new assignments for a course. From here, there is a link to go back to the course list.
+- Answer – Shows a list of student answers to an assignment. You can sort the list or grade a student’s answer. From here, there is a link to go back to the assignment list.
 
-  - Sort – orders the list by user’s id, name, email
-  - Edit – takes administrator to the user form to edit the current user
-  - Delete – deletes person, after confirmation
-  - Add – takes administrator to the user form to enter a new user
+As a Student, you can:
 
-- User Form – Shows fields to enter email, password, name and role
-  - Add/Save – saves the information entered
-  - Back – goes back to person list without making changes
+- Login – type your email and password to login
+- Landing page – Shows important information for the student.
+- Course List – Shows a list of courses for the student. You can sort the list. From here, there are links to see assignments.
+- Assignments – Shows a list of assignments for a course. You can sort the list or provide an answer. From here, there is a link to go back to the course list.
 
 ## Notes
 
