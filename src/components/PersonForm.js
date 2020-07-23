@@ -217,7 +217,7 @@ const PersonForm = (props) => {
             &nbsp;
             <Link to={`/person`}>
               <Button variant="primary">
-                <Icon iconType="back" /> Person List t
+                <Icon iconType="back" /> Person List
               </Button>
             </Link>
           </div>

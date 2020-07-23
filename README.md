@@ -242,6 +242,29 @@ This is useful for schools using remote learning due to Covid - 19.
 
 - React Deployment on AWS S3
 
+## AWSchool User Guide
+
+As a User of the AWSchool website, you can be an Administrator, a Teacher, or a Student.
+
+As an Administrator, you can:
+
+- Login – type your email and password to login
+
+- Landing page – see current number of Administrators, Teachers, Students and Courses
+  ![Admin Home Page](./AdminHomepage.png)
+
+- User List – Shows a list of users with id, name, email and role
+
+  - Sort – orders the list by user’s id, name, email
+  - Edit – takes administrator to the user form to edit the current user
+  - Delete – deletes person, after confirmation
+  - Add – takes administrator to the user form to enter a new user
+    ![Admin User List](./AdminUserList.png)
+
+- User Form – Shows fields to enter email, password, name and role
+  - Add/Save – saves the information entered
+  - Back – goes back to person list without making changes
+
 ## Notes
 
 - AWS API Gateway Bug
