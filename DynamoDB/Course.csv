@@ -1,0 +1,8 @@
+"id (N)","description (S)","enddate (S)","passgrade (N)","startdate (S)","teacherid (N)","title (S)"
+"2","Intermediate Algebra","10/10/2020","2.9","06/12/2020","27","Math"
+"4","Beginners' All-purpose Symbolic Instruction Code","09/05/2020","2.9","06/09/2020","38","BASIC"
+"6","Introduction to Scientific Programming","12/16/2020","3.1","06/14/2020","39","FORTRAN"
+"7","Silly Math Problems","12/15/2020","3.3","07/05/2020","2","Math Jokes"
+"8","Computer Science Principles","12/18/2020","2.7","07/07/2020","27","Introduction to CS"
+"9","Introduction to COBOL","12/06/2020","3.1","07/12/2020","35","COBOL"
+"10","Introduction to Java","12/22/2020","3.1","07/09/2020","14","Java"
