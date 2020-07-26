@@ -2,9 +2,9 @@
 
 ## Learning Goals
 
-- Demonstrate self-direction, time management, and independent learning
+- Demonstrate self-direction, time management and independent learning
 - Learn and implement new technologies
-- Gain experience with React and learn AWS technologies (S3, API Gateway, Lambda and DynamoDB)
+- Gain experience with React and learn **AWS** technologies (S3, API Gateway, Lambda and DynamoDB)
 - Complete a product lifecycle from conception to delivery
 - Utilize agile practices learned to assist in project completion
 
@@ -241,37 +241,43 @@ This is useful for schools using remote learning due to Covid - 19.
 ### Wave 4
 
 - React Deployment on AWS S3
+- Sort the lists
+- Action Log
+
+## Trello Board
+
+https://trello.com/b/UMJ9PKTK/awschool
 
 ## AWSchool User Guide
 
-As a User of the AWSchool website, you can be an Administrator, a Teacher, or a Student.
+As a User of the AWSchool website, you can be an Administrator, a Teacher or a Student.
 
-As an Administrator, you can:
+As an **Administrator**, you can:
 
-- Login – type your email and password to login
-- Landing page – Shows important information for the administrator.
-- User List – Shows a list of users. You can sort, edit, delete or add new users.
-- Course List – Shows a list of courses. You can sort, edit, delete or add new courses. From here, there are links to manage enrollment and assignments.
-- Enrollment – Shows a list of students enrolled in a course. You can sort, edit, delete or add new students to the course. From here, there is a link to go back to the course list.
-- Assignments – Shows a list of assignments for a course. You can sort, edit, delete or add new assignments for a course. From here, there is a link to go back to the course list.
-- Answer – Shows a list of student answers to an assignment. You can sort, edit, delete or add new answers to an assignment. From here, there is a link to go back to the assignment list.
-- Log – Shows a list of activities in the entire system. You can sort the list.
+- **Login** – type your email and password to login
+- **Landing Page** – Shows important information for the administrator.
+- **User List** – Shows a list of users. You can sort, edit, delete or add new users.
+- **Course List** – Shows a list of courses. You can sort, edit, delete or add new courses. From here, there are links to manage enrollment and assignments.
+- **Enrollment** – Shows a list of students enrolled in a course. You can sort, edit, delete or add new students to the course. From here, there is a link to go back to the course list.
+- **Assignments** – Shows a list of assignments for a course. You can sort, edit, delete or add new assignments for a course. From here, there is a link to go back to the course list.
+- **Answer** – Shows a list of student answers to an assignment. You can sort, edit, delete or add new answers to an assignment. From here, there is a link to go back to the assignment list.
+- **Log** – Shows a list of activities in the entire system. You can sort the list.
 
-As a Teacher, you can:
+As a **Teacher**, you can:
 
-- Login – type your email and password to login
-- Landing page – Shows important information for the teacher.
-- Course List – Shows a list of courses for the teacher. You can sort the list. From here, there are links to see enrollment and manage assignments.
-- Enrollment – Shows a list of students enrolled in a course. You can sort the list. From here, there is a link to go back to the course list.
-- Assignments – Shows a list of assignments for a course. You can sort, edit, delete or add new assignments for a course. From here, there is a link to go back to the course list.
-- Answer – Shows a list of student answers to an assignment. You can sort the list or grade a student’s answer. From here, there is a link to go back to the assignment list.
+- **Login** – type your email and password to login
+- **Landing Page** – Shows important information for the teacher.
+- **Course List** – Shows a list of courses for the teacher. You can sort the list. From here, there are links to see enrollment and manage assignments.
+- **Enrollment** – Shows a list of students enrolled in a course. You can sort the list. From here, there is a link to go back to the course list.
+- **Assignments** – Shows a list of assignments for a course. You can sort, edit, delete or add new assignments for a course. From here, there is a link to go back to the course list.
+- **Answer** – Shows a list of student answers to an assignment. You can sort the list or grade a student’s answer. From here, there is a link to go back to the assignment list.
 
-As a Student, you can:
+As a **Student**, you can:
 
-- Login – type your email and password to login
-- Landing page – Shows important information for the student.
-- Course List – Shows a list of courses for the student. You can sort the list. From here, there are links to see assignments.
-- Assignments – Shows a list of assignments for a course. You can sort the list or provide an answer. From here, there is a link to go back to the course list.
+- **Login** – type your email and password to login
+- **Landing Page** – Shows important information for the student.
+- **Course List** – Shows a list of courses for the student. You can sort the list. From here, there are links to see assignments.
+- **Assignments** – Shows a list of assignments for a course. You can sort the list or provide an answer. From here, there is a link to go back to the course list.
 
 ## Notes
 
