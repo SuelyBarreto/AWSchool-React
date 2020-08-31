@@ -281,7 +281,7 @@ As a **Student**, you can:
 
 ## Notes
 
-- AWS API Gateway Bug
+- AWS API Gateway Bug (?)
 
 Model failure shows error about CORS.
 I was getting an error saying the API call was blocked because of CORS, but it turns out it was a failure of my post request body to match the model defined in the API Gateway ( I was passing an empty string and it expected a Boolean). I spent a day debugging CORS and the problem was in my request body.
